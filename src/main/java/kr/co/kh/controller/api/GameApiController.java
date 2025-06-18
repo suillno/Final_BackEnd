@@ -23,7 +23,6 @@ public class GameApiController {
 
     /**
      * 게임 목록 조회 API
-     *
      * @param page 조회할 페이지 번호
      * @return 게임 목록 데이터를 포함한 JSON 응답
      */
@@ -35,7 +34,6 @@ public class GameApiController {
 
     /**
      * 게임 상세 조회 API
-     *
      * @param gameId 조회할 게임의 ID
      * @return 게임 상세 데이터를 포함한 JSON 응답
      */
