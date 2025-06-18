@@ -138,5 +138,5 @@ game-api:
 
 # 스팀api 호출
 steam-api:
-  search-url: https://steam-api-dot-cs-platform-306304.et.r.appspot.com/games
-  price-url: https://store.steampowered.com/api/appdetails
+  search-url: https://steamcommunity.com/actions/SearchApps/
+  price-url: https://store.steampowered.com/api/appdetails?appids=

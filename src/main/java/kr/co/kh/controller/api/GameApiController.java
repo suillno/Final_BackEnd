@@ -2,8 +2,10 @@ package kr.co.kh.controller.api;
 
 import kr.co.kh.service.GameApiService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 게임 API 컨트롤러
@@ -37,17 +39,38 @@ public class GameApiController {
         return ResponseEntity.ok(result);
     }
 
-    // [Steam AppId 검색] - 게임 이름을 통해 AppID 추출
+    // 스팀조회
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    // 스팀 API search URL
+    @Value("${steam-api.search-url}")
+    private String steamSearchUrl;
+
+    // 스팀 API price URL
+    @Value("${steam-api.price-url}")
+    private String steamPriceUrl;
+
+    /**
+     * 스팀 API 타이틀로 검색 => API ID 값 찿기
+     * @param query
+     * @return
+     */
     @GetMapping("/search")
-    public ResponseEntity<String> searchSteamGame(@RequestParam("q") String gameName) {
-        String result = gameApiService.searchSteamGame(gameName);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<?> searchApp(@RequestParam("q") String query) {
+        String url = steamSearchUrl + query;
+        return restTemplate.getForEntity(url, String.class);
     }
 
-    // [Steam 가격 조회] - AppID를 기반으로 가격 정보 가져오기
+    /**
+     * 스팀 API ID로 가격 조회하기
+     * @param appId
+     * @return
+     */
     @GetMapping("/price/{appId}")
-    public ResponseEntity<String> getSteamGamePrice(@PathVariable String appId) {
-        String result = gameApiService.getSteamGamePrice(appId);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<?> getPrice(@PathVariable("appId") String appId) {
+        String url = steamPriceUrl + appId;
+        return restTemplate.getForEntity(url, String.class);
     }
 }
+
+

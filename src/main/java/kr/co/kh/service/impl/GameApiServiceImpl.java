@@ -26,14 +26,7 @@ public class GameApiServiceImpl implements GameApiService {
     private String apiKey;
 
 
-    // 스팀 API search URL
-    @Value("${steam-api.search-url}")
-    private String steamSearchUrl;
 
-
-     // 스팀 API price URL
-    @Value("${steam-api.price-url}")
-    private String steamPriceUrl;
 
 
     /**
@@ -63,32 +56,6 @@ public class GameApiServiceImpl implements GameApiService {
     @Override
     public String getGameDetail(String gameId) {
         String url = apiUrl + "/games/" + gameId + "?key=" + apiKey;
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        return response.getBody();
-    }
-
-    /**
-     * Steam API를 호출하여 게임 이름으로 AppID 리스트를 조회합니다.
-     *
-     * @param gameName 검색할 게임 제목
-     * @return Steam API로부터 받은 JSON 문자열 (AppID 검색 결과)
-     */
-    @Override
-    public String searchSteamGame(String gameName) {
-        String url = steamSearchUrl + "?q=" + gameName;
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        return response.getBody();
-    }
-
-    /**
-     * Steam API를 호출하여 특정 AppID의 가격 정보를 조회합니다.
-     *
-     * @param appId 조회할 Steam AppID
-     * @return Steam API로부터 받은 JSON 문자열 (가격 정보)
-     */
-    @Override
-    public String getSteamGamePrice(String appId) {
-        String url = steamPriceUrl + "?appids=" + appId + "&cc=kr";
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody();
     }

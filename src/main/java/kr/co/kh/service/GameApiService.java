@@ -23,8 +23,4 @@ public interface GameApiService {
      * @return RAWG API에서 반환된 JSON 문자열 (게임 상세 데이터)
      */
     String getGameDetail(String gameId);
-
-    String searchSteamGame(String gameName);
-
-    String getSteamGamePrice(String appId);
 }
