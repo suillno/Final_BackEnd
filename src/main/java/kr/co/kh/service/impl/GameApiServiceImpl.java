@@ -15,17 +15,26 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class GameApiServiceImpl implements GameApiService {
 
-    /**
-     * RAWG API의 기본 URL (application.yml에서 주입받음)
-     */
+
+     // RAWG API의 기본 URL (application.yml에서 주입받음)
     @Value("${game-api.url}")
     private String apiUrl;
 
-    /**
-     * RAWG API 키 (application.yml에서 주입받음)
-     */
+
+     // RAWG API 키 (application.yml에서 주입받음)
     @Value("${game-api.key}")
     private String apiKey;
+
+
+    // 스팀 API search URL
+    @Value("${steam-api.search-url}")
+    private String steamSearchUrl;
+
+
+     // 스팀 API price URL
+    @Value("${steam-api.price-url}")
+    private String steamPriceUrl;
+
 
     /**
      * REST 통신을 위한 RestTemplate 객체
@@ -54,6 +63,32 @@ public class GameApiServiceImpl implements GameApiService {
     @Override
     public String getGameDetail(String gameId) {
         String url = apiUrl + "/games/" + gameId + "?key=" + apiKey;
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
+    }
+
+    /**
+     * Steam API를 호출하여 게임 이름으로 AppID 리스트를 조회합니다.
+     *
+     * @param gameName 검색할 게임 제목
+     * @return Steam API로부터 받은 JSON 문자열 (AppID 검색 결과)
+     */
+    @Override
+    public String searchSteamGame(String gameName) {
+        String url = steamSearchUrl + "?q=" + gameName;
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
+    }
+
+    /**
+     * Steam API를 호출하여 특정 AppID의 가격 정보를 조회합니다.
+     *
+     * @param appId 조회할 Steam AppID
+     * @return Steam API로부터 받은 JSON 문자열 (가격 정보)
+     */
+    @Override
+    public String getSteamGamePrice(String appId) {
+        String url = steamPriceUrl + "?appids=" + appId + "&cc=kr";
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody();
     }

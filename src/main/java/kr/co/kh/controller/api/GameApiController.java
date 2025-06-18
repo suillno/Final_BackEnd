@@ -16,15 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/game")
 public class GameApiController {
 
-    /**
-     * RequiredArgsConstructor 활용 생성자 자동생성
-     */
+    // ✅ 생성자 주입 (생략된 생성자 자동 생성)
     private final GameApiService gameApiService;
 
     /**
      * 게임 목록 조회 API
-     * @param page 조회할 페이지 번호
-     * @return 게임 목록 데이터를 포함한 JSON 응답
      */
     @GetMapping("/list")
     public ResponseEntity<String> getGames(@RequestParam int page) {
@@ -34,12 +30,24 @@ public class GameApiController {
 
     /**
      * 게임 상세 조회 API
-     * @param gameId 조회할 게임의 ID
-     * @return 게임 상세 데이터를 포함한 JSON 응답
      */
     @GetMapping("/detail/{gameId}")
     public ResponseEntity<String> getGameDetail(@PathVariable String gameId) {
         String result = gameApiService.getGameDetail(gameId);
+        return ResponseEntity.ok(result);
+    }
+
+    // [Steam AppId 검색] - 게임 이름을 통해 AppID 추출
+    @GetMapping("/search")
+    public ResponseEntity<String> searchSteamGame(@RequestParam("q") String gameName) {
+        String result = gameApiService.searchSteamGame(gameName);
+        return ResponseEntity.ok(result);
+    }
+
+    // [Steam 가격 조회] - AppID를 기반으로 가격 정보 가져오기
+    @GetMapping("/price/{appId}")
+    public ResponseEntity<String> getSteamGamePrice(@PathVariable String appId) {
+        String result = gameApiService.getSteamGamePrice(appId);
         return ResponseEntity.ok(result);
     }
 }

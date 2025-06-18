@@ -135,3 +135,8 @@ logging:
 game-api:
     url: https://api.rawg.io/api
     key: 603d4e2a9a0c480a82b67da9e92f0f68
+
+# 스팀api 호출
+steam-api:
+  search-url: https://steam-api-dot-cs-platform-306304.et.r.appspot.com/games
+  price-url: https://store.steampowered.com/api/appdetails
