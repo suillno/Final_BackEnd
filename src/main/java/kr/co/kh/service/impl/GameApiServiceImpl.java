@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * GameApiService 구현체
@@ -56,6 +57,17 @@ public class GameApiServiceImpl implements GameApiService {
     @Override
     public String getGameDetail(String gameId) {
         String url = apiUrl + "/games/" + gameId + "?key=" + apiKey;
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
+    }
+
+    @Override
+    public String getSearchGame(String gameTitle) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl + "/games")
+                .queryParam("key", apiKey)
+                .queryParam("search", gameTitle);
+
+        String url = builder.toUriString(); // 자동 인코딩됨
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody();
     }

@@ -39,6 +39,18 @@ public class GameApiController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * 게임 타이틀로 조회
+     * @param gameTitle
+     * @return
+     */
+    @GetMapping("/search/rwag")
+    public ResponseEntity<String> getSearchGame(@RequestParam("search") String gameTitle) {
+        String result = gameApiService.getSearchGame(gameTitle);
+        return ResponseEntity.ok(result);
+    }
+
+
     // 스팀조회
     private final RestTemplate restTemplate = new RestTemplate();
 
