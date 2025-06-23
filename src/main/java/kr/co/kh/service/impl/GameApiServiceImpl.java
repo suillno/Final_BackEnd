@@ -1,6 +1,7 @@
 package kr.co.kh.service.impl;
 
 import kr.co.kh.service.GameApiService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * RAWG 외부 API와 통신하여 게임 데이터를 조회하는 서비스 클래스입니다.
  * 외부 API 호출은 RestTemplate을 사용하여 수행됩니다.
  */
+@Slf4j
 @Service
 public class GameApiServiceImpl implements GameApiService {
 
@@ -20,16 +22,13 @@ public class GameApiServiceImpl implements GameApiService {
      // RAWG API의 기본 URL (application.yml에서 주입받음)
     @Value("${game-api.url}")
     private String apiUrl;
-
-
+    
      // RAWG API 키 (application.yml에서 주입받음)
     @Value("${game-api.key}")
     private String apiKey;
 
 
-
-
-
+    
     /**
      * REST 통신을 위한 RestTemplate 객체
      */
@@ -44,6 +43,21 @@ public class GameApiServiceImpl implements GameApiService {
     @Override
     public String getGameList(int page) {
         String url = apiUrl + "/games?key=" + apiKey + "&page=" + page + "&page_size=20";
+
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
+    }
+
+    /**
+     * 장르별 검색기능
+     * @param genres
+     * @param page
+     * @return
+     */
+    @Override
+    public String getGameGenres(String genres, int page) {
+        String url = apiUrl + "/games?key=" + apiKey + "&genres=" + genres + "&page=" + page + "&page_size=20";
+        log.info("url확인 {}",url);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody();
     }

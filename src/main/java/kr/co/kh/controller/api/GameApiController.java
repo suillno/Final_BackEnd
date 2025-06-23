@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/api/game")
 public class GameApiController {
 
-    // ✅ 생성자 주입 (생략된 생성자 자동 생성)
+    // 생성자 주입 (생략된 생성자 자동 생성)
     private final GameApiService gameApiService;
 
     /**
@@ -38,6 +38,22 @@ public class GameApiController {
         String result = gameApiService.getGameDetail(gameId);
         return ResponseEntity.ok(result);
     }
+
+    /**
+     * 장르별 게임목록 조회
+     * @param genres
+     * @param page
+     * @return
+     */
+    @GetMapping("/genres")
+    public ResponseEntity<String> getGameGenres(
+            @RequestParam("genres") String genres,
+            @RequestParam("page") int page
+    ) {
+        String result = gameApiService.getGameGenres(genres, page);
+        return ResponseEntity.ok(result);
+    }
+
 
     /**
      * 게임 타이틀로 조회
