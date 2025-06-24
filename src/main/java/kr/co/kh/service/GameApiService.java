@@ -31,4 +31,6 @@ public interface GameApiService {
     String getGameDetail(String gameId);
 
     String getSearchGame(String gameTitle);
+
+    String getGameImg(String gameId);
 }

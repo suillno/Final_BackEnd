@@ -63,6 +63,19 @@ public class GameApiServiceImpl implements GameApiService {
     }
 
     /**
+     * 이미지 리스트가져오기
+     * @param gameId
+     * @return
+     */
+    @Override
+    public String getGameImg(String gameId) {
+        String url = apiUrl + "/games/" + gameId + "/screenshots?key=" + apiKey;
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        log.info("url확인 {}",url);
+        return response.getBody();
+    }
+
+    /**
      * RAWG API를 호출하여 특정 게임의 상세 정보를 조회합니다.
      *
      * @param gameId 조회할 게임의 ID
@@ -85,4 +98,6 @@ public class GameApiServiceImpl implements GameApiService {
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody();
     }
+
+
 }

@@ -39,6 +39,12 @@ public class GameApiController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/img")
+    public ResponseEntity<String> getGameImg(@RequestParam String gameId) {
+        String result = gameApiService.getGameImg(gameId);
+        return ResponseEntity.ok(result);
+    }
+
     /**
      * 장르별 게임목록 조회
      * @param genres
