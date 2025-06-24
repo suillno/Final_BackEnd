@@ -49,6 +49,20 @@ public class GameApiServiceImpl implements GameApiService {
     }
 
     /**
+     * 2024년 인기게임 조회
+     * @param gameYearList
+     * @param page
+     * @return
+     */
+    @Override
+    public String getGameYear(String gameYearList, int page) {
+        String url = apiUrl + "/games?key=" + apiKey + "&dates=" + "2024-01-01,2024-12-31&ordering=-rating";
+        log.info("url확인 {}",url);
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
+    }
+
+    /**
      * 장르별 검색기능
      * @param genres
      * @param page

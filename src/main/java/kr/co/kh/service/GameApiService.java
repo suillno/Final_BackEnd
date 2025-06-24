@@ -15,6 +15,15 @@ public interface GameApiService {
     String getGameList(int page);
 
     /**
+     * 2024 인기게임 조회
+     * @param gameYearList
+     * @param page
+     * @return
+     */
+    String getGameYear( String gameYearList, int page);
+
+
+    /**
      * 장르별 검색 기능
      * @param genres
      * @param page

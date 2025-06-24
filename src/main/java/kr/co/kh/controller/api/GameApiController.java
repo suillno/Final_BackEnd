@@ -29,6 +29,18 @@ public class GameApiController {
         String result = gameApiService.getGameList(page);
         return ResponseEntity.ok(result);
     }
+    /**
+     * 게임 2024 인기게임 조회 API
+     */
+    @GetMapping("/gameYearList")
+    public  ResponseEntity<String> getGameYear(
+            @RequestParam("gameYearList") String gameYearList,
+            @RequestParam("page") int page
+    ) { String result = gameApiService.getGameYear(gameYearList, page);
+        return ResponseEntity.ok(result);
+
+    }
+
 
     /**
      * 게임 상세 조회 API
