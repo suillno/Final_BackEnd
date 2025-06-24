@@ -63,6 +63,27 @@ public class GameApiServiceImpl implements GameApiService {
     }
 
     /**
+     * 가장 오래플레이한 게임 조회
+     * @param gamePlayTime
+     * @param page
+     * @return
+     */
+    @Override
+    public  String getGameTime(String gamePlayTime, int page) {
+        String url = apiUrl + "/games?key=" + apiKey + "&ordering=-playtime&page=" + page + "&page_size=20";
+        log.info("url확인 {}",url);
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
+    }
+
+
+
+
+
+
+
+
+    /**
      * 장르별 검색기능
      * @param genres
      * @param page

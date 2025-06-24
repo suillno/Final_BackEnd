@@ -29,8 +29,11 @@ public class GameApiController {
         String result = gameApiService.getGameList(page);
         return ResponseEntity.ok(result);
     }
+
     /**
-     * 게임 2024 인기게임 조회 API
+     * @param gameYearList
+     * @param page
+     * @return
      */
     @GetMapping("/gameYearList")
     public  ResponseEntity<String> getGameYear(
@@ -41,7 +44,19 @@ public class GameApiController {
 
     }
 
-
+    /**
+     * 가장 오래플레이한 게임 조회
+     * @param gamePlayTime
+     * @param page
+     * @return
+     */
+    @GetMapping("/gameLongPlayList")
+    public ResponseEntity<String> getGameTime(
+            @RequestParam("gamePlayTime") String gamePlayTime,
+            @RequestParam("page") int page
+    ) {String result = gameApiService.getGameTime(gamePlayTime, page);
+    return ResponseEntity.ok(result);
+    }
     /**
      * 게임 상세 조회 API
      */

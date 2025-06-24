@@ -22,6 +22,13 @@ public interface GameApiService {
      */
     String getGameYear( String gameYearList, int page);
 
+    /**
+     * 가장 오래한 플레이타임 조회
+     * @param gamePlayTime
+     * @param page
+     * @return
+     */
+    String getGameTime( String gamePlayTime, int page);
 
     /**
      * 장르별 검색 기능
