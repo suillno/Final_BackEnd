@@ -25,7 +25,7 @@ public class GameApiController {
      * 게임 목록 조회 API
      */
     @GetMapping("/list")
-    public ResponseEntity<String> getGames(@RequestParam int page) {
+    public ResponseEntity<String> getGames(@RequestParam(defaultValue = "1") int page) {
         String result = gameApiService.getGameList(page);
         return ResponseEntity.ok(result);
     }
@@ -37,8 +37,8 @@ public class GameApiController {
      */
     @GetMapping("/gameYearList")
     public  ResponseEntity<String> getGameYear(
-            @RequestParam("gameYearList") String gameYearList,
-            @RequestParam("page") int page
+            @RequestParam(name = "gameYearList") String gameYearList,
+            @RequestParam(name = "page", defaultValue = "1") int page
     ) { String result = gameApiService.getGameYear(gameYearList, page);
         return ResponseEntity.ok(result);
 
@@ -52,8 +52,8 @@ public class GameApiController {
      */
     @GetMapping("/gameLongPlayList")
     public ResponseEntity<String> getGameTime(
-            @RequestParam("gamePlayTime") String gamePlayTime,
-            @RequestParam("page") int page
+            @RequestParam(name = "gamePlayTime") String gamePlayTime,
+            @RequestParam(name = "page", defaultValue = "1") int page
     ) {String result = gameApiService.getGameTime(gamePlayTime, page);
     return ResponseEntity.ok(result);
     }
@@ -80,8 +80,8 @@ public class GameApiController {
      */
     @GetMapping("/genres")
     public ResponseEntity<String> getGameGenres(
-            @RequestParam("genres") String genres,
-            @RequestParam("page") int page
+            @RequestParam(name = "genres", defaultValue = "1") String genres,
+            @RequestParam(name = "page", defaultValue = "1") int page
     ) {
         String result = gameApiService.getGameGenres(genres, page);
         return ResponseEntity.ok(result);
@@ -94,7 +94,7 @@ public class GameApiController {
      * @return
      */
     @GetMapping("/search/rwag")
-    public ResponseEntity<String> getSearchGame(@RequestParam("search") String gameTitle) {
+    public ResponseEntity<String> getSearchGame(@RequestParam(name = "search") String gameTitle) {
         String result = gameApiService.getSearchGame(gameTitle);
         return ResponseEntity.ok(result);
     }
@@ -117,7 +117,7 @@ public class GameApiController {
      * @return
      */
     @GetMapping("/search")
-    public ResponseEntity<?> searchApp(@RequestParam("q") String query) {
+    public ResponseEntity<?> searchApp(@RequestParam(name = "q", defaultValue = "") String query) {
         String url = steamSearchUrl + query;
         return restTemplate.getForEntity(url, String.class);
     }
@@ -128,7 +128,7 @@ public class GameApiController {
      * @return
      */
     @GetMapping("/price/{appId}")
-    public ResponseEntity<?> getPrice(@PathVariable("appId") String appId) {
+    public ResponseEntity<?> getPrice(@PathVariable(name = "appId") String appId) {
         String url = steamPriceUrl + appId;
         return restTemplate.getForEntity(url, String.class);
     }

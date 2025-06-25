@@ -76,13 +76,6 @@ public class GameApiServiceImpl implements GameApiService {
         return response.getBody();
     }
 
-
-
-
-
-
-
-
     /**
      * 장르별 검색기능
      * @param genres
@@ -91,7 +84,7 @@ public class GameApiServiceImpl implements GameApiService {
      */
     @Override
     public String getGameGenres(String genres, int page) {
-        String url = apiUrl + "/games?key=" + apiKey + "&genres=" + genres + "&page=" + page + "&page_size=20";
+        String url = apiUrl + "/games?key=" + apiKey + "&genres=" + genres + "&page=" + page + "&page_size=10";
         log.info("url확인 {}",url);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody();
