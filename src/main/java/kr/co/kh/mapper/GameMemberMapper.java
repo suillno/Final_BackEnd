@@ -14,8 +14,14 @@ public interface GameMemberMapper {
     void cartSave(GameCartVO vo);
     // 찜저장
     void likeSave(GameLikeVO vo);
-    // 중복체크
+    // 찜 중복체크
     int countLike(GameLikeVO vo);
-    void reviewSave(GameReviewVO vo);
+    // 리뷰 존재 여부 확인 (중복 검사용)
+    int countReview(GameReviewVO vo);
+    // 리뷰 저장
+    int reviewSave(GameReviewVO vo);
+    // 리뷰 수정
+    int reviewUpdate(GameReviewVO vo);
+    // 리뷰 리스트 조회
     List<GameReviewVO> reviewListByGameId(Long gameId);
 }
