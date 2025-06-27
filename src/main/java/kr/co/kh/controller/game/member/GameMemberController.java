@@ -4,6 +4,7 @@ package kr.co.kh.controller.game.member;
 import io.swagger.annotations.*;
 
 import kr.co.kh.model.vo.GameCartVO; // 장바구니에 담길 게임 정보 VO
+import kr.co.kh.model.vo.GameLikeVO;
 import kr.co.kh.service.game.service.GameMemberService; // 장바구니 저장 서비스
 
 // 롬복 어노테이션
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 // Spring MVC 관련 어노테이션
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,5 +47,23 @@ public class GameMemberController {
 
         // 성공 응답 반환
         return ResponseEntity.ok("장바구니 담기완료");
+    }
+
+
+    @ApiOperation(
+            value = " 찜 등록",
+            notes = "게임 정보를 워시리스트에 저장합니다."
+    )
+    @PostMapping("/likesave")
+    public ResponseEntity<?> likeSave(
+            @RequestBody GameLikeVO vo
+    ) {
+       boolean result = gameMemberService.likeSave(vo);
+       if (result) {
+           return ResponseEntity.ok("찜 담기완료");
+       } else {
+           return ResponseEntity.ok("이미 찜한 게임입니다.");
+       }
+
     }
 }
