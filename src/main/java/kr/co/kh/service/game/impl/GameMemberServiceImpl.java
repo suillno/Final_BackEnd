@@ -2,10 +2,13 @@ package kr.co.kh.service.game.impl;
 
 import kr.co.kh.mapper.GameMemberMapper;
 import kr.co.kh.model.vo.GameCartVO;
+import kr.co.kh.model.vo.GameReviewVO;
 import kr.co.kh.service.game.service.GameMemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -17,4 +20,6 @@ public class GameMemberServiceImpl implements GameMemberService {
     public void cartSave(GameCartVO vo) {
         gameMemberMapper.cartSave(vo);
     }
+    public void reviewSave(GameReviewVO vo) { gameMemberMapper.reviewSave(vo);}
+    public List<GameReviewVO> reviewListByGameId(Long gameId) { return gameMemberMapper.reviewListByGameId(gameId);}
 }

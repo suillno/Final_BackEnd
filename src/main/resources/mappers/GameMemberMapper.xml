@@ -15,4 +15,24 @@
         )
     </insert>
 
+    <!-- 리뷰 저장 -->
+    <insert id="reviewSave" parameterType="GameReviewVO" useGeneratedKeys="true" keyProperty="reviewId" keyColumn="REVIEW_ID">
+        INSERT INTO REVIEW (USER_NAME, GAME_ID, RATING, CONTENT)
+        VALUES (
+        #{userName}
+        , #{gameId}
+        , #{rating}
+        , #{content}
+        )
+    </insert>
+
+    <!-- 게임ID로 리뷰조회 -->
+    <select id="reviewListByGameId" parameterType="Long" resultType="GameReviewVO">
+        SELECT * FROM REVIEW
+        WHERE game_id = #{gameId}
+        ORDER BY created_at DESC
+    </select>
+
+
+
 </mapper>
