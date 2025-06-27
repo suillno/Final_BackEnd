@@ -1,7 +1,10 @@
 package kr.co.kh.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.Timestamp;
 
 /**
  * 장바구니 항목 정보를 담는 VO (Value Object) 클래스
@@ -32,4 +35,8 @@ public class GameCartVO {
 
     /** 할인된 가격 (없으면 0으로 전달됨) */
     private int salePrice;
+
+    /** 생성 일시 */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private Timestamp createdAt;
 }

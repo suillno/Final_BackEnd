@@ -44,10 +44,12 @@ public class GameMemberController {
             @RequestBody GameCartVO vo // 요청 본문에서 JSON → GameCartVO 변환
     ) {
         // 장바구니에 게임 정보 저장 처리
-        gameMemberService.cartSave(vo);
-
-        // 성공 응답 반환
-        return ResponseEntity.ok("장바구니 담기완료");
+        boolean result = gameMemberService.cartSave(vo);
+        if (result) {
+            return ResponseEntity.ok("장바구니 담기완료");
+        } else {
+            return ResponseEntity.ok("장바구니에서 게임을 삭제.");
+        }
     }
 
 
@@ -61,9 +63,9 @@ public class GameMemberController {
     ) {
        boolean result = gameMemberService.likeSave(vo);
        if (result) {
-           return ResponseEntity.ok("찜 담기완료");
+           return ResponseEntity.ok("위시리스트 담기완료");
        } else {
-           return ResponseEntity.ok("이미 찜한 게임입니다.");
+           return ResponseEntity.ok("위시리스트 삭제.");
        }
     }
 

@@ -12,10 +12,16 @@ import java.util.List;
 public interface GameMemberMapper {
     // 장바구니저장
     void cartSave(GameCartVO vo);
+    // 장바구니 중복체크
+    int countGameCart(GameCartVO vo);
+    // 장바구니 삭제
+    void cartDelete(GameCartVO vo);
     // 찜저장
     void likeSave(GameLikeVO vo);
     // 찜 중복체크
     int countLike(GameLikeVO vo);
+    // 찜 삭제
+    void likeDelete(GameLikeVO vo);
     // 리뷰 존재 여부 확인 (중복 검사용)
     int countReview(GameReviewVO vo);
     // 리뷰 저장
@@ -24,4 +30,5 @@ public interface GameMemberMapper {
     int reviewUpdate(GameReviewVO vo);
     // 리뷰 리스트 조회
     List<GameReviewVO> reviewListByGameId(Long gameId);
+
 }
