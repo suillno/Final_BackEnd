@@ -35,4 +35,24 @@
 
 
 
+
+    <select id="countLike" parameterType="GameLikeVO" resultType="int">
+        SELECT COUNT(*)
+        FROM GAME_LIKE
+        WHERE USER_NAME = #{userName} AND GAME_ID = #{gameId}
+
+    </select>
+    <!-- 찜 저장 -->
+    <insert id="likeSave" parameterType="GameLikeVO" useGeneratedKeys="true" keyProperty="likeId" keyColumn="LIKE_ID">
+        INSERT INTO GAME_LIKE (USER_NAME, GAME_ID, GAME_TITLE, BACKGROUND_IMAGE, PRICE, SALE_PRICE)
+        VALUES (
+        #{userName}
+        , #{gameId}
+        , #{title}
+        , #{backgroundImage}
+        , #{price}
+        , #{salePrice}
+        )
+    </insert>
+
 </mapper>
