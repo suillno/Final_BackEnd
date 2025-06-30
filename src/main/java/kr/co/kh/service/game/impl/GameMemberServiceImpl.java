@@ -17,19 +17,6 @@ import java.util.List;
 public class GameMemberServiceImpl implements GameMemberService {
     final private GameMemberMapper gameMemberMapper;
 
-    @Override
-    // 카트 저장
-    public boolean cartSave(GameCartVO vo) {
-        int count = gameMemberMapper.countGameCart(vo);
-        if (count > 0) {
-            gameMemberMapper.cartDelete(vo); // 이미 있으면 업데이트
-            return false;
-        } else {
-            gameMemberMapper.cartSave(vo); // 없으면 새로 저장
-            return true;
-        }
-    }
-
     // 리뷰 저장
     public boolean reviewSave(GameReviewVO vo) {
         int count = gameMemberMapper.countReview(vo);
@@ -43,19 +30,19 @@ public class GameMemberServiceImpl implements GameMemberService {
     }
     // 리뷰 리스트
     public List<GameReviewVO> reviewListByGameId(Long gameId) { return gameMemberMapper.reviewListByGameId(gameId);}
-    
-    // 찜 저장
-    @Override
-    public boolean likeSave(GameLikeVO vo) {
-        // username, gameId 두가지로 select where절로 지정해서 카운트해보고 0개면 insert 0개 이상이면 다른 메시지로 유도
-        int count = gameMemberMapper.countLike(vo);
-        if (count == 0) {
-            gameMemberMapper.likeSave(vo);
-            return true;
-        } else {
-            gameMemberMapper.likeDelete(vo);
-            return false;
-        }
 
+    // 프로시저 사용 찜 저장
+    @Override
+    public String toggleGameLike(GameLikeVO vo) {
+        gameMemberMapper.toggleGameLike(vo); // 이 호출에서 vo.result 필드가 채워짐
+        return vo.getResult(); // 그대로 리턴
     }
+
+    @Override
+    public String toggleGameCart(GameCartVO vo) {
+        gameMemberMapper.toggleGameCart(vo); // 이 호출에서 vo.result 필드가 채워짐
+        return vo.getResult(); // 그대로 리턴
+    }
+
+
 }

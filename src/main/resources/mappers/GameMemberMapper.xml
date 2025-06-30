@@ -2,34 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.kh.mapper.GameMemberMapper">
 
-    <!-- 장바구니 중복확인 -->
-    <select id="countGameCart" resultType="int">
-        SELECT COUNT(*)
-        FROM GAMECART
-        WHERE USER_NAME = #{userName}
-        AND GAME_ID = #{gameId}
-    </select>
-
-    <!-- 장바구니 저장 -->
-    <insert id="cartSave" parameterType="GameCartVO" useGeneratedKeys="true" keyProperty="cartId" keyColumn="CART_ID">
-        INSERT INTO GAMECART (USER_NAME, GAME_ID, GAME_TITLE, BACKGROUND_IMAGE, PRICE, SALE_PRICE)
-        VALUES (
-        #{userName}
-        , #{gameId}
-        , #{title}
-        , #{backgroundImage}
-        , #{price}
-        , #{salePrice}
-        )
-    </insert>
-
-    <!-- 장바구니 삭제 -->
-    <delete id="cartDelete" parameterType="GameCartVO">
-        DELETE FROM GAMECART
-        WHERE USER_NAME = #{userName}
-        AND GAME_ID = #{gameId}
-    </delete>
-
     <!-- 리뷰 중복확인 -->
     <select id="countReview" resultType="int">
         SELECT COUNT(*)
@@ -66,31 +38,30 @@
         ORDER BY created_at DESC
     </select>
 
-    <!-- 찜 중복확인 -->
-    <select id="countLike" parameterType="GameLikeVO" resultType="int">
-        SELECT COUNT(*)
-        FROM GAME_LIKE
-        WHERE USER_NAME = #{userName} AND GAME_ID = #{gameId}
+    <!-- 프로시저 사용 찜 등록 -->
+    <select id="toggleGameLike" statementType="CALLABLE" resultType="GameLikeVO">
+        { CALL TOGGLE_GAME_LIKE(
+        #{userName, mode=IN, jdbcType=VARCHAR},
+        #{gameId, mode=IN, jdbcType=NUMERIC},
+        #{title, mode=IN, jdbcType=VARCHAR},
+        #{backgroundImage, mode=IN, jdbcType=VARCHAR},
+        #{price, mode=IN, jdbcType=NUMERIC},
+        #{salePrice, mode=IN, jdbcType=NUMERIC},
+        #{result, mode=OUT, jdbcType=VARCHAR}
+        ) }
     </select>
 
-    <!-- 찜 저장 -->
-    <insert id="likeSave" parameterType="GameLikeVO" useGeneratedKeys="true" keyProperty="likeId" keyColumn="LIKE_ID">
-        INSERT INTO GAME_LIKE (USER_NAME, GAME_ID, GAME_TITLE, BACKGROUND_IMAGE, PRICE, SALE_PRICE)
-        VALUES (
-        #{userName}
-        , #{gameId}
-        , #{title}
-        , #{backgroundImage}
-        , #{price}
-        , #{salePrice}
-        )
-    </insert>
-
-    <!-- 찜 삭제 -->
-    <delete id="likeDelete" parameterType="GameCartVO">
-        DELETE FROM GAME_LIKE
-        WHERE USER_NAME = #{userName}
-        AND GAME_ID = #{gameId}
-    </delete>
+    <!-- 프로시저 사용 장바구니 등록 -->
+    <select id="toggleGameCart" statementType="CALLABLE" resultType="GameCartVO">
+        { CALL TOGGLE_GAME_CART(
+        #{userName, mode=IN, jdbcType=VARCHAR},
+        #{gameId, mode=IN, jdbcType=NUMERIC},
+        #{title, mode=IN, jdbcType=VARCHAR},
+        #{backgroundImage, mode=IN, jdbcType=VARCHAR},
+        #{price, mode=IN, jdbcType=NUMERIC},
+        #{salePrice, mode=IN, jdbcType=NUMERIC},
+        #{result, mode=OUT, jdbcType=VARCHAR}
+        ) }
+    </select>
 
 </mapper>

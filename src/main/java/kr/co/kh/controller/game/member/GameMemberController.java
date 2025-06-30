@@ -39,34 +39,26 @@ public class GameMemberController {
             value = "장바구니 등록",
             notes = "게임 정보를 장바구니에 저장합니다."
     )
-    @PostMapping("/cartsave")
+    @PostMapping("/cart/save")
     public ResponseEntity<?> cartSave(
             @RequestBody GameCartVO vo // 요청 본문에서 JSON → GameCartVO 변환
     ) {
         // 장바구니에 게임 정보 저장 처리
-        boolean result = gameMemberService.cartSave(vo);
-        if (result) {
-            return ResponseEntity.ok("장바구니 담기완료");
-        } else {
-            return ResponseEntity.ok("장바구니에서 게임을 삭제.");
-        }
+        String result = gameMemberService.toggleGameCart(vo);
+        return ResponseEntity.ok(result);
     }
 
-
     @ApiOperation(
-            value = " 찜 등록",
-            notes = "게임 정보를 워시리스트에 저장합니다."
+            value = "프로시저 사용 찜 등록",
+            notes = "(게임 아이디, 유저 네임)과 일치하는 정보가있으면 삭제, " +
+                    "일치하는 정보가 없으면 저장."
     )
-    @PostMapping("/likesave")
+    @PostMapping("/like/save")
     public ResponseEntity<?> likeSave(
             @RequestBody GameLikeVO vo
     ) {
-       boolean result = gameMemberService.likeSave(vo);
-       if (result) {
-           return ResponseEntity.ok("위시리스트 담기완료");
-       } else {
-           return ResponseEntity.ok("위시리스트 삭제.");
-       }
+        String result = gameMemberService.toggleGameLike(vo);
+        return ResponseEntity.ok(result); // "찜 등록이 완료되었습니다." 또는 "찜이 취소되었습니다."
     }
 
     /**

@@ -14,7 +14,6 @@ import java.sql.Timestamp;
 @Slf4j // Lombok 어노테이션: 로깅을 위한 Logger 필드 자동 생성
 public class GameCartVO {
 
-
     /** 사용자 아이디 (로그인된 사용자 정보) */
     private String userName;
 
@@ -39,4 +38,6 @@ public class GameCartVO {
     /** 생성 일시 */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp createdAt;
+
+    private String result;
 }
