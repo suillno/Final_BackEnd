@@ -53,7 +53,7 @@ public class AuthController {
     public ResponseEntity<?> checkUsernameInUse(@RequestParam(
             "username") String username) {
         boolean usernameExists = authService.usernameAlreadyExists(username);
-        return ResponseEntity.ok(new ApiResponse(true, usernameExists ? "이미 사용중인 아이디입니다.": ""));
+        return ResponseEntity.ok(new ApiResponse(true, usernameExists ? "이미 사용중인 아이디입니다.": "사용가능한 아이디 입니다."));
     }
 
 

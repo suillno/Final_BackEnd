@@ -4,6 +4,8 @@ import kr.co.kh.validation.annotation.NullOrNotBlank;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @ToString
 @Getter
@@ -22,6 +24,8 @@ public class RegistrationRequest {
     private String password;
 
     private String name;
+
+    private LocalDateTime birth;
 
     private int roleNum;
 
