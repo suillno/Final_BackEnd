@@ -66,7 +66,14 @@ dependencies {
     implementation group: 'com.oracle.database.jdbc', name: 'ojdbc11', version: '23.3.0.23.09'
 
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    dependencies {
 
+    // 메일 전송 위한 라이브러리 추가
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // 예제에서 확인을 위한 타임리프 추가 (필요하지 않다면 넣지 않아도 됨)
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    }
 
 }
 
