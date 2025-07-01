@@ -1,5 +1,6 @@
-package kr.co.kh.service.game.service;
+package kr.co.kh.service;
 
+import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.GameCartVO;
 import kr.co.kh.model.vo.GameReviewVO;
 import java.util.List;
@@ -14,5 +15,8 @@ public interface GameMemberService {
     String toggleGameLike(GameLikeVO vo);
     // 프로시저사용 장바구니
     String toggleGameCart(GameCartVO vo);
+
+    boolean checkLike(Long gameId, CustomUserDetails user);
+    boolean checkCart(Long gameId, CustomUserDetails user);
 
 }

@@ -3,17 +3,18 @@ package kr.co.kh.controller.game.member;
 // Swagger API 문서 작성을 위한 어노테이션
 import io.swagger.annotations.*;
 
+import kr.co.kh.annotation.CurrentUser;
+import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.GameCartVO; // 장바구니에 담길 게임 정보 VO
 import kr.co.kh.model.vo.GameLikeVO;
 import kr.co.kh.model.vo.GameReviewVO;
-import kr.co.kh.service.game.service.GameMemberService; // 장바구니 저장 서비스
 
 // 롬복 어노테이션
-import lombok.AllArgsConstructor;
+import kr.co.kh.service.GameMemberService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 // Spring MVC 관련 어노테이션
-import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +25,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController // REST API 컨트롤러임을 명시
 @RequestMapping("/game/member") // 이 컨트롤러의 공통 URL Prefix
 @Slf4j // 로그 사용을 위한 Lombok 어노테이션
-@AllArgsConstructor // 생성자 주입을 위한 Lombok 어노테이션
+@RequiredArgsConstructor // 생성자 주입을 위한 Lombok 어노테이션
 public class GameMemberController {
 
     // 장바구니 저장 로직을 처리하는 서비스
-    final private GameMemberService gameMemberService;
+    private final GameMemberService gameMemberService;
 
     /**
      * 장바구니 저장 API
@@ -97,4 +98,23 @@ public class GameMemberController {
     ) {
         return ResponseEntity.ok(gameMemberService.reviewListByGameId(gameId));
     }
+
+    @ApiOperation(
+            value = "게임 상세 페이지 진입 시 좋아요 여부 체크",
+            notes = "좋아요 클릭시 데이터를 반환해서 좋아요 색상 표시")
+    @GetMapping("/review/checkLike/{gameId}")
+    public ResponseEntity<Boolean> checkLike(@PathVariable Long gameId, @CurrentUser CustomUserDetails user) {
+        boolean result = gameMemberService.checkLike(gameId, user);
+        return ResponseEntity.ok(result);
+    }
+
+    @ApiOperation(
+            value = "게임 상세 페이지 진입 시 좋아요 여부 체크",
+            notes = "찜 클릭시 데이터를 반환해서 좋아요 색상 표시")
+    @GetMapping("/review/checkCart/{gameId}")
+    public ResponseEntity<Boolean> checkCart(@PathVariable Long gameId, @CurrentUser CustomUserDetails user) {
+        boolean result = gameMemberService.checkCart(gameId, user);
+        return ResponseEntity.ok(result);
+    }
+
 }

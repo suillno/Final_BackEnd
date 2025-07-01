@@ -22,5 +22,8 @@ public interface GameMemberMapper {
     String toggleGameLike(GameLikeVO vo);
     // 프로시저 사용 장바구니
     String toggleGameCart(GameCartVO vo);
+    // 게임 좋아요 기능 데이터 있을시 색상 변경
+    int checkLike(GameLikeVO vo);
 
+    int checkCart(GameCartVO vo);
 }
