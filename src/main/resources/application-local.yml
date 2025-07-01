@@ -16,6 +16,18 @@ security:
   ignored: /**
 
 spring:
+  mail:
+    host: smtp.gmail.com        # SMTP 서버 호스트
+    port: 587                   # SMTP 서버 포트
+    username: wodus0227@gmail.com  # SMTP 서버 로그인 아이디
+    password: hzabmytncgkfiqma    # SMTP 서버 로그인 비밀번호
+    properties:
+      mail:
+        smtp:
+          auth: true            # 사용자 인증 시도 여부
+          starttls:
+            enable: true        # starttls 활성화 여부
+
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -24,9 +36,9 @@ spring:
       enabled: always
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: ENC(FCR3yISnvFr/eBRJcJfOxs0QSO8wfM0bBa5fdTDenWFdF7G3mvRkxE0hlCNjIf2xHNyTiDnPhv4=)
-    username: ENC(STFPDdUiqrRSG1/i6ca4dA==)
-    password: ENC(g99N73++PW9Y+iwdfAQ02w==)
+    url: jdbc:log4jdbc:oracle:thin:@200.200.200.124:1521/xepdb1
+    username: fp1
+    password: fp1
     type: com.zaxxer.hikari.HikariDataSource
   servlet:
     multipart:
@@ -38,6 +50,11 @@ spring:
   #  sql:
   #    init:
   #      mode: always
+  # none : 아무것도 안한다.
+  # create : 기존 테이블 삭제 후 다시 생성
+  # update : 데이터 유지 + 스키마 변경 사항 적용 (컬럼 삭제 불가)
+  # validate : 스키마 검사만...
+
   jpa:
     .hibernate:
       ddl-auto: none
@@ -75,7 +92,7 @@ app:
     header: Authorization
     header.prefix: Bearer
     secret: abcdefghijklmnopqrstuvwxyz
-    expiration: 5184000000
+    expiration: 5000
   token:
     email:
       verification:
@@ -126,3 +143,6 @@ logging:
   pattern:
     console: "%clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr([행번호]: %line){red} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.15t] %-40.40logger{39} : [행번호] : %line  %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+
+
+

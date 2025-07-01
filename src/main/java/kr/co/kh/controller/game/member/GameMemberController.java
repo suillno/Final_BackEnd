@@ -5,12 +5,15 @@ import io.swagger.annotations.*;
 
 import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
+import kr.co.kh.model.payload.request.EmailRequest;
 import kr.co.kh.model.vo.GameCartVO; // 장바구니에 담길 게임 정보 VO
 import kr.co.kh.model.vo.GameLikeVO;
 import kr.co.kh.model.vo.GameReviewVO;
 
 // 롬복 어노테이션
 import kr.co.kh.service.GameMemberService;
+import kr.co.kh.service.MailService;
+import kr.co.kh.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +33,7 @@ public class GameMemberController {
 
     // 장바구니 저장 로직을 처리하는 서비스
     private final GameMemberService gameMemberService;
-
+    private final MailService mailService;
     /**
      * 장바구니 저장 API
      * @param vo 클라이언트로부터 전달받은 게임 장바구니 정보
@@ -117,4 +120,13 @@ public class GameMemberController {
         return ResponseEntity.ok(result);
     }
 
+
+
+    // 메일 전송
+    @GetMapping("/mail")
+    public ResponseEntity<?> mail(@ModelAttribute EmailRequest emailRequest) {
+        log.info(emailRequest.toString());
+        mailService.sendMimeMessage(emailRequest);
+        return ResponseEntity.ok("ok");
+    }
 }

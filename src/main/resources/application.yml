@@ -35,6 +35,18 @@ spring:
       max-request-size: 10MB
       location: C:\\WAS_DATA\\multipart\\temp
       file-size-threshold: 1MB
+
+  mail:
+    host: smtp.gmail.com        # SMTP 서버 호스트
+    port: 587                   # SMTP 서버 포트
+    username: dgosu123@gmail.com  # SMTP 서버 로그인 아이디
+    password: vmvvthrulmkzokqo  # SMTP 서버 로그인 비밀번호
+    properties:
+      mail:
+        smtp:
+          auth: true            # 사용자 인증 시도 여부
+          starttls:
+            enable: true        # starttls 활성화 여부
   #  sql:
   #    init:
   #      mode: always
@@ -140,3 +152,4 @@ game-api:
 steam-api:
   search-url: https://steamcommunity.com/actions/SearchApps/
   price-url: https://store.steampowered.com/api/appdetails?appids=
+
