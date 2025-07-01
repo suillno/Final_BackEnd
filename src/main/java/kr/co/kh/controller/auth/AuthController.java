@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import kr.co.kh.exception.TokenRefreshException;
 import kr.co.kh.exception.UserLoginException;
 import kr.co.kh.exception.UserRegistrationException;
+import kr.co.kh.model.payload.request.EmailRequest;
 import kr.co.kh.model.payload.request.LoginRequest;
 import kr.co.kh.model.payload.request.RegistrationRequest;
 import kr.co.kh.model.payload.request.TokenRefreshRequest;
@@ -15,6 +16,7 @@ import kr.co.kh.model.payload.response.JwtAuthenticationResponse;
 import kr.co.kh.model.token.RefreshToken;
 import kr.co.kh.security.JwtTokenProvider;
 import kr.co.kh.service.AuthService;
+import kr.co.kh.service.MailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final JwtTokenProvider tokenProvider;
+    private final MailService mailService;
 
     /**
      * 이메일 사용여부 확인
@@ -42,6 +45,18 @@ public class AuthController {
     public ResponseEntity<?> checkEmailInUse(@RequestParam("email") String email) {
         boolean emailExists = authService.emailAlreadyExists(email);
         return ResponseEntity.ok(new ApiResponse(true, emailExists ? "이미 사용중인 이메일입니다." : "사용 가능한 이메일입니다."));
+    }
+
+    /**
+     * 메인 인증기능
+     * @param emailRequest
+     * @return
+     */
+    @GetMapping("/mail")
+    public ResponseEntity<?> mail(@ModelAttribute EmailRequest emailRequest) {
+        log.info(emailRequest.toString());
+        mailService.sendMimeMessage(emailRequest);
+        return ResponseEntity.ok("ok");
     }
 
     /**
