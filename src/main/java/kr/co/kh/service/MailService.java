@@ -44,7 +44,7 @@ public class MailService {
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 
-            mimeMessageHelper.setTo("song6115@naver.com");
+            mimeMessageHelper.setTo(emailRequest.getMailTo());
             mimeMessageHelper.setSubject("제목쓰는곳");
 
             StringBuilder sb = new StringBuilder();
@@ -59,7 +59,7 @@ public class MailService {
                 emailRequest.setAuthCode(authCode); // 필요한 경우 외부 전달용
 
                 sb.append("<div style=\"margin:100px;\">");
-                sb.append("<h1> Yeogiska 회원가입 인증번호 </h1>");
+                sb.append("<h1> PickGame 회원가입 인증번호 </h1>");
                 sb.append("<div align=\"center\" style=\"border:1px solid black; padding:20px;\">");
                 sb.append("<h3> </h3>");
 
