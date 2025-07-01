@@ -64,4 +64,19 @@
         ) }
     </select>
 
+    <!-- 게임 좋아요 눌렀을때 데이터가 있으면 색상변경기능 -->
+
+    <select id="checkLike" parameterType="GameLikeVO" resultType="int">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS cnt
+        FROM GAME_LIKE
+        WHERE USER_NAME = #{userName} AND GAME_ID = #{gameId}
+    </select>
+
+    <select id="checkCart" parameterType="GameCartVO" resultType="int">
+    SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS cnt
+    FROM GAME_CART
+    WHERE USER_NAME = #{userName} AND GAME_ID = #{gameId}
+    </select>
+
+
 </mapper>
