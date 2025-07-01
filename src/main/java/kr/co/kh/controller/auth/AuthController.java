@@ -48,9 +48,9 @@ public class AuthController {
     }
 
     /**
+     * 메인 인증기능
      * 호출방법
      * http://localhost:8080/api/auth/mail?mailTo=song6115@naver.com&subject=인증메일&mailType=emailAuth
-     * 메인 인증기능
      * @param emailRequest
      * @return
      */

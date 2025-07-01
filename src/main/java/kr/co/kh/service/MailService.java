@@ -45,7 +45,7 @@ public class MailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 
             mimeMessageHelper.setTo(emailRequest.getMailTo());
-            mimeMessageHelper.setSubject("제목쓰는곳");
+            mimeMessageHelper.setSubject(emailRequest.getUsername() + "님");
 
             StringBuilder sb = new StringBuilder();
             sb.append("<!DOCTYPE html>");
