@@ -2,6 +2,7 @@ package kr.co.kh.controller.api;
 
 import kr.co.kh.service.GameApiService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
  * 클라이언트로부터의 게임 목록 및 상세 조회 요청을 받아
  * GameApiService를 통해 외부 RAWG API와 통신하고 결과를 반환합니다.
  */
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/game")
@@ -102,6 +104,20 @@ public class GameApiController {
         String result = gameApiService.getSearchGame(gameTitle);
         return ResponseEntity.ok(result);
     }
+
+    /**
+     * 게임 플렛폼 조회
+     */
+    @GetMapping("/gamePlatform")
+    public ResponseEntity<String> getGamesPlatform(
+            @RequestParam(name ="platforms", defaultValue = "1") String platformId,
+            @RequestParam(name ="page", defaultValue = "1") int page
+    ) {
+        log.info("플랫폼별 게임 호출 도달");
+        String result = gameApiService.getGamesPlatform(platformId, page);
+            return ResponseEntity.ok(result);
+    }
+
 
 
     // 스팀조회
