@@ -33,7 +33,7 @@ public class GameMemberController {
 
     // 장바구니 저장 로직을 처리하는 서비스
     private final GameMemberService gameMemberService;
-    private final MailService mailService;
+
     /**
      * 장바구니 저장 API
      * @param vo 클라이언트로부터 전달받은 게임 장바구니 정보
@@ -122,11 +122,5 @@ public class GameMemberController {
 
 
 
-    // 메일 전송
-    @GetMapping("/mail")
-    public ResponseEntity<?> mail(@ModelAttribute EmailRequest emailRequest) {
-        log.info(emailRequest.toString());
-        mailService.sendMimeMessage(emailRequest);
-        return ResponseEntity.ok("ok");
-    }
+
 }

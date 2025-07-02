@@ -43,7 +43,6 @@ public class GameApiController {
             @RequestParam(name = "page", defaultValue = "1") int page
     ) { String result = gameApiService.getGameYear(gameYearList, page);
         return ResponseEntity.ok(result);
-
     }
 
     /**
@@ -68,6 +67,11 @@ public class GameApiController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * 게임 이미지 가져오기
+     * @param gameId
+     * @return
+     */
     @GetMapping("/img")
     public ResponseEntity<String> getGameImg(@RequestParam String gameId) {
         String result = gameApiService.getGameImg(gameId);
