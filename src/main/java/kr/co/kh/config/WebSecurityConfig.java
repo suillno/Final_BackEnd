@@ -123,7 +123,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/api/test/**").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/**/api/boos/**").permitAll()
+<<<<<<< Updated upstream
                 .antMatchers("/game/member/review/list/**", "/game/member/mail").permitAll()
+=======
+                .antMatchers("/game/member/review/list/**").permitAll()
+
+>>>>>>> Stashed changes
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

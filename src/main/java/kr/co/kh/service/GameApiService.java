@@ -1,5 +1,7 @@
 package kr.co.kh.service;
 
+import java.util.Map;
+
 /**
  * Game API 서비스 인터페이스
  * 외부 RAWG API와의 통신을 담당하는 서비스 인터페이스입니다.
@@ -49,4 +51,13 @@ public interface GameApiService {
     String getSearchGame(String gameTitle);
 
     String getGameImg(String gameId);
+
+    /**
+     * 게임 플렛폼 api 목록 가져오기
+     * @param platformId
+     * @param page
+     * @return
+     */
+
+    String getGamesPlatform(String platformId, int page);
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Map;
+
 /**
  * GameApiService 구현체
  * <p>
@@ -61,6 +63,27 @@ public class GameApiServiceImpl implements GameApiService {
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody();
     }
+
+    /**
+     * 플렛폼별 게임 조회
+     * @param platformId
+     * @param page
+     * @return
+     */
+    @Override
+    public String getGamesPlatform(String platformId, int page) {
+        String url = apiUrl
+                + "/games?key=" + apiKey
+                + "&platforms=" + platformId
+                + "&page=" + page
+                + "&page_size=20"
+                + "&ordering=-released"
+                + "&dates=2023-01-01,2025-12-31";
+        log.info("플랫폼별 게임 호출 URL: {}", url);
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
+    }
+
 
     /**
      * 가장 오래플레이한 게임 조회
