@@ -72,18 +72,36 @@ public class GameApiServiceImpl implements GameApiService {
      */
     @Override
     public String getGamesPlatform(String platformId, int page) {
+        platformId = platformId.trim();
+        String ordering = getOrderingByPlatform(platformId); // page 말고 platform 기준 정렬
+
         String url = apiUrl
                 + "/games?key=" + apiKey
                 + "&platforms=" + platformId
                 + "&page=" + page
                 + "&page_size=20"
-                + "&ordering=-released"
+                + "&ordering=" + ordering
                 + "&dates=2023-01-01,2025-12-31";
+
         log.info("플랫폼별 게임 호출 URL: {}", url);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         return response.getBody();
     }
 
+    private String getOrderingByPlatform(String platformId) {
+        switch (platformId.trim()) {
+            case "1":   // PC
+                return "-rating";
+            case "18":  // PlayStation
+                return "-added";
+            case "186": // Xbox
+                return "-metacritic";
+            case "7":   // Nintendo
+                return "-name"; // 이름순으로 하면 완전히 달라짐
+            default:
+                return "-released";
+        }
+    }
 
     /**
      * 가장 오래플레이한 게임 조회
