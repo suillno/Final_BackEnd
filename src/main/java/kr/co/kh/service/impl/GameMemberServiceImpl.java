@@ -64,4 +64,10 @@ public class GameMemberServiceImpl implements GameMemberService {
           return gameMemberMapper.checkCart(vo) > 0;
      }
 
+     @Override
+     public List<GameCartVO> getCartByUser(String userName) {
+          return gameMemberMapper.getCartByUser(userName);
+     }
+
+
 }

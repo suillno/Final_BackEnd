@@ -120,6 +120,20 @@ public class GameMemberController {
         return ResponseEntity.ok(result);
     }
 
+    @ApiOperation(
+            value = "유저 장바구니 조회 (경로 통일)",
+            notes = "/game/member/cart/list/{username} 경로로 모든 cart API 통일"
+    )
+    @GetMapping("/cart/list/{userName}")
+    public ResponseEntity<?> getCartListByUser(@PathVariable String userName) {
+        try {
+            return ResponseEntity.ok(gameMemberService.getCartByUser(userName));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("장바구니 조회 실패");
+        }
+    }
+
 
 
 

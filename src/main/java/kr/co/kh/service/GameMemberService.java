@@ -19,4 +19,7 @@ public interface GameMemberService {
     boolean checkLike(Long gameId, CustomUserDetails user);
     boolean checkCart(Long gameId, CustomUserDetails user);
 
+    // ✅ 유저 장바구니 전체 목록 조회
+    List<GameCartVO> getCartByUser(String userName);
+
 }

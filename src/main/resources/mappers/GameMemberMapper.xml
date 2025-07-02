@@ -78,5 +78,22 @@
     WHERE USER_NAME = #{userName} AND GAME_ID = #{gameId}
     </select>
 
+    <!-- 유저별 장바구니 목록 조회 -->
+    <select id="getCartByUser" parameterType="string" resultType="GameCartVO">
+        SELECT
+        CART_ID AS cartId,
+        USER_NAME AS userName,
+        GAME_ID AS gameId,
+        TITLE AS title,
+        BACKGROUND_IMAGE AS backgroundImage,
+        PRICE AS price,
+        SALE_PRICE AS salePrice,
+        CREATED_AT AS createdAt
+        FROM GAME_CART
+        WHERE USER_NAME = #{userName}
+        ORDER BY CREATED_AT DESC
+    </select>
+
+
 
 </mapper>
