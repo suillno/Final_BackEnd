@@ -113,11 +113,14 @@
         BACKGROUND_IMAGE AS backgroundImage,
         PRICE AS price,
         SALE_PRICE AS salePrice,
+        RELEASED AS released,          -- 출시일
+        ESRB_RATING AS esrbRating,     -- 연령등급
         CREATED_AT AS createdAt
         FROM GAME_CART
         WHERE USER_NAME = #{userName}
         ORDER BY CREATED_AT DESC
     </select>
+
 
 
 
