@@ -107,7 +107,7 @@ public class UserService {
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         newUser.setUsername(registerRequest.getUsername());
-        newUser.setActive(false);
+        newUser.setActive(true);
         newUser.setEmailVerified(true);
         newUser.setName(registerRequest.getName());
         return newUser;
