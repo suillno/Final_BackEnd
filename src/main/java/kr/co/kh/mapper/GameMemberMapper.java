@@ -24,8 +24,8 @@ public interface GameMemberMapper {
     String toggleDiscount(GameDiscountVO vo);
     // 게임 좋아요 기능 데이터 있을시 색상 변경
     int checkLike(GameLikeVO vo);
-
     int checkCart(GameCartVO vo);
+    int checkDiscount(GameDiscountVO vo);
 
     // ✅ 유저 장바구니 전체 목록 조회
     List<GameCartVO> getCartByUser(String userName);

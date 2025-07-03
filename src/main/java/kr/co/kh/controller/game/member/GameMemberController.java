@@ -22,6 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 게임 회원 기능을 처리하는 컨트롤러 클래스
  * 장바구니 등록 등 회원과 관련된 게임 처리 엔드포인트 정의
@@ -125,7 +128,7 @@ public class GameMemberController {
     @ApiOperation(
             value = "게임 상세 페이지 진입 시 좋아요 여부 체크",
             notes = "좋아요 클릭시 데이터를 반환해서 좋아요 색상 표시")
-    @GetMapping("/review/checkLike/{gameId}")
+    @GetMapping("/like/checkLike/{gameId}")
     public ResponseEntity<Boolean> checkLike(@PathVariable Long gameId, @CurrentUser CustomUserDetails user) {
         boolean result = gameMemberService.checkLike(gameId, user);
         return ResponseEntity.ok(result);
@@ -134,10 +137,35 @@ public class GameMemberController {
     @ApiOperation(
             value = "게임 상세 페이지 진입 시 좋아요 여부 체크",
             notes = "찜 클릭시 데이터를 반환해서 좋아요 색상 표시")
-    @GetMapping("/review/checkCart/{gameId}")
+    @GetMapping("/cart/checkCart/{gameId}")
     public ResponseEntity<Boolean> checkCart(@PathVariable Long gameId, @CurrentUser CustomUserDetails user) {
         boolean result = gameMemberService.checkCart(gameId, user);
         return ResponseEntity.ok(result);
+    }
+
+    @ApiOperation(
+            value = "게임 상세 페이지 진입 시 좋아요 여부 체크",
+            notes = "할인 클릭시 데이터를 반환해서 좋아요 색상 표시")
+    @GetMapping("/discount/checkDiscount/{gameId}")
+    public ResponseEntity<Boolean> checkDiscount(@PathVariable Long gameId) {
+        boolean result = gameMemberService.checkDiscount(gameId);
+        return ResponseEntity.ok(result);
+    }
+
+    @ApiOperation(
+            value = "게임 상태 일괄 확인",
+            notes = "좋아요, 장바구니, 할인 여부를 Map으로 반환")
+    @GetMapping("/status/checkAll/{gameId}")
+    public ResponseEntity<Map<String, Boolean>> checkStatus(
+            @PathVariable Long gameId,
+            @CurrentUser CustomUserDetails user) {
+
+        Map<String, Boolean> statusMap = new HashMap<>();
+        statusMap.put("like", gameMemberService.checkLike(gameId, user));
+        statusMap.put("cart", gameMemberService.checkCart(gameId, user));
+        statusMap.put("discount", gameMemberService.checkDiscount(gameId));
+
+        return ResponseEntity.ok(statusMap);
     }
 
     @ApiOperation(

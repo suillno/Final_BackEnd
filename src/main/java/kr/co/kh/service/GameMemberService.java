@@ -19,8 +19,11 @@ public interface GameMemberService {
     // 프로시저사용 할인가적용
     String toggleDiscount(GameDiscountVO vo);
 
+    // 사용여부 표기 색상변경
     boolean checkLike(Long gameId, CustomUserDetails user);
     boolean checkCart(Long gameId, CustomUserDetails user);
+    boolean checkDiscount(Long gameId);
+
 
     // ✅ 유저 장바구니 전체 목록 조회
     List<GameCartVO> getCartByUser(String userName);

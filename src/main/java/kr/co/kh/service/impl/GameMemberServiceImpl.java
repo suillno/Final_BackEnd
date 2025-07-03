@@ -55,7 +55,7 @@ public class GameMemberServiceImpl implements GameMemberService {
           return vo.getResult(); // 그대로 리턴
      }
 
-
+     // 사용여부확인 아이콘 색상변경
      @Override
      public boolean checkLike(Long gameId, CustomUserDetails user) {
           GameLikeVO vo = new GameLikeVO();
@@ -70,6 +70,12 @@ public class GameMemberServiceImpl implements GameMemberService {
           vo.setUserName(user.getUsername());
           // gameMemberMapper에서 COUNT(*)나 VO 여부를 확인하는 메서드 호출
           return gameMemberMapper.checkCart(vo) > 0;
+     }
+     public boolean checkDiscount(Long gameId) {
+          GameDiscountVO vo = new GameDiscountVO();
+          vo.setGameId(gameId);
+          // gameMemberMapper에서 COUNT(*)나 VO 여부를 확인하는 메서드 호출
+          return gameMemberMapper.checkDiscount(vo) > 0;
      }
 
      @Override
