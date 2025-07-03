@@ -2,6 +2,7 @@ package kr.co.kh.service;
 
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.GameCartVO;
+import kr.co.kh.model.vo.GameDiscountVO;
 import kr.co.kh.model.vo.GameReviewVO;
 import java.util.List;
 import kr.co.kh.model.vo.GameLikeVO;
@@ -15,6 +16,8 @@ public interface GameMemberService {
     String toggleGameLike(GameLikeVO vo);
     // 프로시저사용 장바구니
     String toggleGameCart(GameCartVO vo);
+    // 프로시저사용 할인가적용
+    String toggleDiscount(GameDiscountVO vo);
 
     boolean checkLike(Long gameId, CustomUserDetails user);
     boolean checkCart(Long gameId, CustomUserDetails user);

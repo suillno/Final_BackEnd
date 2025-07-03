@@ -35,9 +35,17 @@ public class GameCartVO {
     /** 할인된 가격 (없으면 0으로 전달됨) */
     private int salePrice;
 
+    /** 출시일 */
+    private String released;
+
+    /** 사용연령 */
+    private String esrbRating;
+
     /** 생성 일시 */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp createdAt;
+
+
 
     private String result;
 }

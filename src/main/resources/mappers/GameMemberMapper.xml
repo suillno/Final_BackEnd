@@ -47,6 +47,8 @@
         #{backgroundImage, mode=IN, jdbcType=VARCHAR},
         #{price, mode=IN, jdbcType=NUMERIC},
         #{salePrice, mode=IN, jdbcType=NUMERIC},
+        #{released, mode=IN, jdbcType=VARCHAR},
+        #{esrbRating, mode=IN, jdbcType=VARCHAR},
         #{result, mode=OUT, jdbcType=VARCHAR}
         ) }
     </select>
@@ -60,12 +62,29 @@
         #{backgroundImage, mode=IN, jdbcType=VARCHAR},
         #{price, mode=IN, jdbcType=NUMERIC},
         #{salePrice, mode=IN, jdbcType=NUMERIC},
+        #{released, mode=IN, jdbcType=VARCHAR},
+        #{esrbRating, mode=IN, jdbcType=VARCHAR},
         #{result, mode=OUT, jdbcType=VARCHAR}
         ) }
     </select>
 
-    <!-- 게임 좋아요 눌렀을때 데이터가 있으면 색상변경기능 -->
+    <!-- 프로시저 사용 할인가 등록 -->
+    <select id="toggleDiscount" statementType="CALLABLE" resultType="GameDiscountVO">
+        { CALL TOGGLE_GAME_DISCOUNT(
+        #{userName, mode=IN, jdbcType=VARCHAR},
+        #{gameId, mode=IN, jdbcType=NUMERIC},
+        #{title, mode=IN, jdbcType=VARCHAR},
+        #{backgroundImage, mode=IN, jdbcType=VARCHAR},
+        #{price, mode=IN, jdbcType=NUMERIC},
+        #{salePrice, mode=IN, jdbcType=NUMERIC},
+        #{released, mode=IN, jdbcType=VARCHAR},
+        #{esrbRating, mode=IN, jdbcType=VARCHAR},
+        #{result, mode=OUT, jdbcType=VARCHAR}
+        ) }
+    </select>
 
+
+    <!-- 게임 좋아요 눌렀을때 데이터가 있으면 색상변경기능 -->
     <select id="checkLike" parameterType="GameLikeVO" resultType="int">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS cnt
         FROM GAME_LIKE

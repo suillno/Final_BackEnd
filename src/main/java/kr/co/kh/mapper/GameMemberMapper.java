@@ -1,8 +1,6 @@
 package kr.co.kh.mapper;
 
-import kr.co.kh.model.vo.GameCartVO;
-import kr.co.kh.model.vo.GameLikeVO;
-import kr.co.kh.model.vo.GameReviewVO;
+import kr.co.kh.model.vo.*;
 import kr.co.kh.model.vo.GameLikeVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,6 +20,8 @@ public interface GameMemberMapper {
     String toggleGameLike(GameLikeVO vo);
     // 프로시저 사용 장바구니
     String toggleGameCart(GameCartVO vo);
+    // 프로시저 사용 할인
+    String toggleDiscount(GameDiscountVO vo);
     // 게임 좋아요 기능 데이터 있을시 색상 변경
     int checkLike(GameLikeVO vo);
 

@@ -7,6 +7,7 @@ import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.payload.request.EmailRequest;
 import kr.co.kh.model.vo.GameCartVO; // 장바구니에 담길 게임 정보 VO
+import kr.co.kh.model.vo.GameDiscountVO;
 import kr.co.kh.model.vo.GameLikeVO;
 import kr.co.kh.model.vo.GameReviewVO;
 
@@ -64,6 +65,25 @@ public class GameMemberController {
         String result = gameMemberService.toggleGameLike(vo);
         return ResponseEntity.ok(result); // "찜 등록이 완료되었습니다." 또는 "찜이 취소되었습니다."
     }
+
+    @ApiOperation(
+            value = "할인가 적용 저장",
+            notes = "관리자가 입력한 할인가격을 저장합니다."
+    )
+    @PostMapping("/discount/apply")
+    public ResponseEntity<?> discountApply(
+            @RequestBody GameDiscountVO vo
+    ) {
+        try {
+            // 서비스 계층 호출
+            String result = gameMemberService.toggleDiscount(vo);
+            return ResponseEntity.ok(result); // ex) "SUCCESS: 할인가 적용 완료"
+        } catch (Exception e) {
+            log.error("할인가 저장 오류", e);
+            return ResponseEntity.internalServerError().body("할인가 저장 실패");
+        }
+    }
+
 
     /**
      * 리뷰 등록 API

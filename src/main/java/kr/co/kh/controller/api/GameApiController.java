@@ -118,8 +118,6 @@ public class GameApiController {
             return ResponseEntity.ok(result);
     }
 
-
-
     // 스팀조회
     private final RestTemplate restTemplate = new RestTemplate();
 

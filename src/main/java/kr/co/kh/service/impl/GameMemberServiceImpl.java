@@ -3,6 +3,7 @@ package kr.co.kh.service.impl;
 import kr.co.kh.mapper.GameMemberMapper;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.GameCartVO;
+import kr.co.kh.model.vo.GameDiscountVO;
 import kr.co.kh.model.vo.GameLikeVO;
 import kr.co.kh.model.vo.GameReviewVO;
 import kr.co.kh.service.GameMemberService;
@@ -37,13 +38,20 @@ public class GameMemberServiceImpl implements GameMemberService {
      @Override
      public String toggleGameLike(GameLikeVO vo) {
           gameMemberMapper.toggleGameLike(vo); // 이 호출에서 vo.result 필드가 채워짐
-          log.info(vo.toString());
           return vo.getResult(); // 그대로 리턴
      }
 
+     // 프로시저 사용 카트 저장
      @Override
      public String toggleGameCart(GameCartVO vo) {
           gameMemberMapper.toggleGameCart(vo); // 이 호출에서 vo.result 필드가 채워짐
+          return vo.getResult(); // 그대로 리턴
+     }
+
+     // 프로시저 사용 카트 저장
+     @Override
+     public String toggleDiscount(GameDiscountVO vo) {
+          gameMemberMapper.toggleDiscount(vo); // 이 호출에서 vo.result 필드가 채워짐
           return vo.getResult(); // 그대로 리턴
      }
 
