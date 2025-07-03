@@ -16,14 +16,16 @@ import javax.mail.internet.MimeMessage;
 public class MailService {
 
     private final JavaMailSender javaMailSender;
+    private final EmailAuthService emailAuthService;
 
-    public MailService(JavaMailSender javaMailSender) {
+    public MailService(JavaMailSender javaMailSender, EmailAuthService emailAuthService) {
         this.javaMailSender = javaMailSender;
+        this.emailAuthService = emailAuthService;
     }
 
     public void sendSimpleMailMessage() {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-
+        // http://localhost:8080/api/join/mail?to=수신자이메일@gmail.com&subject=인증메일&mailType=emailAuth
         try {
             simpleMailMessage.setTo("song6115@naver.com");
             simpleMailMessage.setSubject("테스트 메일 제목");
@@ -70,6 +72,9 @@ public class MailService {
                 log.info("발송된 인증번호: {}", authCode);
                 // 비번 찾기 >>> 비번 자동 변경 후 메일 발송
                 // 아이디를 db에서 찾는다 > 찾아 졌으면 비번을 랜덤하게 바꾸고 바꾼 비번을 메일로 날린다.
+
+                // ✅ 인증번호 저장
+                emailAuthService.saveAuthCode(emailRequest.getMailTo(), authCode);
 
             } else if (emailRequest.getMailType().equals("passwordAuth")) {
                 sb.append("<div style=\"margin:100px;\">");

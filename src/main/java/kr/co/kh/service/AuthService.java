@@ -65,7 +65,7 @@ public class AuthService {
          * ROLE_ID가 1,2,3과 같이...
          */
         if (registeredNewUser.getId() != null) {
-            for (int i = newRegistrationRequest.getRoleNum(); i >= 0; i--) {
+            for (int i = newRegistrationRequest.getRoleNum(); i >= 1; i--) {
                 UserAuthorityVO userAuthorityVO = new UserAuthorityVO();
                 userAuthorityVO.setUserId(registeredNewUser.getId());
                 userAuthorityVO.setRoleId((long) i);
@@ -84,7 +84,8 @@ public class AuthService {
      * @return
      */
     public Boolean emailAlreadyExists(String email) {
-        return userService.existsByEmail(email);
+        return false;
+//                userService.existsByEmail(email);
     }
 
     /**
