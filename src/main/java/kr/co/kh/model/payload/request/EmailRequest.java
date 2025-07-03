@@ -15,4 +15,5 @@ public class EmailRequest {
     private String username;
     private String passwordAuth;
     private String authCode;
+
 }

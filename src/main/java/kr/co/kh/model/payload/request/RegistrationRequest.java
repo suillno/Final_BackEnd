@@ -25,7 +25,7 @@ public class RegistrationRequest {
 
     private String name;
 
-    private LocalDateTime birth;
+    private String birth;
 
     private int roleNum;
 

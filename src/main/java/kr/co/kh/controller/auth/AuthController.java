@@ -16,9 +16,11 @@ import kr.co.kh.model.payload.response.JwtAuthenticationResponse;
 import kr.co.kh.model.token.RefreshToken;
 import kr.co.kh.security.JwtTokenProvider;
 import kr.co.kh.service.AuthService;
+import kr.co.kh.service.EmailAuthService;
 import kr.co.kh.service.MailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +37,7 @@ public class AuthController {
     private final AuthService authService;
     private final JwtTokenProvider tokenProvider;
     private final MailService mailService;
+    private final EmailAuthService emailAuthService;
 
     /**
      * 이메일 사용여부 확인
@@ -54,11 +57,24 @@ public class AuthController {
      * @param emailRequest
      * @return
      */
-    @GetMapping("/mail")
-    public ResponseEntity<?> mail(@ModelAttribute EmailRequest emailRequest) {
+    @PostMapping("/mail")
+    public ResponseEntity<?> mail(@RequestBody EmailRequest emailRequest) {
         log.info(emailRequest.toString());
+        log.info("메일 요청 들어옴: {}", emailRequest);
+        log.info("받는 사람: {}", emailRequest.getMailTo());
         mailService.sendMimeMessage(emailRequest);
         return ResponseEntity.ok("ok");
+    }
+
+    @PostMapping("/mail/verify")
+    public ResponseEntity<?> verifyEmailCode(@RequestBody EmailRequest emailRequest) {
+        boolean result = emailAuthService.verifyAuthCode(emailRequest.getMailTo(), emailRequest.getAuthCode());
+        if (result) {
+            emailAuthService.removeAuthCode(emailRequest.getMailTo());
+            return ResponseEntity.ok("인증 성공!");
+        } else {
+            return ResponseEntity.badRequest().body("인증 실패. 인증번호가 틀렸거나 만료되었습니다.");
+        }
     }
 
     /**
