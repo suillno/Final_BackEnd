@@ -1,6 +1,7 @@
 package kr.co.kh.service;
 
 import kr.co.kh.model.payload.request.EmailRequest;
+import kr.co.kh.model.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,9 +19,12 @@ public class MailService {
     private final JavaMailSender javaMailSender;
     private final EmailAuthService emailAuthService;
 
+
     public MailService(JavaMailSender javaMailSender, EmailAuthService emailAuthService) {
         this.javaMailSender = javaMailSender;
         this.emailAuthService = emailAuthService;
+
+
     }
 
     public void sendSimpleMailMessage() {
@@ -43,11 +47,13 @@ public class MailService {
     public void sendMimeMessage(EmailRequest emailRequest) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
+
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 
-            mimeMessageHelper.setTo(emailRequest.getMailTo());
-            mimeMessageHelper.setSubject(emailRequest.getUsername() + "님");
+
+            mimeMessageHelper.setTo(emailRequest.getMailTo());//
+            mimeMessageHelper.setSubject(emailRequest.getName() + "님");
 
             StringBuilder sb = new StringBuilder();
             sb.append("<!DOCTYPE html>");
@@ -83,10 +89,27 @@ public class MailService {
                 sb.append("<h3> 테스트 메일 내용 </h3>");
                 sb.append("</div>");
                 sb.append("</div>");
+            } else if (emailRequest.getMailType().equals("findId")) {
+                sb.append("<div style=\"margin:100px;\">");
+                sb.append("<h1> 아이디 찾기</h1>");
+                sb.append("<div align=\"center\" style=\"border:1px solid black;\">");
+                sb.append("<h3> 아이디 :").append(emailRequest.getUsername()).append("</h3>");
+                sb.append("</div>");
+                sb.append("</div>");
+            } else if (emailRequest.getMailType().equals("changePw")) {
+                sb.append("<div style=\"margin:100px;\">");
+                sb.append("<h1> 비밀번호 변경</h1>");
+                sb.append("<div align=\"center\" style=\"border:1px solid black;\">");
+                sb.append("<h3> 비밀번호 :").append(emailRequest.getPassword()).append("</h3>");
+                sb.append("</div>");
+                sb.append("</div>");
             }
 
             sb.append("</body>");
             sb.append("</html>");
+
+
+            log.info(sb.toString());
 
             mimeMessageHelper.setText(sb.toString(), true);
             javaMailSender.send(mimeMessage);
@@ -107,4 +130,6 @@ public class MailService {
         }
         return sb.toString();
     }
+
+
 }
