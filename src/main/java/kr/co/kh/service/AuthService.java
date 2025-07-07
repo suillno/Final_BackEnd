@@ -71,7 +71,6 @@ public class AuthService {
                 userAuthorityVO.setRoleId((long) i);
                 userAuthorityService.save(userAuthorityVO);
             }
-
         }
         log.info("===================================================");
         return Optional.of(registeredNewUser);
