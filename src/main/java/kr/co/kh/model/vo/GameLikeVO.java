@@ -19,6 +19,7 @@ public class GameLikeVO {
     private int salePrice;
     private String released;
     private String esrbRating;
+    private String cartType;
     private String result;
 
     /** 생성 일시 */

@@ -28,4 +28,7 @@ public interface GameMemberService {
     // ✅ 유저 장바구니 전체 목록 조회
     List<GameCartVO> getCartByUser(String userName);
 
+    // ✅ 유저 찜(WISH) 목록 조회
+    List<GameLikeVO> getWishlistByUser(String userName);
+
 }

@@ -41,10 +41,12 @@ public class GameCartVO {
     /** 사용연령 */
     private String esrbRating;
 
+    /** 장바구니 또는 찜 타입 구분 (CART / LIKE) */
+    private String cartType;
+
     /** 생성 일시 */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp createdAt;
-
 
 
     private String result;
