@@ -5,6 +5,7 @@ import kr.co.kh.model.vo.GameLikeVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface GameMemberMapper {
@@ -27,9 +28,12 @@ public interface GameMemberMapper {
     int checkCart(GameCartVO vo);
     int checkDiscount(GameDiscountVO vo);
 
-    // ✅ 유저 장바구니 전체 목록 조회
+    // 유저 장바구니 전체 목록 조회
     List<GameCartVO> getCartByUser(String userName);
-
-    // ✅ 유저 찜(WISH) 목록 조회
+    // 유저 찜(WISH) 목록 조회
     List<GameLikeVO> getWishlistByUser(String userName);
+    // 할인게임 리스트 전체 목록 조회
+    List<GameDiscountVO> getDiscountGame(Map page);
+    GameDiscountVO getDiscountGameOne();
+
 }

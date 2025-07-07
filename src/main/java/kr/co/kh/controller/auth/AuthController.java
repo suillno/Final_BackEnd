@@ -14,12 +14,15 @@ import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.payload.response.ApiResponse;
 import kr.co.kh.model.payload.response.JwtAuthenticationResponse;
 import kr.co.kh.model.token.RefreshToken;
+import kr.co.kh.model.vo.MemberVO;
 import kr.co.kh.security.JwtTokenProvider;
 import kr.co.kh.service.AuthService;
 import kr.co.kh.service.EmailAuthService;
 import kr.co.kh.service.MailService;
+import kr.co.kh.service.UserAuthorityService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -38,6 +41,7 @@ public class AuthController {
     private final JwtTokenProvider tokenProvider;
     private final MailService mailService;
     private final EmailAuthService emailAuthService;
+    private final UserAuthorityService userAuthorityService;
 
     /**
      * 이메일 사용여부 확인
@@ -156,6 +160,23 @@ public class AuthController {
         return authService.registerUser(request).map(user -> {
             return ResponseEntity.ok(new ApiResponse(true, "등록되었습니다."));
         }).orElseThrow(() -> new UserRegistrationException(request.getUsername(), "가입오류"));
+    }
+
+    @PostMapping("/findId")
+    public ResponseEntity<?> findId(@RequestBody MemberVO memberVO) {
+        MemberVO result = userAuthorityService.findId(memberVO);
+
+         if ( result != null && result.getUsername() != null) {
+
+               return ResponseEntity.ok("아이디가 이메일로 전송되었습니다.");
+         }
+            return ResponseEntity.ok("일치하는 회원 정보를 찾을 수 없습니다.");
+      }
+
+    @PostMapping("/changePw")
+    public ResponseEntity<?> changePw(@RequestBody MemberVO memberVO) {
+
+        return ResponseEntity.ok(userAuthorityService.updatePw(memberVO));
     }
 
 }

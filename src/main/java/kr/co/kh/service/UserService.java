@@ -3,6 +3,7 @@ package kr.co.kh.service;
 import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.exception.BadRequestException;
 import kr.co.kh.exception.UserLogoutException;
+import kr.co.kh.mapper.UserMapper;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.Role;
 import kr.co.kh.model.User;
@@ -13,6 +14,7 @@ import kr.co.kh.model.payload.request.UserRegisterRequest;
 import kr.co.kh.model.payload.response.PagedResponse;
 import kr.co.kh.model.payload.response.UserListResponse;
 import kr.co.kh.model.payload.response.UserResponse;
+import kr.co.kh.model.vo.UserVO;
 import kr.co.kh.repository.UserRepository;
 import kr.co.kh.util.ModelMapper;
 import kr.co.kh.util.ValidatePageNumberAndSize;
@@ -37,6 +39,7 @@ public class UserService {
     private final RoleService roleService;
     private final UserDeviceService userDeviceService;
     private final RefreshTokenService refreshTokenService;
+    private final UserMapper userMapper;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -107,7 +110,7 @@ public class UserService {
         newUser.setEmail(registerRequest.getEmail());
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         newUser.setUsername(registerRequest.getUsername());
-        newUser.setActive(false);
+        newUser.setActive(true);
         newUser.setEmailVerified(true);
         newUser.setName(registerRequest.getName());
         return newUser;
@@ -313,4 +316,43 @@ public class UserService {
             throw new BadRequestException("잘못된 요청입니다.");
         }
     }
+
+
+
+    // 사용자 전체 목록 조회 (VO 기반)
+    public List<UserVO> getAllUsersByMapper() {
+        return userMapper.findAllUsers();
+    }
+
+
+    // 사용자 권한 변경 (동일 권한이면 업데이트하지 않음)
+    public void updateUserRole(Long userId, String roleName) {
+        // 프론트에서 받은 roleName을 DB의 ROLE_NAME 형식으로 변환
+        String dbRole = "ROLE_" + roleName.toUpperCase(); // "ADMIN" → "ROLE_ADMIN"
+
+        // 해당 ROLE_NAME에 해당하는 ROLE_ID 조회
+        Long newRoleId = userMapper.findRoleIdByName(dbRole);
+        if (newRoleId == null) {
+            throw new RuntimeException("해당 권한이 존재하지 않습니다: " + dbRole);
+        }
+
+        // 현재 사용자의 ROLE_ID 조회
+        Long currentRoleId = userMapper.findCurrentRoleIdByUserId(userId);
+
+        // 동일한 권한일 경우 업데이트하지 않음
+        if (Objects.equals(currentRoleId, newRoleId)) {
+            log.info("이미 동일한 권한이 설정되어 있어 변경하지 않습니다.");
+            return;
+        }
+
+        // 실제 권한 업데이트 실행
+        userMapper.updateUserRoleById(userId, newRoleId);
+    }
+
+
+    // 사용자 활성화/정지 상태 토글
+    public void toggleUserStatus(Long userId) {
+        userMapper.toggleUserStatus(userId);
+    }
+
 }

@@ -7,4 +7,22 @@
         VALUES (#{userId}, #{roleId})
     </insert>
 
+    <select id="findId" parameterType="MemberVO" resultType="MemberVO">
+        SELECT USERNAME, NAME, EMAIL FROM USERS
+        WHERE EMAIL = #{email} AND NAME = #{name}
+    </select>
+
+    <select id="existUser" parameterType="MemberVO" resultType="MemberVO">
+        SELECT USERNAME, EMAIL, NAME FROM USERS
+        WHERE USERNAME = #{username} AND EMAIL = #{email}
+    </select>
+
+    <update id="changePw" parameterType="MemberVO">
+        UPDATE USERS
+        SET PASSWORD = #{password}
+        WHERE USERNAME = #{username} AND EMAIL = #{email}
+    </update>
+
+
+
 </mapper>

@@ -170,7 +170,7 @@ public class GameMemberController {
 
     @ApiOperation(
             value = "유저 장바구니 조회 (경로 통일)",
-            notes = "/game/member/cart/list/{username} 경로로 모든 cart API 통일"
+            notes = "유저 장바구니 조회 유저 네임으로"
     )
     @GetMapping("/cart/list/{userName}")
     public ResponseEntity<?> getCartListByUser(@PathVariable String userName) {
@@ -195,6 +195,21 @@ public class GameMemberController {
             return ResponseEntity.internalServerError().body("찜 목록 조회 실패");
         }
     }
+
+            value = "할인 게임 조회",
+            notes = "할인 게임 조회 ResponseEntity 리턴"
+    )
+    @GetMapping("/discount/list/{page}")
+    public ResponseEntity<?> getDiscountList(@PathVariable Long page) {
+        try {
+            return ResponseEntity.ok(gameMemberService.getDiscountList(page));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("할인게임 조회 실패");
+        }
+    }
+    
+    
 
 
 

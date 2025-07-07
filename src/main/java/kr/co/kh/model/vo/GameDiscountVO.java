@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Data
 @Slf4j
 public class GameDiscountVO {
-    private Long likeId;
+    private Long discountId;
     private String userName;
     private Long gameId;
     private String title;
@@ -18,6 +18,7 @@ public class GameDiscountVO {
     private int salePrice;
     private String released;
     private String esrbRating;
+    private Long discountPercent;
     private String result;
 
     /** 생성 일시 */
