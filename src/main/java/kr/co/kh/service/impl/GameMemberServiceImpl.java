@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -78,10 +80,31 @@ public class GameMemberServiceImpl implements GameMemberService {
           return gameMemberMapper.checkDiscount(vo) > 0;
      }
 
+     // 카트 리스트가져오기
      @Override
      public List<GameCartVO> getCartByUser(String userName) {
           return gameMemberMapper.getCartByUser(userName);
      }
+
+     // 할인게임 리스트 가져오기
+     @Override
+     public Map<String, Object> getDiscountList(Long page) {
+          Map<String, Object> discountList = new HashMap<>();
+
+          // page → offset으로 변환
+          int offset = Math.toIntExact(page * 20L);
+
+          Map<String, Object> param = new HashMap<>();
+          param.put("offset", offset);
+
+          discountList.put("list", gameMemberMapper.getDiscountGame(param));
+          discountList.put("one", gameMemberMapper.getDiscountGameOne());
+
+          return discountList;
+     }
+
+
+
 
 
 }

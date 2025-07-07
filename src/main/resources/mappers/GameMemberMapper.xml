@@ -121,6 +121,55 @@
         ORDER BY CREATED_AT DESC
     </select>
 
+    <!-- 게임 할인율별로 리스트 가져오기 (20개씩 페이징) -->
+    <select id="getDiscountGame" parameterType="map" resultType="GameDiscountVO">
+        SELECT
+        DISCOUNT_ID,
+        USER_NAME,
+        GAME_ID,
+        TITLE,
+        BACKGROUND_IMAGE,
+        PRICE,
+        SALE_PRICE,
+        ROUND((1 - (SALE_PRICE / PRICE)) * 100, 2) AS DISCOUNT_PERCENT,
+        RELEASED,
+        ESRB_RATING,
+        CREATED_AT,
+        '' AS RESULT
+        FROM
+        GAME_DISCOUNT
+        WHERE
+        PRICE > 0 AND SALE_PRICE IS NOT NULL
+        ORDER BY
+        TITLE
+        OFFSET #{offset} ROWS
+        FETCH NEXT 20 ROWS ONLY
+    </select>
+
+    <!-- 게임할인율 제일 높은게임 가져오기 -->
+    <select id="getDiscountGameOne" resultType="GameDiscountVO">
+        SELECT
+        DISCOUNT_ID,
+        USER_NAME,
+        GAME_ID,
+        TITLE,
+        BACKGROUND_IMAGE,
+        PRICE,
+        SALE_PRICE,
+        ROUND((1 - (SALE_PRICE / PRICE)) * 100, 2) AS DISCOUNT_PERCENT,
+        RELEASED,
+        ESRB_RATING,
+        CREATED_AT,
+        '' AS RESULT
+        FROM
+        GAME_DISCOUNT
+        WHERE
+        PRICE > 0 AND SALE_PRICE IS NOT NULL
+        ORDER BY
+        DISCOUNT_PERCENT DESC
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
 
 
 

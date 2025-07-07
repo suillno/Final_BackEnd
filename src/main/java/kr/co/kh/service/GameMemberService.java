@@ -5,6 +5,8 @@ import kr.co.kh.model.vo.GameCartVO;
 import kr.co.kh.model.vo.GameDiscountVO;
 import kr.co.kh.model.vo.GameReviewVO;
 import java.util.List;
+import java.util.Map;
+
 import kr.co.kh.model.vo.GameLikeVO;
 
 public interface GameMemberService {
@@ -25,7 +27,9 @@ public interface GameMemberService {
     boolean checkDiscount(Long gameId);
 
 
-    // ✅ 유저 장바구니 전체 목록 조회
+    // 유저 장바구니 전체 목록 조회
     List<GameCartVO> getCartByUser(String userName);
+    // 게임할인 조회하기
+    Map<String, Object> getDiscountList(Long page);
 
 }
