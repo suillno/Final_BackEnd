@@ -79,11 +79,15 @@ public class GameMemberServiceImpl implements GameMemberService {
           // gameMemberMapper에서 COUNT(*)나 VO 여부를 확인하는 메서드 호출
           return gameMemberMapper.checkDiscount(vo) > 0;
      }
-
      // 카트 리스트가져오기
      @Override
      public List<GameCartVO> getCartByUser(String userName) {
           return gameMemberMapper.getCartByUser(userName);
+     }
+     /** 찜 리스트 */
+     @Override
+     public List<GameLikeVO> getWishlistByUser(String userName) {
+          return gameMemberMapper.getWishlistByUser(userName);
      }
 
      // 할인게임 리스트 가져오기

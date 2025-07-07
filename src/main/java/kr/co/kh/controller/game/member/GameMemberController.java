@@ -183,6 +183,19 @@ public class GameMemberController {
     }
 
     @ApiOperation(
+            value = "유저 찜 목록 조회",
+            notes = "cartType이 'LIKE'인 항목만 필터링하여 반환합니다."
+    )
+    @GetMapping("/like/list/{userName}")
+    public ResponseEntity<?> getWishlistByUser(@PathVariable String userName) {
+        try {
+            return ResponseEntity.ok(gameMemberService.getWishlistByUser(userName)); // 서비스에서 분기처리
+        } catch (Exception e) {
+            log.error("찜 목록 조회 실패", e);
+            return ResponseEntity.internalServerError().body("찜 목록 조회 실패");
+        }
+    }
+
             value = "할인 게임 조회",
             notes = "할인 게임 조회 ResponseEntity 리턴"
     )

@@ -32,4 +32,7 @@ public interface GameMemberService {
     // 게임할인 조회하기
     Map<String, Object> getDiscountList(Long page);
 
+    // ✅ 유저 찜(WISH) 목록 조회
+    List<GameLikeVO> getWishlistByUser(String userName);
+
 }
