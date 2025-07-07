@@ -8,6 +8,7 @@ import kr.co.kh.model.payload.request.BoardRequest;
 import kr.co.kh.model.payload.request.UserRegisterRequest;
 import kr.co.kh.model.payload.request.UserRoleUpdateRequest;
 import kr.co.kh.model.payload.response.ApiResponse;
+import kr.co.kh.model.payload.response.SimpleMessageResponse;
 import kr.co.kh.model.vo.UserVO;
 import kr.co.kh.service.UserService;
 import lombok.AllArgsConstructor;
@@ -91,13 +92,12 @@ public class MemberController {
 
 
     @PatchMapping("/update-role")
-    public ResponseEntity<Map<String, String>> updateUserRole(@RequestBody UserRoleUpdateRequest request) {
+    public ResponseEntity<String> updateUserRole(@RequestBody UserRoleUpdateRequest request) {
+        System.out.println(">>> 권한 변경 요청 수신: " + request.getUserId() + ", " + request.getRole());
         userService.updateUserRole(request.getUserId(), request.getRole());
-
-        Map<String, String> result = new HashMap<>();
-        result.put("message", "사용자 권한이 변경되었습니다.");
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok("권한이 성공적으로 변경되었습니다.");
     }
+
 
 
 

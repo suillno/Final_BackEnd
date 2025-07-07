@@ -324,10 +324,29 @@ public class UserService {
         return userMapper.findAllUsers();
     }
 
-    // 사용자 권한 변경
+
+    // 사용자 권한 변경 (동일 권한이면 업데이트하지 않음)
     public void updateUserRole(Long userId, String roleName) {
+        // 프론트에서 받은 roleName을 DB의 ROLE_NAME 형식으로 변환
         String dbRole = "ROLE_" + roleName.toUpperCase(); // "ADMIN" → "ROLE_ADMIN"
-        userMapper.updateUserRole(userId, dbRole);
+
+        // 해당 ROLE_NAME에 해당하는 ROLE_ID 조회
+        Long newRoleId = userMapper.findRoleIdByName(dbRole);
+        if (newRoleId == null) {
+            throw new RuntimeException("해당 권한이 존재하지 않습니다: " + dbRole);
+        }
+
+        // 현재 사용자의 ROLE_ID 조회
+        Long currentRoleId = userMapper.findCurrentRoleIdByUserId(userId);
+
+        // 동일한 권한일 경우 업데이트하지 않음
+        if (Objects.equals(currentRoleId, newRoleId)) {
+            log.info("이미 동일한 권한이 설정되어 있어 변경하지 않습니다.");
+            return;
+        }
+
+        // 실제 권한 업데이트 실행
+        userMapper.updateUserRoleById(userId, newRoleId);
     }
 
 
