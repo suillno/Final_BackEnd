@@ -196,6 +196,7 @@ public class GameMemberController {
         }
     }
 
+    @ApiOperation(
             value = "할인 게임 조회",
             notes = "할인 게임 조회 ResponseEntity 리턴"
     )
