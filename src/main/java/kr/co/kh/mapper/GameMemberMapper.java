@@ -37,4 +37,8 @@ public interface GameMemberMapper {
     // 공동구매 신청 버튼동작
     void groupReservation(GameGroupVO vo);
 
+    void getDiscountWishlist(Map<String, Object> paramMap);
+
+
+
 }

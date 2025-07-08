@@ -34,4 +34,8 @@ public interface GameMemberService {
     // 공동구매 등록
     void groupReservation(GameGroupVO vo);
 
+    // ✅ 할인 포함 찜 목록 조회 (프로시저 기반)
+    List<GameLikeVO> getDiscountWishlist(String userName);
+
+
 }

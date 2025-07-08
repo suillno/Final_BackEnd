@@ -110,6 +110,18 @@ public class GameMemberServiceImpl implements GameMemberService {
           log.info(vo.toString());
      }
 
+     // 할인 포함 찜 목록 조회 (프로시저 기반)
+     @Override
+     public List<GameLikeVO> getDiscountWishlist(String userName) {
+          Map<String, Object> paramMap = new HashMap<>();
+          paramMap.put("P_USERNAME", userName);
+          paramMap.put("P_CURSOR", null); // OUT 파라미터 초기화
+
+          gameMemberMapper.getDiscountWishlist(paramMap); // 프로시저 호출
+
+          // 프로시저 결과가 들어있는 OUT 커서를 가져오기
+          return (List<GameLikeVO>) paramMap.get("P_CURSOR");
+     }
 
 
 
