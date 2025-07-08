@@ -64,8 +64,10 @@ public class AuthService {
          * 즉, 최고권한 관리자의 경우 USER_AUTHORITY 테이블에 3개의 행이 생겨야한다.
          * ROLE_ID가 1,2,3과 같이...
          */
+
+        // 3넣으면 3번 한개만 2넣으면 2.3번 1 넣으면 1,2,3이 들어간다
         if (registeredNewUser.getId() != null) {
-            for (int i = newRegistrationRequest.getRoleNum(); i >= 1; i--) {
+            for (int i = newRegistrationRequest.getRoleNum(); i <= 3; i++) {
                 UserAuthorityVO userAuthorityVO = new UserAuthorityVO();
                 userAuthorityVO.setUserId(registeredNewUser.getId());
                 userAuthorityVO.setRoleId((long) i);
