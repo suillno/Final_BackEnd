@@ -6,10 +6,7 @@ import io.swagger.annotations.*;
 import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.payload.request.EmailRequest;
-import kr.co.kh.model.vo.GameCartVO; // 장바구니에 담길 게임 정보 VO
-import kr.co.kh.model.vo.GameDiscountVO;
-import kr.co.kh.model.vo.GameLikeVO;
-import kr.co.kh.model.vo.GameReviewVO;
+import kr.co.kh.model.vo.*;
 
 // 롬복 어노테이션
 import kr.co.kh.service.GameMemberService;
@@ -23,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -207,6 +205,21 @@ public class GameMemberController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body("할인게임 조회 실패");
+        }
+    }
+
+    @ApiOperation(
+            value = "공동구매 예약",
+            notes = "공동구매 예약 버튼클릭시 동작"
+    )
+    @PostMapping("/discount/reservation")
+    public ResponseEntity<?> GroupReservation(@RequestBody GameGroupVO vo) {
+        try {
+            gameMemberService.groupReservation(vo);
+            return ResponseEntity.ok(vo.getResult());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("공동구매 예약 실패");
         }
     }
     

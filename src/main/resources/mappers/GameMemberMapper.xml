@@ -145,56 +145,42 @@
 
 
 
-    <!-- 게임 할인율별로 리스트 가져오기 (20개씩 페이징) -->
+    <!-- 게임 할인율별로 리스트 가져오기 (20개씩 페이징), 공동구매인원 조회 -->
     <select id="getDiscountGame" parameterType="map" resultType="GameDiscountVO">
         SELECT
-        DISCOUNT_ID,
-        USER_NAME,
-        GAME_ID,
-        TITLE,
-        BACKGROUND_IMAGE,
-        PRICE,
-        SALE_PRICE,
-        ROUND((1 - (SALE_PRICE / PRICE)) * 100, 2) AS DISCOUNT_PERCENT,
-        RELEASED,
-        ESRB_RATING,
-        CREATED_AT,
-        '' AS RESULT
+        A.DISCOUNT_ID,
+        A.USER_NAME,
+        A.GAME_ID,
+        A.TITLE,
+        A.BACKGROUND_IMAGE,
+        A.PRICE,
+        A.SALE_PRICE,
+        ROUND((1 - (A.SALE_PRICE / A.PRICE)) * 100, 2) AS DISCOUNT_PERCENT,
+        A.RELEASED,
+        A.ESRB_RATING,
+        A.CREATED_AT,
+        '' AS RESULT,
+        (B.APPLICANTS - B.CURRENT_APPLICANTS) AS COUNT_APPLICANTS
         FROM
-        GAME_DISCOUNT
+        GAME_DISCOUNT A
+        JOIN
+        GAME_GROUP_PURCHASE B ON A.GAME_ID = B.GAME_ID
         WHERE
-        PRICE > 0 AND SALE_PRICE IS NOT NULL
+        A.PRICE > 0 AND A.SALE_PRICE IS NOT NULL
         ORDER BY
-        TITLE
+        A.TITLE
         OFFSET #{offset} ROWS
         FETCH NEXT 20 ROWS ONLY
     </select>
 
-    <!-- 게임할인율 제일 높은게임 가져오기 -->
-    <select id="getDiscountGameOne" resultType="GameDiscountVO">
-        SELECT
-        DISCOUNT_ID,
-        USER_NAME,
-        GAME_ID,
-        TITLE,
-        BACKGROUND_IMAGE,
-        PRICE,
-        SALE_PRICE,
-        ROUND((1 - (SALE_PRICE / PRICE)) * 100, 2) AS DISCOUNT_PERCENT,
-        RELEASED,
-        ESRB_RATING,
-        CREATED_AT,
-        '' AS RESULT
-        FROM
-        GAME_DISCOUNT
-        WHERE
-        PRICE > 0 AND SALE_PRICE IS NOT NULL
-        ORDER BY
-        DISCOUNT_PERCENT DESC
-        FETCH FIRST 1 ROWS ONLY
+    <!-- 프로시저 사용 공동구매 예약 버튼동작 -->
+    <select id="groupReservation" statementType="CALLABLE" parameterType="GameGroupVO">
+        { CALL TOGGLE_GROUP_PURCHASE(
+        #{userName, mode=IN, jdbcType=VARCHAR},
+        #{gameId, mode=IN, jdbcType=NUMERIC},
+        #{result, mode=OUT, jdbcType=VARCHAR}
+        ) }
     </select>
-
-
 
 
 </mapper>

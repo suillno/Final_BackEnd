@@ -34,6 +34,7 @@ public interface GameMemberMapper {
     List<GameLikeVO> getWishlistByUser(String userName);
     // 할인게임 리스트 전체 목록 조회
     List<GameDiscountVO> getDiscountGame(Map page);
-    GameDiscountVO getDiscountGameOne();
+    // 공동구매 신청 버튼동작
+    void groupReservation(GameGroupVO vo);
 
 }

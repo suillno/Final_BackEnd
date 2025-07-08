@@ -75,6 +75,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     }
 
+    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+    implementation("org.apache.poi:poi-ooxml:5.4.1")
+
 }
 
 tasks.named('test') {

@@ -2,10 +2,7 @@ package kr.co.kh.service.impl;
 
 import kr.co.kh.mapper.GameMemberMapper;
 import kr.co.kh.model.CustomUserDetails;
-import kr.co.kh.model.vo.GameCartVO;
-import kr.co.kh.model.vo.GameDiscountVO;
-import kr.co.kh.model.vo.GameLikeVO;
-import kr.co.kh.model.vo.GameReviewVO;
+import kr.co.kh.model.vo.*;
 import kr.co.kh.service.GameMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -101,10 +98,17 @@ public class GameMemberServiceImpl implements GameMemberService {
           Map<String, Object> param = new HashMap<>();
           param.put("offset", offset);
 
+          // 할인게임리스트 반환
           discountList.put("list", gameMemberMapper.getDiscountGame(param));
-          discountList.put("one", gameMemberMapper.getDiscountGameOne());
 
           return discountList;
+     }
+     
+     // 할인게임 버튼 동작
+     @Override
+     public void groupReservation(GameGroupVO vo) {
+          gameMemberMapper.groupReservation(vo);
+          log.info(vo.toString());
      }
 
 

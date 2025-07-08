@@ -20,6 +20,7 @@ public class GameDiscountVO {
     private String esrbRating;
     private Long discountPercent;
     private String result;
+    private int countApplicants;
 
     /** 생성 일시 */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")

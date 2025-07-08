@@ -1,13 +1,10 @@
 package kr.co.kh.service;
 
 import kr.co.kh.model.CustomUserDetails;
-import kr.co.kh.model.vo.GameCartVO;
-import kr.co.kh.model.vo.GameDiscountVO;
-import kr.co.kh.model.vo.GameReviewVO;
+import kr.co.kh.model.vo.*;
+
 import java.util.List;
 import java.util.Map;
-
-import kr.co.kh.model.vo.GameLikeVO;
 
 public interface GameMemberService {
     // 리뷰 저장
@@ -34,5 +31,7 @@ public interface GameMemberService {
 
     // ✅ 유저 찜(WISH) 목록 조회
     List<GameLikeVO> getWishlistByUser(String userName);
+    // 공동구매 등록
+    void groupReservation(GameGroupVO vo);
 
 }
