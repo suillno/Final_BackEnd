@@ -36,4 +36,8 @@ public interface GameMemberMapper {
     List<GameDiscountVO> getDiscountGame(Map page);
     GameDiscountVO getDiscountGameOne();
 
+    void getDiscountWishlist(Map<String, Object> paramMap);
+
+
+
 }

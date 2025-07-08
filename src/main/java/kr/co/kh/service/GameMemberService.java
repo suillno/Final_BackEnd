@@ -35,4 +35,8 @@ public interface GameMemberService {
     // ✅ 유저 찜(WISH) 목록 조회
     List<GameLikeVO> getWishlistByUser(String userName);
 
+    // ✅ 할인 포함 찜 목록 조회 (프로시저 기반)
+    List<GameLikeVO> getDiscountWishlist(String userName);
+
+
 }

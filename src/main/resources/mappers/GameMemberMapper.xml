@@ -194,6 +194,30 @@
         FETCH FIRST 1 ROWS ONLY
     </select>
 
+    <!-- 찜 + 할인 리스트 조회 프로시저 -->
+    <select id="getDiscountWishlist" parameterType="map" statementType="CALLABLE">
+        { call GET_DISCOUNT_WISHLIST(
+        #{P_USERNAME, mode=IN, jdbcType=VARCHAR},
+        #{P_CURSOR, mode=OUT, jdbcType=CURSOR, resultMap=discountWishlistResultMap}
+        ) }
+    </select>
+
+    <resultMap id="discountWishlistResultMap" type="kr.co.kh.model.vo.GameLikeVO">
+        <result property="likeId" column="LIKE_ID"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="gameId" column="GAME_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="backgroundImage" column="BACKGROUND_IMAGE"/>
+        <result property="price" column="PRICE"/>
+        <result property="salePrice" column="LIKE_SALE_PRICE"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="released" column="RELEASED"/>
+        <result property="esrbRating" column="ESRB_RATING"/>
+        <result property="cartType" column="CART_TYPE"/>
+        <result property="discountSalePrice" column="DISCOUNT_SALE_PRICE"/>
+    </resultMap>
+
+
 
 
 
