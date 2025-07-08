@@ -53,7 +53,7 @@ public class MailService {
 
 
             mimeMessageHelper.setTo(emailRequest.getMailTo());//
-            mimeMessageHelper.setSubject(emailRequest.getName() + "님");
+            mimeMessageHelper.setSubject("[PickGame] 아래 인증번호를 입력해주세요");
 
             StringBuilder sb = new StringBuilder();
             sb.append("<!DOCTYPE html>");
