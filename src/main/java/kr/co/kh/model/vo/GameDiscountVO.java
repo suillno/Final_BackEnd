@@ -21,6 +21,8 @@ public class GameDiscountVO {
     private Long discountPercent;
     private String result;
     private int countApplicants;
+    private int isActive;
+    private String applicantList; // 'user1,user2,user3' 공동구매 신청 확인
 
     /** 생성 일시 */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")

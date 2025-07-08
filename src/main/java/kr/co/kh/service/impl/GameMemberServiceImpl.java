@@ -100,7 +100,6 @@ public class GameMemberServiceImpl implements GameMemberService {
 
           // 할인게임리스트 반환
           discountList.put("list", gameMemberMapper.getDiscountGame(param));
-
           return discountList;
      }
      
