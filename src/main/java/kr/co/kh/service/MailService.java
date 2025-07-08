@@ -53,36 +53,46 @@ public class MailService {
 
 
             mimeMessageHelper.setTo(emailRequest.getMailTo());//
-            mimeMessageHelper.setSubject("[PickGame] 아래 인증번호를 입력해주세요");
+            //mimeMessageHelper.setSubject("[PickGame] 아래 인증번호를 입력해주세요");
 
             StringBuilder sb = new StringBuilder();
             sb.append("<!DOCTYPE html>");
             sb.append("<html lang='ko'>");
             sb.append("<body>");
+            log.info("메일 수신자: {}", emailRequest.getMailTo());
 
 
             if (emailRequest.getMailType().equals("emailAuth")) {
+                mimeMessageHelper.setSubject("[PickGame] 아래 회원가입 인증번호를 입력해주세요");
                 // ✅ 인증번호 생성
                 String authCode = generateAuthCode();
-                emailRequest.setAuthCode(authCode); // 필요한 경우 외부 전달용
+                emailRequest.setAuthCode(authCode); //
+                // 필요한 경우 외부 전달용
 
-                sb.append("<div style=\"margin:100px;\">");
-                sb.append("<h1> PickGame 회원가입 인증번호 </h1>");
-                sb.append("<div align=\"center\" style=\"border:1px solid black; padding:20px;\">");
-                sb.append("<h3> </h3>");
-
-                sb.append("<h1 style='color:blue;'>" + authCode + "</h1>"); // ✅ 인증번호 삽입
+                sb.append("<!DOCTYPE html>");
+                sb.append("<html lang='ko'>");
+                sb.append("<head><meta charset='UTF-8'></head>");
+                sb.append("<body>");
+                sb.append("<div style=\"max-width:600px; margin:50px auto; padding:30px; border:1px solid #e0e0e0; border-radius:8px; font-family:Arial,sans-serif; background-color:#f9f9f9;\">");
+                sb.append("<div style=\"font-size:22px; color:#333; margin-bottom:20px; text-align:center;\">[PickGame] 회원가입 인증번호</div>");
+                sb.append("<div style=\"background-color:#fff; padding:20px; text-align:center; border-radius:6px; border:1px dashed #007BFF;\">");
+                sb.append("<div style=\"font-size:32px; font-weight:bold; color:#007BFF; letter-spacing:8px;\">" + authCode + "</div>");
                 sb.append("</div>");
+                sb.append("<div style=\"margin-top:30px; font-size:12px; color:#888; text-align:center;\">본 인증번호는 5분간 유효합니다.<br>타인에게 공유하지 마세요.</div>");
                 sb.append("</div>");
+                sb.append("</body>");
+                sb.append("</html>");
 
                 log.info("발송된 인증번호: {}", authCode);
-                // 비번 찾기 >>> 비번 자동 변경 후 메일 발송
-                // 아이디를 db에서 찾는다 > 찾아 졌으면 비번을 랜덤하게 바꾸고 바꾼 비번을 메일로 날린다.
 
                 // ✅ 인증번호 저장
                 emailAuthService.saveAuthCode(emailRequest.getMailTo(), authCode);
 
+
+
+
             } else if (emailRequest.getMailType().equals("passwordAuth")) {
+                mimeMessageHelper.setSubject(emailRequest.getName());
                 sb.append("<div style=\"margin:100px;\">");
                 sb.append("<h1> 테스트 메일 </h1>");
                 sb.append("<div align=\"center\" style=\"border:1px solid black;\">");
@@ -90,19 +100,43 @@ public class MailService {
                 sb.append("</div>");
                 sb.append("</div>");
             } else if (emailRequest.getMailType().equals("findId")) {
-                sb.append("<div style=\"margin:100px;\">");
-                sb.append("<h1> 아이디 찾기</h1>");
-                sb.append("<div align=\"center\" style=\"border:1px solid black;\">");
-                sb.append("<h3> 아이디 :").append(emailRequest.getUsername()).append("</h3>");
+                mimeMessageHelper.setSubject("[PickGame] " +emailRequest.getName() + "님 아이디 찾기 요청");
+                sb.append("<!DOCTYPE html>");
+                sb.append("<html lang='ko'>");
+                sb.append("<head><meta charset='UTF-8'></head>");
+                sb.append("<body>");
+                sb.append("<div style=\"max-width:600px; margin:50px auto; padding:30px; border:1px solid #e0e0e0; border-radius:8px; font-family:Arial,sans-serif; background-color:#f9f9f9;\">");
+                sb.append("<div style=\"font-size:22px; color:#333; margin-bottom:20px; text-align:center;\">[PickGame] 아이디 </div>");
+                sb.append("<div style=\"background-color:#fff; padding:20px; text-align:center; border-radius:6px; border:1px dashed #007BFF;\">");
+                sb.append("<div style=\"font-size:32px; font-weight:bold; color:#007BFF; letter-spacing:8px;\">").append(emailRequest.getUsername()).append("</div>");
                 sb.append("</div>");
+                sb.append("<div style=\"margin-top:30px; font-size:12px; color:#888; text-align:center;\">\n" +
+                        "요청하신 아이디 정보를 보내드립니다.<br>\n" +
+                        "본 메일은 본인 확인을 위해 발송되었습니다.\n" +
+                        "</div>\n");
                 sb.append("</div>");
+                sb.append("</body>");
+                sb.append("</html>");
+
             } else if (emailRequest.getMailType().equals("changePw")) {
-                sb.append("<div style=\"margin:100px;\">");
-                sb.append("<h1> 비밀번호 변경</h1>");
-                sb.append("<div align=\"center\" style=\"border:1px solid black;\">");
-                sb.append("<h3> 비밀번호 :").append(emailRequest.getPassword()).append("</h3>");
+                mimeMessageHelper.setSubject("[PickGame] " +emailRequest.getName() + "님 임시 비밀번호 요청");
+                sb.append("<!DOCTYPE html>");
+                sb.append("<html lang='ko'>");
+                sb.append("<head><meta charset='UTF-8'></head>");
+                sb.append("<body>");
+                sb.append("<div style=\"max-width:600px; margin:50px auto; padding:30px; border:1px solid #e0e0e0; border-radius:8px; font-family:Arial,sans-serif; background-color:#f9f9f9;\">");
+                sb.append("<div style=\"font-size:22px; color:#333; margin-bottom:20px; text-align:center;\">[PickGame] 임시 비밀번호</div>");
+                sb.append("<div style=\"background-color:#fff; padding:20px; text-align:center; border-radius:6px; border:1px dashed #007BFF;\">");
+                sb.append("<div style=\"font-size:32px; font-weight:bold; color:#007BFF; letter-spacing:8px;\">").append(emailRequest.getPassword()).append("</div>");
                 sb.append("</div>");
+                sb.append("<div style=\"margin-top:30px; font-size:12px; color:#888; text-align:center;\">\n" +
+                        "아래 임시 비밀번호로 로그인 후 반드시 비밀번호를 변경해주세요.<br>\n" +
+                        "타인에게 노출되지 않도록 주의해주세요.\n" +
+                        "</div>");
                 sb.append("</div>");
+                sb.append("</body>");
+                sb.append("</html>");
+
             }
 
             sb.append("</body>");
