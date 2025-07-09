@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/game/member")
 @Slf4j
 @AllArgsConstructor
 public class MemberController {
