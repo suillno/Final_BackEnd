@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper
 public interface InquiryMapper {
 
+
     // 고객 문의 등록
     void insertInquiry(InquiryVO inquiry);
 

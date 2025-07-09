@@ -30,6 +30,7 @@ public class InquiryController {
         return ResponseEntity.ok("문의가 정상적으로 등록되었습니다.");
     }
 
+
     /**
      * 전체 문의 목록 조회 (관리자용 등)
      */

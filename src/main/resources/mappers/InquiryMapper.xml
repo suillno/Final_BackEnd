@@ -5,6 +5,7 @@
 
 <mapper namespace="kr.co.kh.mapper.InquiryMapper">
 
+
     <!-- 문의 등록 -->
     <insert id="insertInquiry" parameterType="kr.co.kh.model.vo.InquiryVO">
         INSERT INTO INQUIRY (
