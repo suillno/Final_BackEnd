@@ -1,4 +1,4 @@
-package kr.co.kh.controller.member;
+package kr.co.kh.controller.game.member;
 
 import kr.co.kh.model.vo.InquiryVO;
 import kr.co.kh.service.InquiryService;
@@ -11,10 +11,10 @@ import java.util.List;
 
 /**
  * 고객 문의 컨트롤러 (회원용)
- * URL prefix: /api/member/inquiry
+ * URL prefix: /game/member/inquiry
  */
 @RestController
-@RequestMapping("/api/member/inquiry")
+@RequestMapping("/game/member/inquiry")
 @RequiredArgsConstructor
 public class InquiryController {
 
@@ -22,8 +22,7 @@ public class InquiryController {
 
     /**
      * 문의 등록 API
-     * @param inquiry 사용자 입력 (userId, gameId, title, content)
-     * @return 성공 메시지
+     * @param inquiry 사용자 요청 (userId, category, content)
      */
     @PostMapping("/submit")
     public ResponseEntity<String> submitInquiry(@RequestBody InquiryVO inquiry) {
@@ -32,7 +31,7 @@ public class InquiryController {
     }
 
     /**
-     * 전체 문의 목록 조회 (관리자 페이지 등에서 사용)
+     * 전체 문의 목록 조회 (관리자용 등)
      */
     @GetMapping
     public ResponseEntity<List<InquiryVO>> getAll() {
@@ -41,7 +40,6 @@ public class InquiryController {
 
     /**
      * 특정 문의 상세 조회
-     * @param id 문의 ID
      */
     @GetMapping("/{id}")
     public ResponseEntity<InquiryVO> getInquiry(@PathVariable Long id) {
