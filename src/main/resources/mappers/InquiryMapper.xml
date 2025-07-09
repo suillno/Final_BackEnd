@@ -9,25 +9,20 @@
     <insert id="insertInquiry" parameterType="kr.co.kh.model.vo.InquiryVO">
         INSERT INTO INQUIRY (
         USER_ID,
-        GAME_ID,
-        GAME_TITLE,
-        TITLE,
+        CATEGORY,
         CONTENT,
         STATUS,
         CREATED_AT,
         UPDATED_AT
         ) VALUES (
         #{userId},
-        #{gameId},
-        #{gameTitle},
-        #{title},
+        #{category},
         #{content},
         #{status},
         SYSDATE,
         SYSDATE
         )
     </insert>
-
 
     <!-- 전체 문의 목록 -->
     <select id="findAllInquiries" resultType="kr.co.kh.model.vo.InquiryVO">
@@ -36,7 +31,7 @@
         ORDER BY CREATED_AT DESC
     </select>
 
-    <!-- 문의 상세 조회 -->
+    <!-- 특정 문의 조회 -->
     <select id="findInquiryById" parameterType="long" resultType="kr.co.kh.model.vo.InquiryVO">
         SELECT *
         FROM INQUIRY

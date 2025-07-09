@@ -6,8 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 고객 문의 Mapper
- * MyBatis와 연결되는 매퍼 인터페이스
+ * 고객 문의 Mapper 인터페이스
  */
 @Mapper
 public interface InquiryMapper {
