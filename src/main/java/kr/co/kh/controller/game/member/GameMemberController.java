@@ -222,8 +222,44 @@ public class GameMemberController {
             return ResponseEntity.internalServerError().body("공동구매 예약 실패");
         }
     }
-    
-    
+
+
+
+    /**
+     *  방문자 기록 API
+     *
+     *  기능 설명:
+     * - 사용자가 메인 페이지에 접근할 때 호출되어,
+     *   해당 사용자의 방문 기록을 `VISITOR_LOG` 테이블에 저장합니다.
+     * - 단, 같은 날짜에 이미 방문 기록이 있는 경우 중복 저장되지 않음 (MERGE INTO 쿼리로 처리).
+     * - 이 기록은 차트 통계(예: 일별 방문자 수, 누적 방문자 수 등)를 위한 데이터로 활용됩니다.
+     *
+     *  전제 조건:
+     * - 사용자가 로그인되어 있어야 하며, 토큰 기반 인증을 통해 `@CurrentUser`로 사용자 정보를 주입받습니다.
+     *
+     *  요청 방식: POST
+     *  요청 경로: /game/member/log/visit
+     *  응답: 성공 시 "방문 기록 완료", 실패 시 500 에러 메시지 반환
+     */
+    @PostMapping("/log/visit")
+    public ResponseEntity<?> logVisitor(@CurrentUser CustomUserDetails user) {
+        try {
+            // 현재 로그인한 사용자의 ID를 가져옴 (User 클래스를 상속받았기 때문에 바로 getId() 사용 가능)
+            Long userId = user.getId();
+
+            // 방문자 기록 INSERT (중복 방지를 위해 같은 날짜엔 한 번만 기록됨)
+            gameMemberService.insertVisitorLog(userId);
+
+            // 클라이언트에게 방문 기록 성공 메시지 반환
+            return ResponseEntity.ok("방문 기록 완료");
+        } catch (Exception e) {
+            // 예외 발생 시 에러 로그 출력 및 500 응답
+            log.error("방문자 기록 실패", e);
+            return ResponseEntity.internalServerError().body("방문 기록 실패");
+        }
+    }
+
+
 
 
 
