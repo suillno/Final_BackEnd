@@ -156,7 +156,7 @@ public class MailService {
     }
 
     // ✅ 인증번호 생성 메서드 추가
-    private String generateAuthCode() {
+    public String generateAuthCode() {
         int length = 6;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
