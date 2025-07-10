@@ -1,5 +1,6 @@
 package kr.co.kh.mapper;
 
+import kr.co.kh.model.User;
 import kr.co.kh.model.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -8,6 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
+
+    // 회원가입 사용자 삽입
+    void insertUser(User user);
 
     // 사용자 전체 목록 조회 (VO 반환)
     List<UserVO> findAllUsers();

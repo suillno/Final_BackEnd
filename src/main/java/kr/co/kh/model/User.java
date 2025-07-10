@@ -37,6 +37,10 @@ public class User extends DateAudit {
     @NullOrNotBlank(message = "이름은 필수 항목입니다.")
     private String name;
 
+    @Column(nullable = false)
+    @NullOrNotBlank(message = "생년월일은 필수 항목입니다.")
+    private String birth;
+
     @Column(name = "IS_ACTIVE", nullable = false)
     private Boolean active;
 
@@ -62,6 +66,7 @@ public class User extends DateAudit {
         active = user.getActive();
         roles = user.getRoles();
         isEmailVerified = user.getEmailVerified();
+        birth = user.getBirth();
     }
 
     public void addRole(Role role) {
@@ -136,6 +141,14 @@ public class User extends DateAudit {
 
     public void setRoles(Set<Role> authorities) {
         roles = authorities;
+    }
+
+    public String getBirth(){
+        return birth;
+    }
+
+    public void setBirth(String birth){
+        this.birth = birth;
     }
 
     public Boolean getEmailVerified() {

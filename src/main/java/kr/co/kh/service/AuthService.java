@@ -17,6 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 @Service
@@ -41,6 +44,7 @@ public class AuthService {
     public Optional<User> registerUser(RegistrationRequest newRegistrationRequest) {
         String newRegistrationRequestEmail = newRegistrationRequest.getEmail();
         String newRegistrationUsername = newRegistrationRequest.getUsername();
+        String newRegistrationRequestBirth = newRegistrationRequest.getBirth();
         if (emailAlreadyExists(newRegistrationRequestEmail)) {
             log.error("이미 존재하는 이메일: {}", newRegistrationRequestEmail);
             throw new ResourceAlreadyInUseException("Email", "이메일 주소", newRegistrationRequestEmail);
@@ -52,10 +56,23 @@ public class AuthService {
         log.info(newRegistrationRequest.toString());
         User newUser = userService.createUser(newRegistrationRequest);
 
+        // 생년월일 변환
+        LocalDate birthDate = null;
+
+        if (newRegistrationRequest.getBirth() != null && !newRegistrationRequestBirth.isBlank()) {
+            try {
+//                birthDate = LocalDate.parse(newRegistrationRequestBirth);
+            } catch (DateTimeParseException e) {
+                log.warn("생년월일 파싱 실패: {}", newRegistrationRequestBirth);
+            }
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+//            birthDate = LocalDate.parse(newRegistrationRequestBirth, formatter);
+        }
+
         // 신규 사용자 저장
-        User registeredNewUser = userService.save(newUser);
+        // User registeredNewUser = userService.save(newUser);
+        userService.insertUser(newUser);
         log.info("===================================================");
-        log.info(registeredNewUser.toString());
         log.info(newRegistrationRequest.toString());
         /**
          * 정상적으로 저장되면 권한 테이블에 저장
@@ -66,16 +83,16 @@ public class AuthService {
          */
 
         // 3넣으면 3번 한개만 2넣으면 2.3번 1 넣으면 1,2,3이 들어간다
-        if (registeredNewUser.getId() != null) {
+        if (newUser.getId() != null) {
             for (int i = newRegistrationRequest.getRoleNum(); i <= 3; i++) {
                 UserAuthorityVO userAuthorityVO = new UserAuthorityVO();
-                userAuthorityVO.setUserId(registeredNewUser.getId());
+                userAuthorityVO.setUserId(newUser.getId());
                 userAuthorityVO.setRoleId((long) i);
                 userAuthorityService.save(userAuthorityVO);
             }
         }
         log.info("===================================================");
-        return Optional.of(registeredNewUser);
+        return Optional.of(newUser);
     }
 
     /**

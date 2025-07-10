@@ -44,4 +44,28 @@
         WHERE USER_ID = #{userId}
     </update>
 
+    <insert id="insertUser" parameterType="kr.co.kh.model.User" useGeneratedKeys="true" keyProperty="id" keyColumn="USER_ID">
+        INSERT INTO USERS (
+        EMAIL,
+        USERNAME,
+        PASSWORD,
+        NAME,
+        BIRTH,
+        IS_ACTIVE,
+        IS_EMAIL_VERIFIED,
+        CREATED_AT,
+        UPDATED_AT
+        ) VALUES (
+        #{email},
+        #{username},
+        #{password},
+        #{name},
+        #{birth},
+        1,
+        1,
+        sysdate,
+        sysdate
+        )
+    </insert>
+
 </mapper>
