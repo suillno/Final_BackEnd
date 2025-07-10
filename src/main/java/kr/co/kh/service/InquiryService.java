@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * 고객 문의 서비스 클래스
- * 비즈니스 로직 처리 담당
+ * - 컨트롤러 ↔ Mapper 사이의 비즈니스 로직 처리
  */
 @Service
 @RequiredArgsConstructor
@@ -18,8 +18,8 @@ public class InquiryService {
     private final InquiryMapper inquiryMapper;
 
     /**
-     * 고객 문의 저장
-     * 상태가 없다면 기본값 '대기중'으로 설정
+     * 고객 문의 등록
+     * - 상태값이 없으면 '대기중'으로 기본 설정
      */
     public void saveInquiry(InquiryVO inquiry) {
         if (inquiry.getStatus() == null || inquiry.getStatus().trim().isEmpty()) {
@@ -28,18 +28,24 @@ public class InquiryService {
         inquiryMapper.insertInquiry(inquiry);
     }
 
-
     /**
-     * 전체 문의 목록 조회
+     * 전체 문의 목록 조회 (관리자)
      */
     public List<InquiryVO> getAllInquiries() {
         return inquiryMapper.findAllInquiries();
     }
 
     /**
-     * 특정 문의 상세 조회
+     * 단일 문의 상세 조회
      */
     public InquiryVO getInquiry(Long inquiryId) {
         return inquiryMapper.findInquiryById(inquiryId);
+    }
+
+    /**
+     * 문의 상태 변경 처리 (대기중 → 처리중 → 완료 등)
+     */
+    public void updateStatus(Long inquiryId, String status) {
+        inquiryMapper.updateInquiryStatus(inquiryId, status);
     }
 }

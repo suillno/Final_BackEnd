@@ -1,5 +1,6 @@
 package kr.co.kh.service.impl;
 
+import kr.co.kh.mapper.ChartMapper;
 import kr.co.kh.mapper.GameMemberMapper;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.*;
@@ -18,6 +19,7 @@ import java.util.Map;
 public class GameMemberServiceImpl implements GameMemberService {
 
      private final GameMemberMapper gameMemberMapper;
+     private final ChartMapper chartMapper;
 
      // 리뷰 저장
      public boolean reviewSave(GameReviewVO vo) {
@@ -121,6 +123,11 @@ public class GameMemberServiceImpl implements GameMemberService {
 
           // 프로시저 결과가 들어있는 OUT 커서를 가져오기
           return (List<GameLikeVO>) paramMap.get("P_CURSOR");
+     }
+
+     @Override
+     public void insertVisitorLog(Long userId) {
+          chartMapper.insertVisitorLog(userId); // ChartMapper 사용
      }
 
 
