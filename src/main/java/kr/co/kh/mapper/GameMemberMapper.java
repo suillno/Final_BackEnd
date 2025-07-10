@@ -15,6 +15,8 @@ public interface GameMemberMapper {
     int reviewSave(GameReviewVO vo);
     // 리뷰 수정
     int reviewUpdate(GameReviewVO vo);
+    // 리뷰 삭제
+    int deleteReview(String userName, Long gameId);
     // 리뷰 리스트 조회
     List<GameReviewVO> reviewListByGameId(Long gameId);
     // 프로시저 사용 찜

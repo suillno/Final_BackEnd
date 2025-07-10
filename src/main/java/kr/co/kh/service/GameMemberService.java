@@ -2,6 +2,7 @@ package kr.co.kh.service;
 
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 public interface GameMemberService {
     // 리뷰 저장
     boolean reviewSave(GameReviewVO vo);
+    int reviewDelete(String userName, Long gameId);
     // 리뷰리스트 조회
     List<GameReviewVO> reviewListByGameId(Long gameId);
     // 프로시저사용 찜

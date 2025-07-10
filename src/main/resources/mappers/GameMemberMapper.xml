@@ -33,6 +33,13 @@
         AND GAME_ID = #{gameId}
     </update>
 
+    <!-- 리뷰 삭제 -->
+    <delete id="deleteReview" parameterType="GameReviewVO">
+        DELETE FROM REVIEW
+        WHERE USER_NAME = #{userName}
+        AND GAME_ID = #{gameId}
+    </delete>
+
     <!-- 게임ID로 리뷰조회 -->
     <select id="reviewListByGameId" parameterType="Long" resultType="GameReviewVO">
         SELECT * FROM REVIEW

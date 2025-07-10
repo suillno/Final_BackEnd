@@ -33,6 +33,10 @@ public class GameMemberServiceImpl implements GameMemberService {
                return true;
           }
      }
+     // 리뷰 삭제
+     public int reviewDelete(String userName, Long gameId) {
+          return gameMemberMapper.deleteReview(userName, gameId);
+     }
      // 리뷰 리스트
      public List<GameReviewVO> reviewListByGameId(Long gameId) { return gameMemberMapper.reviewListByGameId(gameId);}
 
