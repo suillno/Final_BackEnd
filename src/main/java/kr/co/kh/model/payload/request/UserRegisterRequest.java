@@ -17,5 +17,5 @@ public class UserRegisterRequest {
     private String name;
     private String roleNum;
     private boolean active;
-
+    private String birth;
 }

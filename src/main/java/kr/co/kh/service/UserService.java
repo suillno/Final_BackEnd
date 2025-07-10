@@ -41,6 +41,10 @@ public class UserService {
     private final RefreshTokenService refreshTokenService;
     private final UserMapper userMapper;
 
+    public void insertUser(User user) {
+        userMapper.insertUser(user);
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -113,6 +117,7 @@ public class UserService {
         newUser.setActive(true);
         newUser.setEmailVerified(true);
         newUser.setName(registerRequest.getName());
+        newUser.setBirth(registerRequest.getBirth());
         return newUser;
     }
 
@@ -271,6 +276,7 @@ public class UserService {
                 user.setEmail(registrationRequest.getEmail());
                 user.setName(registrationRequest.getName());
                 user.setActive(registrationRequest.isActive());
+                user.setBirth(registrationRequest.getBirth());
                 user.setEmailVerified(true);
                 String roleNum = registrationRequest.getRoleNum();
                 String roleName = "USER";
