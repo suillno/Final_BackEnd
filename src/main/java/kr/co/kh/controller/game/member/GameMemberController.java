@@ -92,11 +92,32 @@ public class GameMemberController {
      * @return 저장 성공 메시지를 포함한 HTTP 응답
      */
     @ApiOperation(
-            value = "리뷰 등록",
-            notes = "게임 리뷰를 저장합니다."
+            value = "리뷰 삭제",
+            notes = "게임 리뷰를 삭제합니다."
     )
     @PostMapping("/review/add")
     public ResponseEntity<?> reviewSave(
+            @RequestBody GameReviewVO vo
+    ) {
+        boolean result = gameMemberService.reviewSave(vo);
+        if (result) {
+            return ResponseEntity.ok("리뷰를 등록하였습니다.");
+        } else {
+            return ResponseEntity.ok("리뷰를 수정하였습니다.");
+        }
+    }
+
+    /**
+     * 리뷰 등록 API
+     * @param vo 클라이언트로부터 전달받은 리뷰 정보
+     * @return 저장 성공 메시지를 포함한 HTTP 응답
+     */
+    @ApiOperation(
+            value = "리뷰 등록",
+            notes = "게임 리뷰를 저장합니다."
+    )
+    @DeleteMapping("/review")
+    public ResponseEntity<?> reviewDelete(
             @RequestBody GameReviewVO vo
     ) {
         boolean result = gameMemberService.reviewSave(vo);
