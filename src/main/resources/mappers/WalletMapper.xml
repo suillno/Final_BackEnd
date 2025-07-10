@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kh.mapper.WalletMapper">
+
+    <select id="findMemberEmailById" parameterType="Long" resultType="MemberVO" >
+        SELECT USER_ID AS memberId, EMAIL, USERNAME
+        FROM USERS
+        WHERE USER_ID = #{userId}
+    </select>
+
+</mapper>
