@@ -12,6 +12,7 @@ public class ReviewVO {
 
     private Long reviewId;     // REVIEW_ID
     private String userName;   // REVIEW.USER_NAME
+    private String title;
     private String gameTitle;  // GAME_LIKE.TITLE
     private String content;    // REVIEW.CONTENT
 }

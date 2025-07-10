@@ -91,7 +91,7 @@ app:
     header: Authorization
     header.prefix: Bearer
     secret: abcdefghijklmnopqrstuvwxyz
-    expiration: 5184000000
+    expiration: 10000
   token:
     email:
       verification:

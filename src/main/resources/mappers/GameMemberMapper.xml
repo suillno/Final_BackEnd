@@ -12,10 +12,11 @@
 
     <!-- 리뷰 저장 -->
     <insert id="reviewSave" parameterType="GameReviewVO" useGeneratedKeys="true" keyProperty="reviewId" keyColumn="REVIEW_ID">
-        INSERT INTO REVIEW (USER_NAME, GAME_ID, RATING, CONTENT)
+        INSERT INTO REVIEW (USER_NAME, GAME_ID, TITLE , RATING, CONTENT)
         VALUES (
         #{userName}
         , #{gameId}
+        , #{title}
         , #{rating}
         , #{content}
         )
@@ -26,6 +27,7 @@
         UPDATE REVIEW
         SET RATING = #{rating},
         CONTENT = #{content},
+        TITLE = #{title},
         UPDATED_AT = CURRENT_TIMESTAMP
         WHERE USER_NAME = #{userName}
         AND GAME_ID = #{gameId}

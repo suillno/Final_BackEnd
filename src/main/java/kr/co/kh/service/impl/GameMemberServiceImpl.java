@@ -22,6 +22,7 @@ public class GameMemberServiceImpl implements GameMemberService {
      // 리뷰 저장
      public boolean reviewSave(GameReviewVO vo) {
           int count = gameMemberMapper.countReview(vo);
+          log.info("도달",vo.toString());
           if (count > 0) {
                gameMemberMapper.reviewUpdate(vo); // 이미 있으면 업데이트
                return false;

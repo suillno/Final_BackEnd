@@ -9,7 +9,8 @@ public class GameReviewVO {
     private Long reviewId;
     private String userName;
     private Long gameId;
-    private Integer rating;
+    private String title;
+    private Double rating;
     private String content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
