@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kh.mapper.ChartMapper">
+
+    <insert id="insertVisitorLog">
+        MERGE INTO VISITOR_LOG v
+        USING DUAL
+        ON (v.USER_ID = #{userId} AND v.VISIT_DATE = TRUNC(SYSDATE))
+        WHEN NOT MATCHED THEN
+        INSERT (USER_ID) VALUES (#{userId})
+    </insert>
+
+
+    <!-- 1. 최근 7일간 요일별 방문자 수 -->
+    <select id="getWeeklyVisitors" resultType="kr.co.kh.model.vo.ChartVO">
+        SELECT TO_CHAR(VISIT_DATE, 'YYYY-MM-DD') AS label,
+        COUNT(*) AS value
+        FROM VISITOR_LOG
+        WHERE VISIT_DATE >= TRUNC(SYSDATE - 6)
+        GROUP BY TO_CHAR(VISIT_DATE, 'YYYY-MM-DD')
+        ORDER BY label
+    </select>
+
+    <!-- 2. 최근 7일 총 방문자 수 -->
+    <select id="getTotalWeeklyVisitors" resultType="int">
+        SELECT COUNT(*)
+        FROM VISITOR_LOG
+        WHERE VISIT_DATE >= TRUNC(SYSDATE - 6)
+    </select>
+
+    <!-- 3. 전체 누적 방문자 수 -->
+    <select id="getAllVisitors" resultType="int">
+        SELECT COUNT(*) FROM VISITOR_LOG
+    </select>
+
+</mapper>
