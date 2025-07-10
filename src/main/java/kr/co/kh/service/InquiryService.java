@@ -28,6 +28,7 @@ public class InquiryService {
         inquiryMapper.insertInquiry(inquiry);
     }
 
+
     /**
      * 전체 문의 목록 조회
      */

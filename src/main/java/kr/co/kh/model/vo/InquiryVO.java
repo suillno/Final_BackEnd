@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.Date;
 
+
 /**
  * 고객 문의 VO
  * INQUIRY 테이블과 매핑됨
