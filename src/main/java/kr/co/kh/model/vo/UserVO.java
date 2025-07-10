@@ -20,6 +20,7 @@ public class UserVO {
     private Boolean emailActive;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+    private LocalDateTime birth;
 
 }
 
