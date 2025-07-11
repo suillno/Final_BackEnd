@@ -42,19 +42,17 @@ public class WalletController {
     public ResponseEntity<String> chargeWallet(
             @RequestParam Long userId,
             @RequestParam Long amount,
-            @RequestParam String userName
+            @RequestParam String userName,
+            @RequestParam int logType
             ) {
         try {
             GameWalletVO vo = new GameWalletVO();
             vo.setUserId(userId);
             vo.setBalance(amount);
             vo.setUserName(userName);
-            vo.setLogType(0);
-
+            vo.setLogType(logType);
+            log.info("test{}", vo);
              String res = walletService.toggleGameWallet(vo);
-
-
-
             return ResponseEntity.ok(res);
         }  catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("잘못된 요청:" + e.getMessage());

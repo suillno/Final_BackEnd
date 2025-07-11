@@ -50,6 +50,10 @@ public class GameMemberController {
             @RequestBody GameCartVO vo // 요청 본문에서 JSON → GameCartVO 변환
     ) {
         // 장바구니에 게임 정보 저장 처리
+        if(vo.getActionType() == 1){
+            log.info("action1{}",String.valueOf(vo.getActionType()));
+            return ResponseEntity.ok().build();
+        }
         String result = gameMemberService.toggleGameCart(vo);
         return ResponseEntity.ok(result);
     }
