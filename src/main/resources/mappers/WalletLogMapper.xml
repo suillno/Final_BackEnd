@@ -24,9 +24,23 @@
         )
     </insert>
     <!-- 마이프로필 아아디고유번호로 지갑 로그 내역 -->
-    <select  id="selectLogsByUserId" parameterType="Long" resultType="GameWalletLogVO">
-        SELECT LOG_ID, USER_ID, USER_NAME, AMOUNT, CREATED_AT, CASE LOG_TYPE WHEN 0 THEN '충전' ELSE '사용' END AS logText FROM GAME_WALLET_LOG
-        WHERE USER_ID = #{userId}
+    <select id="selectLogsByUserId" parameterType="Long" resultType="GameWalletLogVO">
+        SELECT *
+        FROM (
+        SELECT
+        L.LOG_ID,
+        L.USER_ID,
+        L.USER_NAME,
+        L.AMOUNT,
+        L.CREATED_AT,
+        CASE L.LOG_TYPE WHEN 0 THEN '충전' ELSE '사용' END AS logText,
+        W.BALANCE
+        FROM GAME_WALLET_LOG L
+        INNER JOIN GAME_WALLET W ON L.USER_ID = W.USER_ID
+        WHERE L.USER_ID = #{userId}
+        ORDER BY L.CREATED_AT DESC
+        )
+        WHERE ROWNUM &lt;= 10
         ORDER BY CREATED_AT DESC
     </select>
 
