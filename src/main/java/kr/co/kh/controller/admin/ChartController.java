@@ -1,5 +1,6 @@
 package kr.co.kh.controller.admin;
 
+import io.swagger.annotations.ApiOperation;
 import kr.co.kh.model.vo.ChartVO;
 import kr.co.kh.service.ChartService;
 import lombok.RequiredArgsConstructor;
@@ -30,4 +31,13 @@ public class ChartController {
         summary.put("allTimeTotal", chartService.getAllVisitors());
         return summary;
     }
+
+    // [3] 7일간 회원가입 수
+    @ApiOperation(value = "최근 7일간 신규 가입자 수", notes = "요일별 회원 가입자 수를 반환합니다.")
+    @GetMapping("/signups")
+    public List<ChartVO> getWeeklySignups() {
+        return chartService.getWeeklySignups();
+    }
+
+
 }

@@ -17,6 +17,9 @@ public interface ChartMapper {
     //  전체 누적 방문자 수
     int getAllVisitors();
 
+    // 신규 가입자 수 (최근 7일)
+    List<ChartVO> getWeeklySignups();
+
     void insertVisitorLog(Long userId);
 
 }

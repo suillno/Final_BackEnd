@@ -28,6 +28,11 @@ public class ChartService {
         return chartMapper.getAllVisitors();
     }
 
+    // 최근 7일간 신규 가입자 수 조회
+    public List<ChartVO> getWeeklySignups() {
+        return chartMapper.getWeeklySignups();
+    }
+
     public void insertVisitorLog(Long userId) {
         chartMapper.insertVisitorLog(userId);
     }
