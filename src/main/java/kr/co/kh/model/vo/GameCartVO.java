@@ -48,6 +48,6 @@ public class GameCartVO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp createdAt;
 
-
+    private int actionType;
     private String result;
 }
