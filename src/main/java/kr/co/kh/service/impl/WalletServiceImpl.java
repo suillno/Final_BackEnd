@@ -79,10 +79,20 @@ public class WalletServiceImpl implements WalletService {
 
 
     @Override
-    public String toggleGameWallet(GameWalletVO vo) {
-        log.info("test{}",vo);
-      return walletLogMapper.toggleGameWallet(vo);
+    public String  toggleGameWallet(GameWalletVO vo) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId", vo.getUserId());
+        param.put("userName", vo.getUserName());
+        param.put("balance", vo.getBalance());
+        param.put("logType", vo.getLogType());
+        param.put("result", null); // OUT 파라미터 자리
 
+        walletMapper.toggleGameWallet(param); // 프로시저 호출
+
+        String result = (String) param.get("result");
+        log.info("TOGGLE_GAME_WALLET 결과: {}", result);
+
+        return result;
     }
 
     @Override

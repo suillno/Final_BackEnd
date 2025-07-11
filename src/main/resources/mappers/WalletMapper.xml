@@ -22,7 +22,7 @@
     </update>
 
 
-    <select id="toggleGameWallet" statementType="CALLABLE" parameterType="GameWalletVO">
+    <select id="toggleGameWallet" statementType="CALLABLE" parameterType="map">
         { CALL TOGGLE_GAME_WALLET(
         #{userId, mode=IN, jdbcType=NUMERIC},
         #{userName, mode=IN, jdbcType=VARCHAR},
@@ -31,5 +31,6 @@
         #{result, mode=OUT, jdbcType=VARCHAR}
         ) }
     </select>
+
 
 </mapper>

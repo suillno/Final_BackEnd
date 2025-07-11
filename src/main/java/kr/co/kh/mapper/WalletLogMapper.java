@@ -4,9 +4,11 @@ import kr.co.kh.model.vo.GameWalletLogVO;
 import kr.co.kh.model.vo.GameWalletVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 @Mapper
 public interface WalletLogMapper {
     long insertWalletLog(GameWalletLogVO log);
 
-    String toggleGameWallet(GameWalletVO vo);
+    void toggleGameWallet(Map<String, Object> param);
 }

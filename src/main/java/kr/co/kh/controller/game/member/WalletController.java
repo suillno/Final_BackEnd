@@ -36,7 +36,7 @@ public class WalletController {
     }
 
     // 포인트 중천요청
-    @PostMapping("charge")
+    @PostMapping("/charge")
     public ResponseEntity<String> chargeWallet(
             @RequestParam Long userId,
             @RequestParam Long amount,

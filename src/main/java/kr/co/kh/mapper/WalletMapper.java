@@ -15,6 +15,5 @@ public interface WalletMapper {
 
     int updateBalance(GameWalletVO gameWalletVO);
 
-    void toggleGameWallet(Long userId, String userName,
-                          BigDecimal balance, int logType, Map<String, Object> result);
+    void toggleGameWallet(Map<String, Object> param);
 }
