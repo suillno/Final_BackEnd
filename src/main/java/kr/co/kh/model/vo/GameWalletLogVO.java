@@ -21,6 +21,7 @@ public class GameWalletLogVO {
     private String userName;
     private Long userId;
     private String logText;
+    private Long balance;
 
 
 }
