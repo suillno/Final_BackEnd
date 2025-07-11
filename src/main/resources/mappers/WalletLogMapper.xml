@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kh.mapper.WalletLogMapper">
+
+    <!-- 로그 INSERT -->
+    <insert id="insertWalletLog" parameterType="GameWalletLogVO">
+        <selectKey keyProperty="logId" resultType="long" order="BEFORE">
+            SELECT SEQ_GAME_WALLET_LOG.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO GAME_WALLET_LOG (
+        LOG_ID,
+        LOG_TYPE,
+        AMOUNT,
+        USER_NAME,
+        USER_ID,
+        CREATED_AT
+        ) VALUES (
+        #{logId},
+        #{logType},
+        #{amount},
+        #{userName},
+        #{userId},
+        SYSDATE
+        )
+    </insert>
+</mapper>
