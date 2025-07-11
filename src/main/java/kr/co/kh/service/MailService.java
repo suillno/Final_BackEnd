@@ -137,7 +137,23 @@ public class MailService {
                 sb.append("</body>");
                 sb.append("</html>");
 
+            } else if (emailRequest.getMailType().equals("walletAuth")) {
+                mimeMessageHelper.setSubject("[PickGame] 지갑 충전 인증번호를 입력해주세요");
+
+                String authCode = generateAuthCode();
+                emailRequest.setAuthCode(authCode);
+                emailAuthService.saveAuthCode(emailRequest.getMailTo(), authCode);
+
+                sb.append("<div style=\"max-width:600px; margin:50px auto; padding:30px; border:1px solid #e0e0e0; border-radius:8px; font-family:Arial,sans-serif; background-color:#f9f9f9;\">");
+                sb.append("<div style=\"font-size:22px; color:#333; margin-bottom:20px; text-align:center;\">[PickGame] 지갑 충전 인증번호</div>");
+                sb.append("<div style=\"background-color:#fff; padding:20px; text-align:center; border-radius:6px; border:1px dashed #007BFF;\">");
+                sb.append("<div style=\"font-size:32px; font-weight:bold; color:#007BFF; letter-spacing:8px;\">" + authCode + "</div>");
+                sb.append("</div>");
+                sb.append("<div style=\"margin-top:30px; font-size:12px; color:#888; text-align:center;\">본 인증번호는 5분간 유효합니다.<br>타인에게 공유하지 마세요.</div>");
+                sb.append("</div>");
             }
+
+
 
             sb.append("</body>");
             sb.append("</html>");

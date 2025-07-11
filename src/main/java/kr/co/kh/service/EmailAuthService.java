@@ -20,6 +20,7 @@ public class EmailAuthService {
     // 인증번호 검증
     public boolean verifyAuthCode(String email, String code) {
         String savedCode = authCodeStorage.get(email);
+        log.info("TEST", savedCode);
         return savedCode != null && savedCode.equals(code);
     }
 

@@ -125,8 +125,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/api/boos/**").permitAll()
                 .antMatchers("/api/auth/login", "/api/excel/**").permitAll()
                 .antMatchers("/game/member/review/list/**", "/game/member/mail").permitAll()
-                .antMatchers("/game/member/discount/list/**").permitAll()
-                .antMatchers("/game/wallet/**").permitAll()
+                .antMatchers("/game/member/discount/list/**", "/game/wallet/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

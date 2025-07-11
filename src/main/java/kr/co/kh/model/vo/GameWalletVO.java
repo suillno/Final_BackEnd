@@ -2,6 +2,7 @@ package kr.co.kh.model.vo;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -12,10 +13,13 @@ import java.util.Date;
 @AllArgsConstructor
 
 public class GameWalletVO {
-    private Long logId;
     private Long walletId;
-    private String logType;
-    private Long amount;
-    private String description;
+    private Long userId;
+    private String userName;
+    private int logType;
+    private Long balance;
+    private Date createdAt;
+    private String result;
+
 
 }
