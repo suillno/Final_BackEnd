@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -95,11 +96,11 @@ public class WalletServiceImpl implements WalletService {
         return result;
     }
 
-    @Override
-    @Transactional
-    public void chargeWallet(Long userId, Long amount) {
 
-
+      @Transactional
+      @Override
+    public List<GameWalletLogVO> selectLogsByUserId(Long userId) {
+        return walletLogMapper.selectLogsByUserId(userId);
       }
 
 }

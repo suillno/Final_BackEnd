@@ -11,9 +11,5 @@ import java.util.Map;
 public interface WalletMapper {
     MemberVO findMemberEmailById (Long userId);
 
-    GameWalletVO selectWalletByUserId(Long userId);   // XML의 id="selectWalletByUserId"
-
-    int updateBalance(GameWalletVO gameWalletVO);
-
     void toggleGameWallet(Map<String, Object> param);
 }

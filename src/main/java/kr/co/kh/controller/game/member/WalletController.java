@@ -1,6 +1,7 @@
 package kr.co.kh.controller.game.member;
 
 
+import kr.co.kh.model.vo.GameWalletLogVO;
 import kr.co.kh.model.vo.GameWalletVO;
 import kr.co.kh.service.WalletService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,6 +62,14 @@ public class WalletController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("서버 오류 발생");
         }
+    }
+
+    // 마이프로필 지갑내역 로그 표시
+    @GetMapping("/logs/{userId}")
+    public ResponseEntity<List<GameWalletLogVO>> selectLogsByUserId(@PathVariable Long userId) {
+        List<GameWalletLogVO> logs = walletService.selectLogsByUserId(userId);
+        return ResponseEntity.ok(logs);
+
     }
 
 }

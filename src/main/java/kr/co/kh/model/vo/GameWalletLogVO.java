@@ -4,6 +4,7 @@ import lombok.*;
 
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -16,8 +17,10 @@ public class GameWalletLogVO {
     private Long logId;
     private Long logType;
     private Long amount;
-    private Date createdAt;
+    private LocalDateTime createdAt;
     private String userName;
     private Long userId;
+    private String logText;
+
 
 }
