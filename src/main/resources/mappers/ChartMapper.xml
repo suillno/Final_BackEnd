@@ -36,4 +36,16 @@
         SELECT COUNT(*) FROM VISITOR_LOG
     </select>
 
+    <!-- 4. 최근 7일간 요일별 신규 가입자 수 -->
+    <select id="getWeeklySignups" resultType="kr.co.kh.model.vo.ChartVO">
+        SELECT
+        TO_CHAR(CREATED_AT, 'YYYY-MM-DD') AS label,
+        COUNT(*) AS value
+        FROM USERS
+        WHERE CREATED_AT >= TRUNC(SYSDATE - 6)
+        GROUP BY TO_CHAR(CREATED_AT, 'YYYY-MM-DD')
+        ORDER BY label
+    </select>
+
+
 </mapper>
