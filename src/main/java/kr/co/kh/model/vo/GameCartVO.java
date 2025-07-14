@@ -49,5 +49,6 @@ public class GameCartVO {
     private Timestamp createdAt;
 
     private int actionType;
+    private boolean purchase;
     private String result;
 }

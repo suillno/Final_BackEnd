@@ -9,6 +9,7 @@ import kr.co.kh.model.payload.request.EmailRequest;
 import kr.co.kh.model.vo.*;
 
 // 롬복 어노테이션
+import kr.co.kh.service.GameCartService;
 import kr.co.kh.service.GameMemberService;
 import kr.co.kh.service.MailService;
 import kr.co.kh.service.MemberService;
@@ -35,6 +36,7 @@ public class GameMemberController {
 
     // 장바구니 저장 로직을 처리하는 서비스
     private final GameMemberService gameMemberService;
+    private final GameCartService gameCartService;
 
     /**
      * 장바구니 저장 API
@@ -49,13 +51,23 @@ public class GameMemberController {
     public ResponseEntity<?> cartSave(
             @RequestBody GameCartVO vo // 요청 본문에서 JSON → GameCartVO 변환
     ) {
-        // 장바구니에 게임 정보 저장 처리
-        if(vo.getActionType() == 1){
-            log.info("action1{}",String.valueOf(vo.getActionType()));
-            return ResponseEntity.ok().build();
+        String result = "";
+
+        // 1. 구매 요청인 경우
+        if (vo.isPurchase()) {
+            // 라이브러리에 저장
+            result = gameCartService.saveGameLibrary(vo);
+
+            // 장바구니에서 삭제
+            gameMemberService.toggleGameCart(vo);
+
+            return ResponseEntity.ok(result);
         }
-        String result = gameMemberService.toggleGameCart(vo);
+
+        // 2. 장바구니 추가/삭제 토글
+        result = gameMemberService.toggleGameCart(vo);
         return ResponseEntity.ok(result);
+
     }
 
     @ApiOperation(
