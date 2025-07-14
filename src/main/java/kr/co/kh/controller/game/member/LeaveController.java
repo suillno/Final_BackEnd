@@ -30,7 +30,7 @@ public class LeaveController {
     private final LeaveService leaveService;
     private final PasswordEncoder passwordEncoder;
 
-
+// 탈퇴기능
     @PostMapping("/leave")
     public ResponseEntity<?> leave(@RequestBody MemberVO request, @CurrentUser CustomUserDetails user) {
 

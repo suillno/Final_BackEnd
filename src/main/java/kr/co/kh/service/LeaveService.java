@@ -17,6 +17,7 @@ public class LeaveService {
     private final LeaveMapper leaveMapper;
     private final PasswordEncoder passwordEncoder;
 
+    // 회원 탈퇴
     public boolean deactivateMember(Long memberId, String inputPassword) {
         MemberVO member = leaveMapper.findById(memberId);
 

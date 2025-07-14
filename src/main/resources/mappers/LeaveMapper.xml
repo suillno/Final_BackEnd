@@ -7,7 +7,7 @@
         SET IS_ACTIVE = 0
         WHERE USER_ID = #{memberId}
     </update>
-    <!-- 회원정보 조회 (탈퇴용 조회) -->
+    <!-- 회원정보 조회 (탈퇴용 1조회) -->
     <select id="findById" parameterType="long" resultType="MemberVO">
         SELECT *
         FROM USERS
