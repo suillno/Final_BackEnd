@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kh.mapper.LeaveMapper">
+    <!-- 회원탈퇴 -->
+    <update id="deactivateMember" parameterType="long">
+        UPDATE USERS
+        SET IS_ACTIVE = 0
+        WHERE USER_ID = #{memberId}
+    </update>
+    <!-- 회원정보 조회 (탈퇴용 1조회) -->
+    <select id="findById" parameterType="long" resultType="MemberVO">
+        SELECT *
+        FROM USERS
+        WHERE USER_ID = #{memberId} AND IS_ACTIVE = 1
+    </select>
+
+</mapper>
