@@ -37,4 +37,13 @@ public class ChartService {
         chartMapper.insertVisitorLog(userId);
     }
 
+    public double getTodayRevenue() {
+        return chartMapper.getTodayRevenue();
+    }
+
+
+    public List<ChartVO> getWeeklyRevenue() {
+        return chartMapper.getWeeklyRevenue();
+    }
+
 }
