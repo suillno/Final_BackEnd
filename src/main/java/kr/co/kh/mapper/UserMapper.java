@@ -27,6 +27,10 @@ public interface UserMapper {
 
     // 사용자 활성화/비활성화 상태 전환
     void toggleUserStatus(@Param("userId") Long userId);
+
+    int updateUserProfile(UserVO userVO);
+
+    UserVO findUserById(Long userId);
 }
 
 
