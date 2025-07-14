@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kh.mapper.GameCartMapper">
+
+
+    <!-- 프로시저 사용 찜 등록 -->
+    <select id="saveGameLibrary" statementType="CALLABLE" resultType="GameLibraryVO">
+        { CALL TOGGLE_GAME_LIBRARY(
+        #{userName, mode=IN, jdbcType=VARCHAR},
+        #{gameId, mode=IN, jdbcType=NUMERIC},
+        #{title, mode=IN, jdbcType=VARCHAR},
+        #{backgroundImage, mode=IN, jdbcType=VARCHAR},
+        #{price, mode=IN, jdbcType=NUMERIC},
+        #{released, mode=IN, jdbcType=VARCHAR},
+        #{esrbRating, mode=IN, jdbcType=VARCHAR},
+        #{result, mode=OUT, jdbcType=VARCHAR}
+        ) }
+    </select>
+
+</mapper>
