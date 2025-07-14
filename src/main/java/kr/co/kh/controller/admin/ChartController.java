@@ -39,5 +39,20 @@ public class ChartController {
         return chartService.getWeeklySignups();
     }
 
+    // 4. 오늘 매출 합계
+    @GetMapping("/revenue/today")
+    public Map<String, Double> getTodayRevenue() {
+        Map<String, Double> result = new HashMap<>();
+        result.put("todayRevenue", chartService.getTodayRevenue());
+        return result;
+    }
+
+
+    // 5. 최근 7일 일별 매출
+    @GetMapping("/revenue/weekly")
+    public List<ChartVO> getWeeklyRevenue() {
+        return chartService.getWeeklyRevenue();
+    }
+
 
 }

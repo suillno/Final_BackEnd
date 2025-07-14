@@ -22,4 +22,10 @@ public interface ChartMapper {
 
     void insertVisitorLog(Long userId);
 
+    // 오늘 매출 총합
+    double getTodayRevenue();
+
+    // 최근 7일 일별 매출
+    List<ChartVO> getWeeklyRevenue();
+
 }
