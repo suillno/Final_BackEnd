@@ -1,18 +1,18 @@
 package kr.co.kh.model.vo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 /**
  * 리뷰 정보를 담는 VO (Value Object)
  */
-@Getter
-@Setter
+@Data
 public class ReviewVO {
-
-    private Long reviewId;     // REVIEW_ID
-    private String userName;   // REVIEW.USER_NAME
-    private String title;
-    private String gameTitle;  // GAME_LIKE.TITLE
-    private String content;    // REVIEW.CONTENT
+    private Long reviewId;
+    private String userName;
+    private String gameTitle;
+    private String content;
 }
