@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface ChartMapper {
 
-    //  일별 방문자 수 (최근 7일)
+    //  일별 방문자 수 (최근 7일) 1
     List<ChartVO> getWeeklyVisitors();
 
     //  최근 7일 총 방문자 수

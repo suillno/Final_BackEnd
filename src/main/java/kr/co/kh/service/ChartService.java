@@ -13,7 +13,7 @@ public class ChartService {
 
     private final ChartMapper chartMapper;
 
-    // 최근 7일 일별 방문자 수
+    // 최근 7일 일별 방문자 수 1
     public List<ChartVO> getWeeklyVisitors() {
         return chartMapper.getWeeklyVisitors();
     }

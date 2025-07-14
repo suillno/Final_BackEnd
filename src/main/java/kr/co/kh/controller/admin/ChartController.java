@@ -17,7 +17,7 @@ public class ChartController {
 
     private final ChartService chartService;
 
-    // [1] 최근 7일 요일별 방문자 수
+    // [1] 최근 7일 요일별 방문자 수 1
     @GetMapping("/visitors")
     public List<ChartVO> getWeeklyVisitors() {
         return chartService.getWeeklyVisitors();
