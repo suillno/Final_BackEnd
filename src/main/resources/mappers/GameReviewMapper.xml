@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kh.mapper.GameReivewMapper">
+
+    <!-- 리뷰 중복확인 -->
+    <select id="countReview" resultType="int">
+        SELECT COUNT(*)
+        FROM REVIEW
+        WHERE USER_NAME = #{userName}
+        AND GAME_ID = #{gameId}
+    </select>
+
+    <!-- 리뷰 저장 -->
+    <insert id="reviewSave" parameterType="GameReviewVO" useGeneratedKeys="true" keyProperty="reviewId" keyColumn="REVIEW_ID">
+        INSERT INTO REVIEW (USER_NAME, GAME_ID, TITLE , RATING, CONTENT)
+        VALUES (
+        #{userName}
+        , #{gameId}
+        , #{title}
+        , #{rating}
+        , #{content}
+        )
+    </insert>
+
+    <!-- 리뷰 수정 -->
+    <update id="reviewUpdate" parameterType="GameReviewVO">
+        UPDATE REVIEW
+        SET RATING = #{rating},
+        CONTENT = #{content},
+        TITLE = #{title},
+        UPDATED_AT = CURRENT_TIMESTAMP
+        WHERE USER_NAME = #{userName}
+        AND GAME_ID = #{gameId}
+    </update>
+
+    <!-- 리뷰 삭제 -->
+    <delete id="deleteReview" parameterType="GameReviewVO">
+        DELETE FROM REVIEW
+        WHERE USER_NAME = #{userName}
+        AND GAME_ID = #{gameId}
+    </delete>
+
+    <!-- 게임ID로 리뷰조회 -->
+    <select id="reviewListByGameId" parameterType="Long" resultType="GameReviewVO">
+        SELECT * FROM REVIEW
+        WHERE game_id = #{gameId}
+        ORDER BY created_at DESC
+    </select>
+
+</mapper>

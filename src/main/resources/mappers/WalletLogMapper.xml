@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kh.mapper.WalletLogMapper">
+
+    <!-- 로그 INSERT -->
+    <insert id="insertWalletLog" parameterType="GameWalletLogVO">
+        <selectKey keyProperty="logId" resultType="long" order="BEFORE">
+            SELECT SEQ_GAME_WALLET_LOG.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO GAME_WALLET_LOG (
+        LOG_ID,
+        LOG_TYPE,
+        AMOUNT,
+        USER_NAME,
+        USER_ID,
+        CREATED_AT
+        ) VALUES (
+        #{logId},
+        #{logType},
+        #{amount},
+        #{userName},
+        #{userId},
+        SYSDATE
+        )
+    </insert>
+    <!-- 마이프로필 아아디고유번호로 지갑 로그 내역 -->
+    <select id="selectLogsByUserId" parameterType="Long" resultType="GameWalletLogVO">
+        SELECT *
+        FROM (
+        SELECT
+        L.LOG_ID,
+        L.USER_ID,
+        L.USER_NAME,
+        L.AMOUNT,
+        L.CREATED_AT,
+        CASE L.LOG_TYPE WHEN 0 THEN '충전' ELSE '사용' END AS logText,
+        W.BALANCE
+        FROM GAME_WALLET_LOG L
+        INNER JOIN GAME_WALLET W ON L.USER_ID = W.USER_ID
+        WHERE L.USER_ID = #{userId}
+        ORDER BY L.CREATED_AT DESC
+        )
+        WHERE ROWNUM &lt;= 10
+        ORDER BY CREATED_AT DESC
+    </select>
+
+</mapper>

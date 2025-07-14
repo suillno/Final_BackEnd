@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.kh.mapper.InquiryMapper">
+
+    <!-- 고객 문의 등록 -->
+    <insert id="insertInquiry" parameterType="kr.co.kh.model.vo.InquiryVO">
+        INSERT INTO INQUIRY (
+        USER_ID,
+        CATEGORY,
+        CONTENT,
+        STATUS,
+        CREATED_AT,
+        UPDATED_AT
+        ) VALUES (
+        #{userId},
+        #{category},
+        #{content},
+        #{status},
+        SYSDATE,
+        SYSDATE
+        )
+    </insert>
+
+    <!-- 전체 문의 목록 조회 (유저명 포함) -->
+    <select id="findAllInquiries" resultType="kr.co.kh.model.vo.InquiryVO">
+        SELECT
+        i.inquiry_id AS inquiryId,
+        i.user_id AS userId,
+        u.username   AS username,
+        i.category   AS category,
+        i.content    AS content,
+        i.status     AS status,
+        i.created_at AS createdAt,
+        i.updated_at AS updatedAt
+        FROM INQUIRY i
+        LEFT JOIN USERS u ON i.user_id = u.user_id
+        ORDER BY i.created_at DESC
+    </select>
+
+    <!-- 상태 변경 (관리자) -->
+    <update id="updateInquiryStatus">
+        UPDATE INQUIRY
+        SET status = #{status}, updated_at = SYSDATE
+        WHERE inquiry_id = #{inquiryId}
+    </update>
+
+    <!-- 단일 문의 조회 -->
+    <select id="findInquiryById" parameterType="long" resultType="kr.co.kh.model.vo.InquiryVO">
+        SELECT *
+        FROM INQUIRY
+        WHERE inquiry_id = #{inquiryId}
+    </select>
+
+</mapper>
