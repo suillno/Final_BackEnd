@@ -68,4 +68,26 @@
         )
     </insert>
 
+    <!-- ✅ 사용자 정보 수정 (서비스와 메서드명 일치) -->
+    <update id="updateUserProfile" parameterType="UserVO">
+        UPDATE USERS
+        SET
+        EMAIL = #{email},
+        PROFILE_IMG = #{profileImg}
+        WHERE USER_ID = #{userId}
+    </update>
+
+
+    <!-- ✅ 사용자 단건 조회 -->
+    <select id="findUserById" resultType="kr.co.kh.model.vo.UserVO">
+        SELECT
+        USER_ID AS userId,
+        USERNAME AS username,
+        EMAIL AS email,
+        BIRTH AS birth,
+        PROFILE_IMG AS profileImg  <!-- 🔥 추가해야 새로고침 시 이미지 반영됨 -->
+        FROM USERS
+        WHERE USER_ID = #{userId}
+    </select>
+
 </mapper>

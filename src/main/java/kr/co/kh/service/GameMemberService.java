@@ -12,4 +12,8 @@ public interface GameMemberService {
     List<GameLikeVO> getDiscountWishlist(String userName);
     // 방문자 기록 저장
     void insertVisitorLog(Long userId);
+
+    boolean updateUserProfile(UserVO userVO);
+
+    UserVO getUserInfo(Long userId);
 }

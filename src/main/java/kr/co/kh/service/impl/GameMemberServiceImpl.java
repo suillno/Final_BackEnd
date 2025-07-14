@@ -1,6 +1,7 @@
 package kr.co.kh.service.impl;
 
 import kr.co.kh.mapper.ChartMapper;
+import kr.co.kh.mapper.UserMapper;
 import kr.co.kh.mapper.GameMemberMapper;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.*;
@@ -20,6 +21,7 @@ public class GameMemberServiceImpl implements GameMemberService {
 
      private final GameMemberMapper gameMemberMapper;
      private final ChartMapper chartMapper;
+     private final UserMapper userMapper;
 
      // 할인 포함 찜 목록 조회 (프로시저 기반)
      @Override
@@ -39,7 +41,17 @@ public class GameMemberServiceImpl implements GameMemberService {
           chartMapper.insertVisitorLog(userId); // ChartMapper 사용
      }
 
+     // 🔹 사용자 프로필 정보 수정 (이메일, 생일, 이름 등)
+     @Override
+     public boolean updateUserProfile(UserVO userVO) {
+          int updated = userMapper.updateUserProfile(userVO); // 🔸 userMapper 호출 주의!
+          return updated > 0;
+     }
 
+     @Override
+     public UserVO getUserInfo(Long userId) {
+          return userMapper.findUserById(userId);
+     }
 
 
 }

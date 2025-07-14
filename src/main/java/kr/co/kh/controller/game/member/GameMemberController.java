@@ -17,10 +17,16 @@ import lombok.extern.slf4j.Slf4j;
 
 // Spring MVC 관련 어노테이션
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 게임 회원 기능을 처리하는 컨트롤러 클래스
@@ -88,6 +94,81 @@ public class GameMemberController {
             return ResponseEntity.internalServerError().body("방문 기록 실패");
         }
     }
+
+    // ✅ 로그인된 유저 프로필 조회
+    @GetMapping(value = "/profile")
+    @ApiOperation(value = "회원 정보 조회", notes = "현재 로그인한 사용자 정보를 반환")
+    public ResponseEntity<?> getUserProfile(@CurrentUser CustomUserDetails user) {
+        try {
+            // 사용자 정보 조회
+            UserVO userVO = gameMemberService.getUserInfo(user.getId());
+
+            // 존재하지 않으면 404
+            if (userVO == null) {
+                return ResponseEntity.status(404).body(Map.of("error", "사용자 정보를 찾을 수 없습니다."));
+            }
+
+            // 성공 시 사용자 정보 반환
+            return ResponseEntity.ok(userVO);
+
+        } catch (Exception e) {
+            log.error("회원 정보 조회 중 예외 발생", e);
+            return ResponseEntity.status(500).body(Map.of("error", "서버 오류가 발생했습니다."));
+        }
+    }
+
+    @ApiOperation(
+            value = "회원 정보 수정",
+            notes = "이메일과 프로필 이미지만 수정합니다."
+    )
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateUserProfile(@RequestBody UserVO updatedVO) {
+        try {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (!(principal instanceof CustomUserDetails)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "로그인이 필요합니다."));
+            }
+
+            CustomUserDetails userDetails = (CustomUserDetails) principal;
+            updatedVO.setUserId(userDetails.getId());
+
+            // 🔒 이메일과 프로필 이미지만 남기고 나머지는 무시하거나 제거
+            updatedVO.setUsername(null);     // username 수정 방지
+            updatedVO.setBirth(null);        // 생일 수정 방지
+            updatedVO.setRole(null);         // 역할 수정 방지
+            updatedVO.setActive(null);       // 상태 수정 방지
+            updatedVO.setEmailActive(null);  // 이메일 인증 상태 수정 방지
+            updatedVO.setCreatedAt(null);    // 생성일 수정 방지
+
+            boolean updated = gameMemberService.updateUserProfile(updatedVO);
+            if (updated) {
+                return ResponseEntity.ok("회원 정보가 수정되었습니다.");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("수정 실패 또는 변경 사항 없음.");
+            }
+        } catch (Exception e) {
+            log.error("회원 정보 수정 실패", e);
+            return ResponseEntity.internalServerError().body("회원 정보 수정 중 오류 발생");
+        }
+    }
+
+    @GetMapping("/profile-images")
+    @ApiOperation(value = "프로필 이미지 목록", notes = "정적 폴더에 있는 프로필 이미지들을 URL 리스트로 반환합니다.")
+    public ResponseEntity<List<String>> getProfileImages(HttpServletRequest req) {
+        String base = ServletUriComponentsBuilder.fromRequestUri(req)
+                .replacePath(null)
+                .build()
+                .toUriString(); // ex) http://localhost:8080
+
+        List<String> imageUrls = new ArrayList<>();
+        for (int i = 1; i <= 15; i++) {
+            imageUrls.add(base + "/profiles/profile_" + i + ".png"); // ✅ 언더스코어 추가!
+        }
+
+        return ResponseEntity.ok(imageUrls);
+    }
+
 
 
 
