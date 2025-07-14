@@ -19,7 +19,6 @@ public class GameCartController {
 
     // 장바구니 저장 로직을 처리하는 서비스
     private final GameCartService gameCartService;
-    private final GameMemberService gameMemberService;
 
     /**
      * 장바구니 저장 API
