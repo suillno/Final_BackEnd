@@ -80,14 +80,9 @@ public class GameCartController {
 
 
     @GetMapping("/library/all/{userName}")
-    public ResponseEntity<?> getAllLibraryByUser(@PathVariable String userName) {
+    public ResponseEntity<List<GameLibraryVO>> getAllLibraryByUser(@PathVariable String userName) {
         List<GameLibraryVO> result = gameCartService.getAllLibraryByUser(userName);
-
-        if (result.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("해당 유저의 라이브러리에 게임이 존재하지 않습니다.");
-        }
-
+        
         return ResponseEntity.ok(result);
     }
 
