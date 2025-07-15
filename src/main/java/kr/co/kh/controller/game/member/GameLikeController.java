@@ -30,7 +30,6 @@ public class GameLikeController {
     public ResponseEntity<?> likeSave(
             @RequestBody GameLikeVO vo
     ) {
-        log.info("tests : {}",vo.toString());
         String result = gameLikeService.toggleGameLike(vo);
         return ResponseEntity.ok(result); // "찜 등록이 완료되었습니다." 또는 "찜이 취소되었습니다."
     }
