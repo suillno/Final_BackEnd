@@ -98,11 +98,6 @@ public class MemberController {
         return ResponseEntity.ok("권한이 성공적으로 변경되었습니다.");
     }
 
-
-
-
-
-
     // 사용자 상태 토글 API (정지 <-> 활성)
     @PatchMapping("/toggle-status")
     //@PreAuthorize("hasRole('ADMIN') or hasRole('SYSTEM')")
