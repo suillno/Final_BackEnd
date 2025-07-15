@@ -1,37 +1,46 @@
 package kr.co.kh.controller.api;
 
+import kr.co.kh.model.vo.GameWalletLogVO;
+import kr.co.kh.service.WalletService;
 import kr.co.kh.util.ExcelUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/excel")
+@RequiredArgsConstructor
+@Slf4j
+@RequestMapping("/game/excel")
 public class ExcelController {
 
-    @GetMapping("/download")
-    public void download(HttpServletResponse response) throws IOException {
+    private final WalletService walletService;
+
+    @GetMapping("/download/{userId}")
+    public void download(HttpServletResponse response, @PathVariable("userId") Long userId) throws IOException {
         List<HashMap<String, Object>> list = new ArrayList<>();
-        HashMap<String, Object> row1 = new HashMap<>();
-        HashMap<String, Object> row2 = new HashMap<>();
-        row1.put("id", 1);
-        row1.put("name", "홍길동");
-        row1.put("email", "test@mail.com");
 
-        row2.put("id", 2);
-        row2.put("name", "임꺽정");
-        row2.put("email", "test2@mail.com");
+        List<GameWalletLogVO> logs = walletService.selectLogsByUserId(userId);
+        log.info("vo 데이터: {}", logs);
 
-        list.add(row1);
-        list.add(row2);
+        for (GameWalletLogVO vo : logs) {
+            HashMap<String, Object> row = new HashMap<>();
+            row.put("일시", vo.getCreatedAt().toString());
+            row.put("타입", vo.getLogText());
+            row.put("금액", vo.getAmount());
+            row.put("잔액", vo.getBalance());
+            list.add(row);
+        }
 
         ExcelUtil.download(list, response);
-
     }
+
 
     @PostMapping("/upload")
     public void upload() {}
