@@ -1,6 +1,7 @@
 package kr.co.kh.mapper;
 
 import kr.co.kh.model.User;
+import kr.co.kh.model.vo.MemberVO;
 import kr.co.kh.model.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,6 +32,11 @@ public interface UserMapper {
     int updateUserProfile(UserVO userVO);
 
     UserVO findUserById(Long userId);
+    // 현재 비밀번호 조회
+    String findPasswordByUsername(@Param("username") String username);
+    // 비밀번호 변경
+    void updateUserPassword(MemberVO memberVO);
+
 }
 
 
