@@ -46,4 +46,15 @@ public class InquiryController {
     public ResponseEntity<InquiryVO> getInquiry(@PathVariable Long id) {
         return ResponseEntity.ok(inquiryService.getInquiry(id));
     }
+
+
+    /**
+     * 특정 문의 삭제 (관리자용)
+     * - 프런트에서 DELETE 요청 전송 시 사용
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteInquiry(@PathVariable Long id) {
+        inquiryService.deleteInquiry(id);
+        return ResponseEntity.ok("문의가 삭제되었습니다.");
+    }
 }

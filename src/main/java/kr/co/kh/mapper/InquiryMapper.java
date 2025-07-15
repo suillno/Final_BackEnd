@@ -24,4 +24,7 @@ public interface InquiryMapper {
 
     // 문의 상태 변경 (대기중, 처리중, 완료)
     void updateInquiryStatus(@Param("inquiryId") Long inquiryId, @Param("status") String status);
+
+    // 문의 단건 삭제
+    void deleteInquiryById(@Param("inquiryId") Long inquiryId);
 }
