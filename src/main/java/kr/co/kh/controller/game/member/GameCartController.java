@@ -4,12 +4,17 @@ import io.swagger.annotations.ApiOperation;
 import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.GameCartVO;
+import kr.co.kh.model.vo.GameLibraryVO;
 import kr.co.kh.service.GameCartService;
 import kr.co.kh.service.GameMemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController // REST API 컨트롤러임을 명시
 @RequestMapping("/game/member") // 이 컨트롤러의 공통 URL Prefix
@@ -69,7 +74,22 @@ public class GameCartController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body("장바구니 조회 실패");
         }
+
     }
+
+
+    @GetMapping("cart/library/all/{userName}")
+    public ResponseEntity<?> getAllLibraryByUser(@PathVariable String userName) {
+        List<GameLibraryVO> result = gameCartService.getAllLibraryByUser(userName);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("해당 유저의 라이브러리에 게임이 존재하지 않습니다.");
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
 
 
 

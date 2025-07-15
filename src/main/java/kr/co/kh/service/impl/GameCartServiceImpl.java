@@ -3,6 +3,7 @@ package kr.co.kh.service.impl;
 import kr.co.kh.mapper.GameCartMapper;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.GameCartVO;
+import kr.co.kh.model.vo.GameLibraryVO;
 import kr.co.kh.service.GameCartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,5 +43,11 @@ public class GameCartServiceImpl implements GameCartService {
         vo.setUserName(user.getUsername());
         // gameMemberMapper에서 COUNT(*)나 VO 여부를 확인하는 메서드 호출
         return gameCartMapper.checkCart(vo) > 0;
+    }
+
+    // 라이브러리 리스트 가져오기
+     @Override
+    public List<GameLibraryVO> getAllLibraryByUser(String userName) {
+        return gameCartMapper.getAllLibraryByUser(userName);
     }
 }
