@@ -48,4 +48,11 @@ public class InquiryService {
     public void updateStatus(Long inquiryId, String status) {
         inquiryMapper.updateInquiryStatus(inquiryId, status);
     }
+
+    /**
+     *  문의 단건 삭제
+     */
+    public void deleteInquiry(Long inquiryId) {
+        inquiryMapper.deleteInquiryById(inquiryId);
+    }
 }

@@ -54,4 +54,10 @@
         WHERE inquiry_id = #{inquiryId}
     </select>
 
+    <!-- 문의 단건 삭제 -->
+    <delete id="deleteInquiryById" parameterType="long">
+        DELETE FROM INQUIRY
+        WHERE inquiry_id = #{inquiryId}
+    </delete>
+
 </mapper>
