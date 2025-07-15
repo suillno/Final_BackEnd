@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController // REST API 컨트롤러임을 명시
 @RequestMapping("/game/member") // 이 컨트롤러의 공통 URL Prefix
 @Slf4j // 로그 사용을 위한 Lombok 어노테이션
@@ -28,6 +30,7 @@ public class GameLikeController {
     public ResponseEntity<?> likeSave(
             @RequestBody GameLikeVO vo
     ) {
+        log.info("tests : {}",vo.toString());
         String result = gameLikeService.toggleGameLike(vo);
         return ResponseEntity.ok(result); // "찜 등록이 완료되었습니다." 또는 "찜이 취소되었습니다."
     }
@@ -48,7 +51,8 @@ public class GameLikeController {
     @GetMapping("/like/list/{userName}")
     public ResponseEntity<?> getWishlistByUser(@PathVariable String userName) {
         try {
-            return ResponseEntity.ok(gameLikeService.getWishlistByUser(userName)); // 서비스에서 분기처리
+            List<GameLikeVO> res = gameLikeService.getWishlistByUser(userName);
+            return ResponseEntity.ok(res); // 서비스에서 분기처리
         } catch (Exception e) {
             log.error("찜 목록 조회 실패", e);
             return ResponseEntity.internalServerError().body("찜 목록 조회 실패");
