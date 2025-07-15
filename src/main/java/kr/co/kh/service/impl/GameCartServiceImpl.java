@@ -2,6 +2,7 @@ package kr.co.kh.service.impl;
 
 import kr.co.kh.mapper.GameCartMapper;
 import kr.co.kh.model.CustomUserDetails;
+import kr.co.kh.model.vo.DashBoardVO;
 import kr.co.kh.model.vo.GameCartVO;
 import kr.co.kh.model.vo.GameLibraryVO;
 import kr.co.kh.service.GameCartService;
@@ -34,7 +35,7 @@ public class GameCartServiceImpl implements GameCartService {
     public List<GameCartVO> getCartByUser(String userName) {
         return gameCartMapper.getCartByUser(userName);
     }
-    
+
     // 카트상태 체크
     @Override
     public boolean checkCart(Long gameId, CustomUserDetails user) {
@@ -46,8 +47,14 @@ public class GameCartServiceImpl implements GameCartService {
     }
 
     // 라이브러리 리스트 가져오기
-     @Override
+    @Override
     public List<GameLibraryVO> getAllLibraryByUser(String userName) {
         return gameCartMapper.getAllLibraryByUser(userName);
+    }
+
+    // 대시보드 리스트 가져오기
+    @Override
+    public List<DashBoardVO> getUserByDashBoard(String userName) {
+        return gameCartMapper.getUserByDashBoard(userName);
     }
 }
