@@ -63,4 +63,24 @@
         FROM GAME_LIBRARY
         WHERE USER_NAME = #{userName}
     </select>
+
+    <!-- 대시보드 내역 조회 -->
+
+    <select id="getUserByDashBoard" parameterType="string" resultType="DashBoardVO">
+        SELECT
+        GL.TITLE,
+        GL.CREATED_AT,
+        GW.BALANCE,
+        (SELECT COUNT(*)
+        FROM GAME_LIBRARY
+        WHERE USER_NAME = #{userName}) AS GAME_COUNT
+        FROM
+        GAME_LIBRARY GL
+        JOIN
+        GAME_WALLET GW ON GL.USER_NAME = GW.USER_NAME
+        WHERE
+        GL.USER_NAME = #{userName}
+        ORDER BY
+        GL.CREATED_AT DESC
+    </select>
 </mapper>

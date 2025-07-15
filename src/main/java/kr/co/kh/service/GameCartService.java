@@ -1,6 +1,7 @@
 package kr.co.kh.service;
 
 import kr.co.kh.model.CustomUserDetails;
+import kr.co.kh.model.vo.DashBoardVO;
 import kr.co.kh.model.vo.GameCartVO;
 import kr.co.kh.model.vo.GameLibraryVO;
 
@@ -17,5 +18,7 @@ public interface GameCartService {
     boolean checkCart(Long gameId, CustomUserDetails user);
     // 라이브러리 전체 목록 조회
     List<GameLibraryVO> getAllLibraryByUser(String userName);
+    // 대시보스 전체 목록 조회
+    List<DashBoardVO> getUserByDashBoard(String userName);
 
 }

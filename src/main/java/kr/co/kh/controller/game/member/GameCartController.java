@@ -3,6 +3,7 @@ package kr.co.kh.controller.game.member;
 import io.swagger.annotations.ApiOperation;
 import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
+import kr.co.kh.model.vo.DashBoardVO;
 import kr.co.kh.model.vo.GameCartVO;
 import kr.co.kh.model.vo.GameLibraryVO;
 import kr.co.kh.service.GameCartService;
@@ -78,7 +79,7 @@ public class GameCartController {
     }
 
 
-    @GetMapping("cart/library/all/{userName}")
+    @GetMapping("/library/all/{userName}")
     public ResponseEntity<?> getAllLibraryByUser(@PathVariable String userName) {
         List<GameLibraryVO> result = gameCartService.getAllLibraryByUser(userName);
 
@@ -90,7 +91,11 @@ public class GameCartController {
         return ResponseEntity.ok(result);
     }
 
-
+    @GetMapping("/dashboard/{userName}")
+    public ResponseEntity<List<DashBoardVO>> getDashboard(@PathVariable String userName) {
+        List<DashBoardVO> list = gameCartService.getUserByDashBoard(userName);
+        return ResponseEntity.ok(list);
+    }
 
 
 }
