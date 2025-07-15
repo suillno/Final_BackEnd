@@ -3,6 +3,8 @@ package kr.co.kh.controller.auth;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import kr.co.kh.annotation.CurrentUser;
+import kr.co.kh.exception.BadRequestException;
 import kr.co.kh.exception.TokenRefreshException;
 import kr.co.kh.exception.UserLoginException;
 import kr.co.kh.exception.UserRegistrationException;
@@ -30,6 +32,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -179,4 +182,26 @@ public class AuthController {
         return ResponseEntity.ok(userAuthorityService.updatePw(memberVO));
     }
 
+    // 비밀번호 변경
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody Map<String, String> body,
+                                            @CurrentUser CustomUserDetails userDetails) {
+        String currentPassword = body.get("currentPassword");
+        String newPassword = body.get("newPassword");
+        String confirmPassword = body.get("confirmPassword");
+
+        MemberVO member = new MemberVO();
+        member.setUsername(userDetails.getUsername());
+        member.setPassword(currentPassword); // 사용자가 입력한 현재 비번
+
+        try {
+            userAuthorityService.changePassword(member, newPassword, confirmPassword);
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
+
+
+

@@ -90,4 +90,19 @@
         WHERE USER_ID = #{userId}
     </select>
 
+    <!-- 현재 비밀번호 조회용 -->
+    <select id="findPasswordByUsername" parameterType="string" resultType="string">
+        SELECT PASSWORD
+        FROM USERS
+        WHERE USERNAME = #{username}
+    </select>
+
+    <!-- 새 비밀번호로 업데이트 -->
+    <update id="updateUserPassword" parameterType="MemberVO">
+        UPDATE USERS
+        SET PASSWORD = #{password},
+        UPDATED_AT = SYSDATE
+        WHERE USERNAME = #{username}
+    </update>
+
 </mapper>

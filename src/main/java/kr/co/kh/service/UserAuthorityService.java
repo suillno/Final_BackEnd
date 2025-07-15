@@ -2,6 +2,7 @@ package kr.co.kh.service;
 
 import kr.co.kh.exception.NotFoundException;
 import kr.co.kh.mapper.UserAuthorityMapper;
+import kr.co.kh.mapper.UserMapper;
 import kr.co.kh.model.payload.request.EmailRequest;
 import kr.co.kh.model.vo.MemberVO;
 import kr.co.kh.model.vo.UserAuthorityVO;
@@ -21,6 +22,9 @@ public class UserAuthorityService {
     private final UserAuthorityMapper userAuthorityMapper;
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+
+
 
     public void save(UserAuthorityVO userAuthorityVO) {
         userAuthorityMapper.save(userAuthorityVO);
@@ -76,6 +80,27 @@ public class UserAuthorityService {
         return true;
     }
 
+    public boolean changePassword(MemberVO memberVO, String newPassword, String confirmPassword) {
+        String currentPassword = memberVO.getPassword();
+        String storedPassword = userMapper.findPasswordByUsername(memberVO.getUsername());
 
+        // 현재 비밀번호 비교
+        if (!passwordEncoder.matches(currentPassword, storedPassword)) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
 
+        // 새 비밀번호 확인
+        if (!newPassword.equals(confirmPassword)) {
+            throw new IllegalArgumentException("새 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 새 비밀번호 암호화 후 업데이트
+        memberVO.setPassword(passwordEncoder.encode(newPassword));
+        userMapper.updateUserPassword(memberVO);
+        return true;
+    }
 }
+
+
+
+
