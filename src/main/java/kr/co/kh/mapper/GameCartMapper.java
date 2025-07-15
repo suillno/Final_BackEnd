@@ -1,6 +1,7 @@
 package kr.co.kh.mapper;
 
 import kr.co.kh.model.vo.GameCartVO;
+import kr.co.kh.model.vo.GameLibraryVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,5 +16,6 @@ public interface GameCartMapper {
     List<GameCartVO> getCartByUser(String userName);
     // 카트 상태체크
     int checkCart(GameCartVO vo);
-    
+    // 라이브러리 조회
+    List<GameLibraryVO> getAllLibraryByUser(String userName);
 }

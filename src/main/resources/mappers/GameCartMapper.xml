@@ -57,5 +57,10 @@
         FROM GAME_CART
         WHERE USER_NAME = #{userName} AND GAME_ID = #{gameId}
     </select>
-
+    <!-- 라이브러리 내역 조회 -->
+    <select id="getAllLibraryByUser" parameterType="string" resultType="GameLibraryVO">
+        SELECT TITLE, CREATED_AT, BACKGROUND_IMAGE
+        FROM GAME_LIBRARY
+        WHERE USER_NAME = #{userName}
+    </select>
 </mapper>
