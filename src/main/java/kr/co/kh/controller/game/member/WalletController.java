@@ -33,8 +33,6 @@ public class WalletController {
     public ResponseEntity<?> verifyAuthCode(@RequestParam Long userId, @RequestParam String code) {
         log.info("🔍 인증코드 확인 요청: userId={}, code={}", userId, code);
         return ResponseEntity.ok(walletService.verifyAuthCode(userId, code));
-
-
     }
 
     // 포인트 중천요청
