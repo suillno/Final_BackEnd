@@ -50,6 +50,13 @@ public class InquiryService {
     }
 
     /**
+     * 문의 답변 저장 (관리자)
+     */
+    public void saveAnswer(Long inquiryId, String answer) {
+        inquiryMapper.updateInquiryAnswer(inquiryId, answer);
+    }
+
+    /**
      *  문의 단건 삭제
      */
     public void deleteInquiry(Long inquiryId) {
