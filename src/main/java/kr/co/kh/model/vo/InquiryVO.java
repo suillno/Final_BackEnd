@@ -19,4 +19,6 @@ public class InquiryVO {
     private String status;    // 처리 상태 (대기중, 처리중, 완료)
     private Date createdAt;   // 작성일
     private Date updatedAt;   // 수정일
+    private String answer;    // 관리자 답변
+
 }

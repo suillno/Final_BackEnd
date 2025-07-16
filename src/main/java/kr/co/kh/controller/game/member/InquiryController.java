@@ -47,6 +47,18 @@ public class InquiryController {
         return ResponseEntity.ok(inquiryService.getInquiry(id));
     }
 
+    /**
+     * 관리자 답변 등록 (또는 수정)
+     * /game/member/inquiry/{id}/answer →  관리자 답변 등록용
+     */
+    @PostMapping("/{id}/answer")
+    public ResponseEntity<String> answerInquiry(@PathVariable Long id, @RequestBody String answer) {
+        inquiryService.saveAnswer(id, answer);
+        return ResponseEntity.ok("답변이 등록되었습니다.");
+    }
+
+
+
 
     /**
      * 특정 문의 삭제 (관리자용)
