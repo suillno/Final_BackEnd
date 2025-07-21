@@ -1,5 +1,8 @@
 package kr.co.kh.controller.api;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import kr.co.kh.model.vo.GameWalletLogVO;
 import kr.co.kh.service.WalletService;
 import kr.co.kh.util.ExcelUtil;
@@ -21,6 +24,16 @@ public class ExcelController {
 
     private final WalletService walletService;
 
+    /**
+     * 특정 사용자의 지갑 거래 내역을 Excel 파일로 다운로드합니다.
+     * @param response HttpServletResponse 객체 (파일 다운로드 스트림용)
+     * @param userId 사용자 ID
+     * @return 없음 (응답으로 Excel 파일 스트림 전송)
+     */
+    @ApiOperation(value = "지갑 내역 엑셀 다운로드", notes = "사용자의 지갑 거래 내역을 Excel 파일로 생성하여 다운로드합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "사용자 ID", required = true, dataType = "long", paramType = "path")
+    })
     @GetMapping("/download/{userId}")
     public void download(HttpServletResponse response, @PathVariable("userId") Long userId) throws IOException {
         List<HashMap<String, Object>> list = new ArrayList<>();
@@ -40,7 +53,13 @@ public class ExcelController {
         ExcelUtil.download(list, response);
     }
 
-
+    /**
+     * 엑셀 업로드 처리 (추후 구현 예정)
+     * @return 없음
+     */
+    @ApiOperation(value = "엑셀 업로드 (미구현)", notes = "엑셀 파일을 업로드합니다. 현재는 미구현입니다.")
     @PostMapping("/upload")
-    public void upload() {}
+    public void upload() {
+        // TODO: 엑셀 업로드 기능 구현 예정
+    }
 }

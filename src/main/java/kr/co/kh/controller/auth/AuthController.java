@@ -55,22 +55,24 @@ public class AuthController {
     }
 
     /**
-     * 메인 인증기능
-     * 호출방법
-     * http://localhost:8080/api/auth/mail?mailTo=song6115@naver.com&subject=인증메일&mailType=emailAuth
-     * @param emailRequest
-     * @return
+     * 인증 메일 발송
      */
     @PostMapping("/mail")
+    @ApiOperation(value = "인증 메일 발송", notes = "이메일로 인증번호를 전송합니다.")
+    @ApiImplicitParam(name = "emailRequest", value = "인증 메일 요청 정보", dataType = "EmailRequest", dataTypeClass = EmailRequest.class, required = true)
     public ResponseEntity<?> mail(@RequestBody EmailRequest emailRequest) {
         log.info(emailRequest.toString());
-        log.info("메일 요청 들어옴: {}", emailRequest);
-        log.info("받는 사람: {}", emailRequest.getMailTo());
         mailService.sendMimeMessage(emailRequest);
         return ResponseEntity.ok("ok");
     }
 
+
+    /**
+     * 인증 코드 확인
+     */
     @PostMapping("/mail/verify")
+    @ApiOperation(value = "이메일 인증 확인", notes = "전송된 인증번호가 유효한지 확인합니다.")
+    @ApiImplicitParam(name = "emailRequest", value = "이메일과 인증번호", dataType = "EmailRequest", dataTypeClass = EmailRequest.class, required = true)
     public ResponseEntity<?> verifyEmailCode(@RequestBody EmailRequest emailRequest) {
         boolean result = emailAuthService.verifyAuthCode(emailRequest.getMailTo(), emailRequest.getAuthCode());
         if (result) {
@@ -90,7 +92,7 @@ public class AuthController {
     public ResponseEntity<?> checkUsernameInUse(@RequestParam(
             "username") String username) {
         boolean usernameExists = authService.usernameAlreadyExists(username);
-        return ResponseEntity.ok(new ApiResponse(true, usernameExists ? "이미 사용중인 아이디입니다.": "사용가능한 아이디 입니다."));
+        return ResponseEntity.ok(new ApiResponse(true, usernameExists ? "이미 사용중인 아이디입니다." : "사용가능한 아이디 입니다."));
     }
 
 
@@ -143,18 +145,13 @@ public class AuthController {
     }
 
     /**
-     * 회원 가입
-     * @param request
-     * @return
+     * 회원가입 요청을 처리합니다.
+     * @param request 회원가입 폼 정보
+     * @return 가입 성공 메시지 또는 예외
      */
-    @ApiOperation(value = "회원가입")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "아이디", dataType = "String", required = true),
-            @ApiImplicitParam(name = "email", value = "이메일", dataType = "String", required = true),
-            @ApiImplicitParam(name = "password", value = "비밀번호", dataType = "String", required = true),
-            @ApiImplicitParam(name = "name", value = "이름", dataType = "String", required = true)
-    })
     @PostMapping("/register")
+    @ApiOperation(value = "회원가입", notes = "사용자로부터 회원가입 정보를 입력받아 계정을 생성합니다.")
+    @ApiImplicitParam(name = "request", value = "회원가입 요청 객체", dataType = "RegistrationRequest", dataTypeClass = RegistrationRequest.class, required = true)
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest request) {
         log.info(request.toString());
         return authService.registerUser(request).map(user -> {
@@ -162,25 +159,44 @@ public class AuthController {
         }).orElseThrow(() -> new UserRegistrationException(request.getUsername(), "가입오류"));
     }
 
+    /**
+     * 사용자 이름과 이메일을 기반으로 아이디를 찾습니다.
+     * @param memberVO 사용자 이름, 이메일 정보
+     * @return 아이디 전송 결과 메시지
+     */
     @PostMapping("/findId")
+    @ApiOperation(value = "아이디 찾기", notes = "이름과 이메일 정보를 이용해 아이디를 조회하고 이메일로 전송합니다.")
+    @ApiImplicitParam(name = "memberVO", value = "이름, 이메일 포함 VO 객체", dataType = "MemberVO", dataTypeClass = MemberVO.class, required = true)
     public ResponseEntity<?> findId(@RequestBody MemberVO memberVO) {
         MemberVO result = userAuthorityService.findId(memberVO);
 
-         if ( result != null && result.getUsername() != null) {
+        if (result != null && result.getUsername() != null) {
+            return ResponseEntity.ok("아이디가 이메일로 전송되었습니다.");
+        }
+        return ResponseEntity.ok("일치하는 회원 정보를 찾을 수 없습니다.");
+    }
 
-               return ResponseEntity.ok("아이디가 이메일로 전송되었습니다.");
-         }
-            return ResponseEntity.ok("일치하는 회원 정보를 찾을 수 없습니다.");
-      }
-
+    /**
+     * 사용자의 비밀번호를 변경합니다. (아이디 찾기 후 초기화)
+     * @param memberVO 비밀번호 변경 정보
+     * @return 변경 성공 여부 메시지
+     */
     @PostMapping("/changePw")
+    @ApiOperation(value = "비밀번호 재설정", notes = "아이디 찾기 후 비밀번호를 새로 설정합니다.")
+    @ApiImplicitParam(name = "memberVO", value = "비밀번호 변경 정보가 담긴 VO", dataType = "MemberVO", dataTypeClass = MemberVO.class, required = true)
     public ResponseEntity<?> changePw(@RequestBody MemberVO memberVO) {
-
         return ResponseEntity.ok(userAuthorityService.updatePw(memberVO));
     }
 
-    // 비밀번호 변경
+    /**
+     * 로그인한 사용자의 비밀번호를 변경합니다.
+     * @param body        현재 비밀번호, 새 비밀번호, 확인 비밀번호
+     * @param userDetails 현재 로그인한 사용자 정보
+     * @return 변경 결과 메시지
+     */
     @PostMapping("/changePassword")
+    @ApiOperation(value = "비밀번호 변경", notes = "로그인한 사용자가 본인의 비밀번호를 수정합니다.")
+    @ApiImplicitParam(name = "body", value = "현재, 새, 확인 비밀번호 포함 Map", dataType = "Map", dataTypeClass = Map.class, required = true)
     public ResponseEntity<?> changePassword(@RequestBody Map<String, String> body,
                                             @CurrentUser CustomUserDetails userDetails) {
         String currentPassword = body.get("currentPassword");
@@ -189,7 +205,7 @@ public class AuthController {
 
         MemberVO member = new MemberVO();
         member.setUsername(userDetails.getUsername());
-        member.setPassword(currentPassword); // 사용자가 입력한 현재 비번
+        member.setPassword(currentPassword);
 
         try {
             userAuthorityService.changePassword(member, newPassword, confirmPassword);
@@ -198,9 +214,5 @@ public class AuthController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 }
-
-
 

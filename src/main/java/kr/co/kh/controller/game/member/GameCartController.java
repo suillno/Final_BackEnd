@@ -1,5 +1,7 @@
 package kr.co.kh.controller.game.member;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
@@ -29,9 +31,12 @@ public class GameCartController {
      * @return 저장 성공 메시지를 포함한 HTTP 200 응답
      */
     @ApiOperation(
-            value = "장바구니 등록",
-            notes = "게임 정보를 장바구니에 저장합니다."
+            value = "장바구니 저장 또는 구매 처리",
+            notes = "게임 정보를 장바구니에 추가하거나 구매 요청 시 라이브러리에 저장하고 장바구니에서 제거합니다."
     )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "vo", value = "장바구니 저장 정보", required = true, dataType = "GameCartVO", paramType = "body")
+    })
     @PostMapping("/cart/save")
     public ResponseEntity<?> cartSave(
             @RequestBody GameCartVO vo // 요청 본문에서 JSON → GameCartVO 변환
@@ -50,43 +55,77 @@ public class GameCartController {
         return ResponseEntity.ok(result);
     }
 
-    @ApiOperation(
-            value = "게임 상세 페이지 진입 시 좋아요 여부 체크",
-            notes = "찜 클릭시 데이터를 반환해서 좋아요 색상 표시")
+    /**
+     * 게임 상세 페이지 진입 시 해당 게임이 장바구니에 있는지 확인
+     * @param gameId
+     * @param user
+     * @return boolean
+     */
+    @ApiOperation(value = "게임 장바구니 여부 확인", notes = "게임 상세 페이지 진입 시 해당 게임이 장바구니에 있는지 확인합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "gameId", value = "게임 ID", required = true, dataType = "long", paramType = "path")
+    })
     @GetMapping("/cart/checkCart/{gameId}")
-    public ResponseEntity<Boolean> checkCart(@PathVariable Long gameId, @CurrentUser CustomUserDetails user) {
+    public ResponseEntity<Boolean> checkCart(
+            @PathVariable Long gameId,
+            @CurrentUser CustomUserDetails user
+    ) {
         boolean result = gameCartService.checkCart(gameId, user);
         return ResponseEntity.ok(result);
     }
 
-    @ApiOperation(
-            value = "유저 장바구니 조회 (경로 통일)",
-            notes = "유저 장바구니 조회 유저 네임으로"
-    )
+    /**
+     * 유저 장바구니 조회
+     * @param userName
+     * @return GameCartVO
+     */
+    @ApiOperation(value = "유저 장바구니 조회", notes = "특정 유저의 장바구니 목록을 조회합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "유저 이름", required = true, dataType = "string", paramType = "path")
+    })
     @GetMapping("/cart/list/{userName}")
-    public ResponseEntity<?> getCartListByUser(@PathVariable String userName) {
+    public ResponseEntity<?> getCartListByUser(
+            @PathVariable String userName
+    ) {
         try {
             return ResponseEntity.ok(gameCartService.getCartByUser(userName));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("예외발생 : {}", e);
             return ResponseEntity.internalServerError().body("장바구니 조회 실패");
         }
-
     }
 
-
+    /**
+     * 유저가 구매하여 보유하고 있는 게임 전체 목록을 조회
+     * @param userName
+     * @return GameLibraryVO
+     */
+    @ApiOperation(value = "유저 보유 게임 목록", notes = "유저가 구매하여 보유하고 있는 게임 전체 목록을 조회합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "유저 이름", required = true, dataType = "string", paramType = "path")
+    })
     @GetMapping("/library/all/{userName}")
-    public ResponseEntity<List<GameLibraryVO>> getAllLibraryByUser(@PathVariable String userName) {
+    public ResponseEntity<List<GameLibraryVO>> getAllLibraryByUser(
+            @PathVariable String userName
+    ) {
         List<GameLibraryVO> result = gameCartService.getAllLibraryByUser(userName);
-        
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * 유저 대시보드 정보 조회
+     * @param userName
+     * @return DashBoardVO
+     */
+    @ApiOperation(value = "유저 대시보드 정보", notes = "유저의 게임 구매/보유 관련 대시보드 정보를 조회합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "유저 이름", required = true, dataType = "string", paramType = "path")
+    })
     @GetMapping("/dashboard/{userName}")
-    public ResponseEntity<List<DashBoardVO>> getDashboard(@PathVariable String userName) {
+    public ResponseEntity<List<DashBoardVO>> getDashboard(
+            @PathVariable String userName
+    ) {
         List<DashBoardVO> list = gameCartService.getUserByDashBoard(userName);
         return ResponseEntity.ok(list);
     }
-
-
 }

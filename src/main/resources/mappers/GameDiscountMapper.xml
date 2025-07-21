@@ -4,7 +4,7 @@
 
     <!-- 게임 할인율별로 리스트 가져오기 (20개씩 페이징), 공동구매인원 조회 -->
     <select id="getDiscountGame" parameterType="map" resultType="GameDiscountVO">
-        SELECT
+    SELECT
         A.DISCOUNT_ID,
         A.USER_NAME,
         A.GAME_ID,
@@ -19,23 +19,28 @@
         '' AS RESULT,
         (B.APPLICANTS - B.CURRENT_APPLICANTS) AS COUNT_APPLICANTS,
         B.IS_ACTIVE,
-        -- 공동구매 신청자 목록 (콤마로 연결)
-        (
-        SELECT LISTAGG(USER_NAME, ',') WITHIN GROUP (ORDER BY CREATED_AT)
-        FROM GAME_GROUP_APPLICANT
-        WHERE GAME_ID = A.GAME_ID
-        ) AS APPLICANT_LIST
-        FROM
+        C.APPLICANT_LIST
+    FROM
         GAME_DISCOUNT A
-        JOIN
+    JOIN
         GAME_GROUP_PURCHASE B ON A.GAME_ID = B.GAME_ID
-        WHERE
+    LEFT JOIN (
+        SELECT
+            GAME_ID,
+            LISTAGG(USER_NAME, ',') WITHIN GROUP (ORDER BY CREATED_AT) AS APPLICANT_LIST
+        FROM
+            GAME_GROUP_APPLICANT
+        GROUP BY
+            GAME_ID
+    ) C ON A.GAME_ID = C.GAME_ID
+    WHERE
         A.PRICE > 0 AND A.SALE_PRICE IS NOT NULL
-        ORDER BY
+    ORDER BY
         A.TITLE
-        OFFSET #{offset} ROWS
-        FETCH NEXT 20 ROWS ONLY
+    OFFSET #{offset} ROWS
+    FETCH NEXT 20 ROWS ONLY
     </select>
+
 
     <select id="checkDiscount" parameterType="GameDiscountVO" resultType="int">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS cnt

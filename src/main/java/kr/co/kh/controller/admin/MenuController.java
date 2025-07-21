@@ -1,5 +1,6 @@
 package kr.co.kh.controller.admin;
 
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
@@ -25,12 +26,24 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+    /**
+     * 로그인한 사용자의 role 기준으로 접근 가능한 메뉴 목록을 조회합니다.
+     * @param currentUser 현재 로그인한 사용자 정보
+     * @return 권한에 따른 메뉴 리스트
+     */
     @GetMapping("/list")
-    @ApiOperation(value = "메뉴 목록 조회", notes = "role 기준으로 목록 리턴")
+    @ApiOperation(value = "메뉴 목록 조회", notes = "로그인한 사용자의 권한(Role)에 따라 접근 가능한 메뉴 목록을 반환합니다.")
+    @ApiImplicitParam(
+            name = "currentUser",
+            value = "현재 로그인한 사용자 정보",
+            dataType = "CustomUserDetails",
+            dataTypeClass = CustomUserDetails.class,
+            paramType = "header",
+            required = true
+    )
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('SYSTEM')")
     public ResponseEntity<?> menuList(@CurrentUser CustomUserDetails currentUser) {
         List<MenuVO> result = menuService.getList(currentUser);
         return ResponseEntity.ok(result);
     }
-
 }

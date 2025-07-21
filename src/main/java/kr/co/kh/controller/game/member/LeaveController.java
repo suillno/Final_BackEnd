@@ -1,6 +1,9 @@
 package kr.co.kh.controller.game.member;
 
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.MemberVO;
@@ -28,7 +31,16 @@ public class LeaveController {
     private final LeaveService leaveService;
     private final PasswordEncoder passwordEncoder;
 
-// 탈퇴기능
+    /**
+     * 로그인한 사용자의 비밀번호를 검증하고 회원 탈퇴 처리합니다.
+     * @param request 요청으로 전달받은 회원 정보(비밀번호 포함)
+     * @param user 현재 로그인한 사용자 정보
+     * @return 탈퇴 처리 결과 메시지 (성공/실패)
+     */
+    @ApiOperation(value = "회원 탈퇴", notes = "로그인된 사용자의 비밀번호를 확인하고 계정을 비활성화합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", value = "회원 탈퇴 요청 정보(MemberVO, 비밀번호 포함)", required = true, dataType = "MemberVO", paramType = "body")
+    })
     @PostMapping("/leave")
     public ResponseEntity<?> leave(@RequestBody MemberVO request, @CurrentUser CustomUserDetails user) {
 
@@ -39,7 +51,6 @@ public class LeaveController {
         boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
         if (!matches) {
-            // ❗ 메시지를 JSON으로 응답
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", "비밀번호가 일치하지 않습니다."));
@@ -53,8 +64,6 @@ public class LeaveController {
                     .body(Map.of("message", "회원 탈퇴 처리 중 문제가 발생했습니다."));
         }
 
-        // 성공 시도 마찬가지로 message 키로 응답
         return ResponseEntity.ok(Map.of("message", "회원 탈퇴가 완료되었습니다."));
     }
-
 }
