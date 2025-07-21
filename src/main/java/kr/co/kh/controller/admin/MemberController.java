@@ -3,12 +3,8 @@ package kr.co.kh.controller.admin;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import kr.co.kh.model.CustomUserDetails;
-import kr.co.kh.model.payload.request.BoardRequest;
 import kr.co.kh.model.payload.request.UserRegisterRequest;
 import kr.co.kh.model.payload.request.UserRoleUpdateRequest;
-import kr.co.kh.model.payload.response.ApiResponse;
-import kr.co.kh.model.payload.response.SimpleMessageResponse;
 import kr.co.kh.model.vo.UserVO;
 import kr.co.kh.service.UserService;
 import lombok.AllArgsConstructor;
@@ -19,9 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/game/member")

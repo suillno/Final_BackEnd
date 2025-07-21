@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiOperation;
 import kr.co.kh.model.vo.GameDiscountVO;
 import kr.co.kh.model.vo.GameGroupVO;
 import kr.co.kh.service.GameDiscountService;
-import kr.co.kh.service.GameMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

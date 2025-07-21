@@ -2,7 +2,6 @@ package kr.co.kh.controller.game.member;
 
 import io.swagger.annotations.ApiOperation;
 import kr.co.kh.model.vo.GameReviewVO;
-import kr.co.kh.service.GameMemberService;
 import kr.co.kh.service.GameReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

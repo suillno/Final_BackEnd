@@ -5,7 +5,6 @@ import kr.co.kh.annotation.CurrentUser;
 import kr.co.kh.model.CustomUserDetails;
 import kr.co.kh.model.vo.GameLikeVO;
 import kr.co.kh.service.GameLikeService;
-import kr.co.kh.service.GameMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

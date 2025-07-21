@@ -3,7 +3,6 @@ package kr.co.kh.controller.game.member;
 import kr.co.kh.model.vo.InquiryVO;
 import kr.co.kh.service.InquiryService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -7,11 +7,8 @@ import kr.co.kh.model.vo.DashBoardVO;
 import kr.co.kh.model.vo.GameCartVO;
 import kr.co.kh.model.vo.GameLibraryVO;
 import kr.co.kh.service.GameCartService;
-import kr.co.kh.service.GameMemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +22,6 @@ public class GameCartController {
 
     // 장바구니 저장 로직을 처리하는 서비스
     private final GameCartService gameCartService;
-    private final GameMemberService gameMemberService;
 
     /**
      * 장바구니 저장 API
