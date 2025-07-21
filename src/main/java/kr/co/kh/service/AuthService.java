@@ -6,11 +6,14 @@ import kr.co.kh.model.*;
 import kr.co.kh.model.payload.request.LoginRequest;
 import kr.co.kh.model.payload.request.RegistrationRequest;
 import kr.co.kh.model.payload.request.TokenRefreshRequest;
+import kr.co.kh.model.payload.response.JwtAuthenticationResponse;
 import kr.co.kh.model.token.RefreshToken;
+import kr.co.kh.model.vo.GoogleUser;
 import kr.co.kh.model.vo.UserAuthorityVO;
 import kr.co.kh.security.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -201,8 +205,4 @@ public class AuthService {
                 .map(User::getId).map(this::generateTokenFromUserId))
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "갱신 토큰이 데이터베이스에 없습니다. 다시 로그인 해 주세요."));
     }
-
-
-
-
-}
+    }
