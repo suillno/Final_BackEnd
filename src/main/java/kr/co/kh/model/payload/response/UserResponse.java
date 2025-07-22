@@ -20,6 +20,7 @@ public class UserResponse {
     private Long id;
     private boolean active;
     private String name;
+    private String profileImage;
 
     public UserResponse(String username, String email, Set<Role> roles, Long id) {
         this.username = username;
@@ -28,12 +29,13 @@ public class UserResponse {
         this.id = id;
     }
 
-    public UserResponse(String username, String email, Set<Role> roles, Long id, boolean active, String name) {
+    public UserResponse(String username, String email, Set<Role> roles, Long id, boolean active, String name, String profileImage) {
         this.username = username;
         this.email = email;
         this.roles = roles;
         this.id = id;
         this.active = active;
         this.name = name;
+        this.profileImage = profileImage;
     }
 }

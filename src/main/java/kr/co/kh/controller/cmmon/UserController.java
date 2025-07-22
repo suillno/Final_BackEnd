@@ -31,15 +31,23 @@ public class UserController {
 
     /**
      * 현재 사용자의 프로필 리턴
-     * @param currentUser
-     * @return
+     * @param currentUser 현재 인증된 사용자 정보
+     * @return 사용자 프로필 정보
      */
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('SYSTEM')")
     @ApiOperation(value = "사용자 정보 확인")
     @ApiImplicitParam(name = "currentUser", value = "사용자 정보", dataType = "CustomUserDetails", dataTypeClass = CustomUserDetails.class, required = true)
     public ResponseEntity<?> getUserProfile(@CurrentUser CustomUserDetails currentUser) {
-        UserResponse userResponse = new UserResponse(currentUser.getUsername(), currentUser.getEmail(), currentUser.getRoles(), currentUser.getId());
+        UserResponse userResponse = new UserResponse(
+                currentUser.getUsername(),
+                currentUser.getEmail(),
+                currentUser.getRoles(),
+                currentUser.getId(),
+                currentUser.getActive(),               // 활성 여부
+                currentUser.getName(),                // 사용자 이름
+                currentUser.getProfileImage()         // ✅ 프로필 이미지 경로 포함
+        );
         return ResponseEntity.ok(userResponse);
     }
 
@@ -56,7 +64,7 @@ public class UserController {
             @ApiImplicitParam(name = "logOutRequest", value = "로그아웃 VO", dataType = "LogOutRequest", dataTypeClass = LogOutRequest.class, required = true)
     })
     public ResponseEntity<?> logoutUser(@CurrentUser CustomUserDetails customUserDetails,
-                                     @Valid @RequestBody LogOutRequest logOutRequest) {
+                                        @Valid @RequestBody LogOutRequest logOutRequest) {
         log.info(customUserDetails.toString());
         log.info(logOutRequest.toString());
         userService.logoutUser(customUserDetails, logOutRequest);
