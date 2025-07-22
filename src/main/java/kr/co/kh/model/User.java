@@ -53,6 +53,9 @@ public class User extends DateAudit {
     @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
     private Boolean isEmailVerified;
 
+    @Column(name = "PROFILE_IMG")
+    private String profileImage;
+
     public User() {
         super();
     }
@@ -67,6 +70,7 @@ public class User extends DateAudit {
         roles = user.getRoles();
         isEmailVerified = user.getEmailVerified();
         birth = user.getBirth();
+        profileImage = user.getProfileImage();
     }
 
     public void addRole(Role role) {
@@ -157,6 +161,14 @@ public class User extends DateAudit {
 
     public void setEmailVerified(Boolean emailVerified) {
         isEmailVerified = emailVerified;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
 }
