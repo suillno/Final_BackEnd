@@ -38,7 +38,7 @@ public class ExcelController {
     public void download(HttpServletResponse response, @PathVariable("userId") Long userId) throws IOException {
         List<HashMap<String, Object>> list = new ArrayList<>();
 
-        List<GameWalletLogVO> logs = walletService.selectLogsByUserId(userId);
+        List<GameWalletLogVO> logs = walletService.listWallet(userId);
         log.info("vo 데이터: {}", logs);
 
         for (GameWalletLogVO vo : logs) {
@@ -46,7 +46,6 @@ public class ExcelController {
             row.put("일시", vo.getCreatedAt().toString());
             row.put("타입", vo.getLogText());
             row.put("금액", vo.getAmount());
-            row.put("잔액", vo.getBalance());
             list.add(row);
         }
 

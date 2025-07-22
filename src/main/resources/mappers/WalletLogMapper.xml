@@ -43,5 +43,24 @@
         WHERE ROWNUM &lt;= 10
         ORDER BY CREATED_AT DESC
     </select>
+    <!-- 전체 내역 조회 -->
+    <select id="listWallet" parameterType="Long" resultType="GameWalletLogVO">
+        SELECT *
+        FROM (
+        SELECT
+        L.LOG_ID,
+        L.USER_ID,
+        L.USER_NAME,
+        L.AMOUNT,
+        L.CREATED_AT,
+        CASE L.LOG_TYPE WHEN 0 THEN '충전' ELSE '사용' END AS logText,
+        W.BALANCE
+        FROM GAME_WALLET_LOG L
+        INNER JOIN GAME_WALLET W ON L.USER_ID = W.USER_ID
+        WHERE L.USER_ID = #{userId}
+        ORDER BY L.CREATED_AT DESC
+        )
+        ORDER BY CREATED_AT DESC
+    </select>
 
 </mapper>

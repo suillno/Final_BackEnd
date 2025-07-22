@@ -10,6 +10,17 @@ import java.util.Map;
 @Mapper
 public interface WalletLogMapper {
 
+    /**
+     * 내지갑 전체내역
+     * @param userId
+     * @return
+     */
+    List<GameWalletLogVO> listWallet(Long userId);
 
+    /**
+     * 내지감내역 10개만
+     * @param userId
+     * @return
+     */
     List<GameWalletLogVO> selectLogsByUserId(Long userId);
 }

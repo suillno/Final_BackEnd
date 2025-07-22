@@ -19,4 +19,6 @@ public interface WalletService {
 
     List<GameWalletLogVO> selectLogsByUserId(Long userId);
 
+    List<GameWalletLogVO> listWallet(Long userId);
+
 }

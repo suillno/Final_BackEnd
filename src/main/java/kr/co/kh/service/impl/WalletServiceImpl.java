@@ -103,6 +103,16 @@ public class WalletServiceImpl implements WalletService {
         return walletLogMapper.selectLogsByUserId(userId);
       }
 
+    /**
+     * 내 지갑 전체내역 리스트
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<GameWalletLogVO> listWallet(Long userId) {
+        return walletLogMapper.listWallet(userId);
+    }
+
 }
 
 
