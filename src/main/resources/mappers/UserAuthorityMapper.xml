@@ -9,12 +9,13 @@
 
     <select id="findId" parameterType="MemberVO" resultType="MemberVO">
         SELECT USERNAME, NAME, EMAIL FROM USERS
-        WHERE EMAIL = #{email} AND NAME = #{name}
+        WHERE EMAIL = #{email} AND NAME = #{name} AND IS_ACTIVE = 1
+
     </select>
 
     <select id="existUser" parameterType="MemberVO" resultType="MemberVO">
         SELECT USERNAME, EMAIL, NAME FROM USERS
-        WHERE USERNAME = #{username} AND EMAIL = #{email}
+        WHERE USERNAME = #{username} AND EMAIL = #{email} AND IS_ACTIVE = 1
     </select>
 
     <update id="changePw" parameterType="MemberVO">
