@@ -60,7 +60,7 @@
         #{username},
         #{password},
         #{name},
-        #{birth},
+        TO_DATE(#{birth}, 'YYYY-MM-DD'),
         1,
         1,
         sysdate,
@@ -105,4 +105,11 @@
         WHERE USERNAME = #{username}
     </update>
 
+    <!-- 리플레쉬 토큰 및 디바이스 정보 삭제 -->
+    <select id="userLogout" statementType="CALLABLE" parameterType="map">
+        {CALL GAME_LOGOUT(
+        #{userId, mode=IN, jdbcType=NUMERIC},
+        #{result, mode=OUT, jdbcType=VARCHAR}
+        )}
+    </select>
 </mapper>

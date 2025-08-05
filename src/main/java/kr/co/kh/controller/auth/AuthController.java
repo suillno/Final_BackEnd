@@ -125,6 +125,8 @@ public class AuthController {
                 .orElseThrow(() -> new UserLoginException("Couldn't create refresh token for: [" + loginRequest + "]"));
     }
 
+
+
     /**
      * 특정 장치에 대한 refresh token 을 사용하여 만료된 jwt token 을 갱신 후 새로운 token 을 반환
      */
@@ -213,6 +215,16 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    /**
+     * 로그아웃 처리
+     * @param userId
+     * @return
+     */
+    @DeleteMapping("/logout/{userId}")
+    public ResponseEntity<?> userLogout(@PathVariable int userId) {
+        return ResponseEntity.ok(authService.userLogout(userId));
     }
 }
 

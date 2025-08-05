@@ -16,18 +16,6 @@ security:
   ignored: /**
 
 spring:
-  mail:
-    host: smtp.gmail.com        # SMTP 서버 호스트
-    port: 587                   # SMTP 서버 포트
-    username: wodus0227@gmail.com  # SMTP 서버 로그인 아이디
-    password: hzabmytncgkfiqma    # SMTP 서버 로그인 비밀번호
-    properties:
-      mail:
-        smtp:
-          auth: true            # 사용자 인증 시도 여부
-          starttls:
-            enable: true        # starttls 활성화 여부
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -35,10 +23,10 @@ spring:
     ansi:
       enabled: always
   datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:oracle:thin:@200.200.200.124:1521/xepdb1
-    username: fp1
-    password: fp1
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@twfkp0cy7u3lhmsn_high?TNS_ADMIN=/home/ec2-user/wallet
+    username: admin
+    password: Test2025AwsDb
     type: com.zaxxer.hikari.HikariDataSource
   servlet:
     multipart:
@@ -47,14 +35,25 @@ spring:
       max-request-size: 10MB
       location: C:\\WAS_DATA\\multipart\\temp
       file-size-threshold: 1MB
+
+  mail:
+    host: smtp.gmail.com        # SMTP 서버 호스트
+    port: 587                   # SMTP 서버 포트
+    username: dgosu123@gmail.com  # SMTP 서버 로그인 아이디
+    password: vmvvthrulmkzokqo  # SMTP 서버 로그인 비밀번호
+    properties:
+      mail:
+        smtp:
+          auth: true            # 사용자 인증 시도 여부
+          starttls:
+            enable: true        # starttls 활성화 여부
   #  sql:
   #    init:
   #      mode: always
-  # none : 아무것도 안한다.
-  # create : 기존 테이블 삭제 후 다시 생성
-  # update : 데이터 유지 + 스키마 변경 사항 적용 (컬럼 삭제 불가)
-  # validate : 스키마 검사만...
-
+  # ddl-auto 값이 none 이면 아무것도 생성되지 않음
+  # ddl-auto 값이 create 이면 기존테이블 삭제후 재 생성
+  # ddl-auto 값이 update 이면 데이터 유지 + 스키마 변경 사항 적용(컬럼삭제불가)
+  # ddl-auto 값이 validate 이면 스키마 검사만 진행
   jpa:
     .hibernate:
       ddl-auto: none
@@ -92,7 +91,7 @@ app:
     header: Authorization
     header.prefix: Bearer
     secret: abcdefghijklmnopqrstuvwxyz
-    expiration: 5000
+    expiration: 10000
   token:
     email:
       verification:
@@ -144,5 +143,13 @@ logging:
     console: "%clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr([행번호]: %line){red} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.15t] %-40.40logger{39} : [행번호] : %line  %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
 
+# api 호출
+game-api:
+  url: https://api.rawg.io/api
+  key: 603d4e2a9a0c480a82b67da9e92f0f68
 
+# 스팀api 호출
+steam-api:
+  search-url: https://steamcommunity.com/actions/SearchApps/
+  price-url: https://store.steampowered.com/api/appdetails?appids=
 

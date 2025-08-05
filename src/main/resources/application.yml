@@ -146,7 +146,7 @@ logging:
 # api 호출
 game-api:
   url: https://api.rawg.io/api
-#  key: 603d4e2a9a0c480a82b67da9e92f0f68
+  #  key: 603d4e2a9a0c480a82b67da9e92f0f68
   key: 3a91137066d34afbbf80c8c15df3b1e2
 
 

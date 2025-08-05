@@ -32,6 +32,12 @@ dependencies {
     implementation 'org.mybatis:mybatis:3.5.9'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    // Oracle Autonomous DB 연동용 보안 JAR
+    implementation files('libs/ojdbc8.jar')
+    implementation files('libs/oraclepki.jar')
+    implementation files('libs/osdt_core.jar')
+    implementation files('libs/osdt_cert.jar')
+
     compileOnly 'org.projectlombok:lombok:1.18.22'
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.2'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -63,8 +69,6 @@ dependencies {
     implementation 'javax.servlet:jstl:1.2'
 
     // https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc11
-    implementation group: 'com.oracle.database.jdbc', name: 'ojdbc11', version: '23.3.0.23.09'
-
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     dependencies {
 

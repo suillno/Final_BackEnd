@@ -2,6 +2,7 @@ package kr.co.kh.service;
 
 import kr.co.kh.exception.ResourceAlreadyInUseException;
 import kr.co.kh.exception.TokenRefreshException;
+import kr.co.kh.mapper.UserMapper;
 import kr.co.kh.model.*;
 import kr.co.kh.model.payload.request.LoginRequest;
 import kr.co.kh.model.payload.request.RegistrationRequest;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -33,6 +36,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDeviceService userDeviceService;
     private final UserAuthorityService userAuthorityService;
+    private final UserMapper userMapper;
 
     /**
      * 사용자 등록
@@ -200,4 +204,16 @@ public class AuthService {
                 .map(User::getId).map(this::generateTokenFromUserId))
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "갱신 토큰이 데이터베이스에 없습니다. 다시 로그인 해 주세요."));
     }
+
+    /**
+     * 로그아웃 시도 토큰삭제 및 디바이스 정보 삭제
+     * @param userId
+     * @return
+     */
+    public Map<String, Object> userLogout(int userId) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("userId", userId);
+        userMapper.userLogout(result);
+        return result;
     }
+}

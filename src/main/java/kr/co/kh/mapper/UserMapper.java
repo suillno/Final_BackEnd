@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -36,6 +37,8 @@ public interface UserMapper {
     String findPasswordByUsername(@Param("username") String username);
     // 비밀번호 변경
     void updateUserPassword(MemberVO memberVO);
+    // 로그아웃
+    Map<String, Object> userLogout(Map<String, Object> userId);
 
 }
 
